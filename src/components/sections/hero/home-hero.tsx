@@ -17,6 +17,7 @@ const VARIANTS: Record<HeroVariant, ComponentType> = {
   griffe: dynamic(() => import("./sig-griffe/hero-sig-griffe").then((m) => m.HeroSigGriffe)),
   fil: dynamic(() => import("./sig-fil/hero-sig-fil").then((m) => m.HeroSigFil)),
   sceau: dynamic(() => import("./sig-sceau/hero-sig-sceau").then((m) => m.HeroSigSceau)),
+  figma: dynamic(() => import("./sig-figma/hero-sig-figma").then((m) => m.HeroSigFigma)),
 };
 
 /** The homepage hero: renders the active variant (see variants.ts) and, in review, the switcher. */

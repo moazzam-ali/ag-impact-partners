@@ -7,7 +7,9 @@
   hardcode a size or a colour: they use these tokens or the Tailwind utilities mapped in globals.css.
 */
 :root,
-[data-theme="light"] {
+[data-theme="light"],
+/* The header takes the hero's palette when the hero is a light band (sceau, figma). */
+html:has(main > section[data-theme="light"]:first-child) [data-header] {
   color-scheme: light;
 
   /* ---- Colour ---------------------------------------------------------- */

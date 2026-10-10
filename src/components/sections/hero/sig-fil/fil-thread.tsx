@@ -23,6 +23,7 @@ import {
   type Ink,
   type Rope,
 } from "./fil-rope";
+import { SIGNATURE_INTRO } from "../signature-shell";
 import styles from "./fil-thread.module.css";
 
 /*
@@ -33,11 +34,11 @@ import styles from "./fil-thread.module.css";
   spring home); let go, it eases back with no bounce.
 */
 
-/** Intro timing, seconds. The shell's second headline line is timed against GATHER_END. */
-const LINE_AT = 0.15;
+/** Intro timing, seconds. The two lines start sliding in while the headline is still rising. */
+const LINE_AT = SIGNATURE_INTRO.signature;
 const LINE_DURATION = 1;
-const DOT_AT = 1.0;
-const GATHER_AT = 1.2;
+const DOT_AT = LINE_AT + 0.85;
+const GATHER_AT = LINE_AT + 1.05;
 const GATHER_SPREAD = 1.3;
 const GATHER_EACH = 0.9;
 export const GATHER_END = GATHER_AT + GATHER_SPREAD + GATHER_EACH;

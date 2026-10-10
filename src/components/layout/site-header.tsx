@@ -44,7 +44,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header ref={ref} className={styles.header} data-hidden="false">
+    <header ref={ref} className={styles.header} data-hidden="false" data-header>
       <Link href="/" className={styles.logo} aria-label={siteConfig.name}>
         <PeakMark className={styles.mark} />
       </Link>

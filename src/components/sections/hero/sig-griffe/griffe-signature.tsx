@@ -3,8 +3,9 @@
 import { useRef, type CSSProperties } from "react";
 
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/motion/gsap";
-import { EASE, MOTION_OK, REDUCED_MOTION, STAGGER } from "@/lib/motion/tokens";
-import { armWords } from "@/lib/motion/words";
+import { EASE, MOTION_OK, REDUCED_MOTION } from "@/lib/motion/tokens";
+
+import { SIGNATURE_INTRO } from "../signature-shell";
 
 import { SIGNATURE_BOX, SIGNATURE_DOT, SIGNATURE_STROKES } from "./griffe-geometry";
 import { buildPen, drawPen } from "./griffe-pen";
@@ -13,13 +14,16 @@ import styles from "./griffe-signature.module.css";
 /** Centre of the 1512 x 982 artboard the geometry was composed on. */
 const ARTBOARD_CENTRE = { x: 756, y: 491 };
 const MAX_DPR = 2;
-/** The load-time gesture: the first stroke of the peak A, then the pen rests at its foot. */
-const INTRO = { delay: 0.3, duration: 0.85 };
+/**
+ * The load-time gesture: the first stroke of the peak A, drawn while the headline rises, then the
+ * pen rests at its foot until the visitor scrolls.
+ */
+const INTRO = { delay: SIGNATURE_INTRO.signature, duration: 0.85 };
 /** How long the hero stays pinned while the visitor signs, in viewport heights of scroll. */
 const PIN_LENGTH = 1.35;
 /** A little lag behind the wheel, so the ink seems to flow. */
 const SCRUB = 0.6;
-/** Scrub timeline (0..1): the pen writes until SIGNED, then the full stop, then headline line 2. */
+/** Scrub timeline (0..1): the pen writes until SIGNED, then the full stop lands. */
 const SIGNED = 0.86;
 /** Below this scrub progress the visitor has not scrolled yet (ScrollTrigger reports ~1e-6 at rest). */
 const AT_REST = 0.001;
@@ -107,11 +111,6 @@ export function GriffeSignature() {
       });
 
       mm.add(MOTION_OK, () => {
-        const words2 = gsap.utils.toArray<HTMLElement>(
-          section.querySelectorAll('[data-title="2"] .word'),
-        );
-        // Line 2 belongs to the scrub: arm the words here (the shell arms them again, harmlessly).
-        armWords(section, words2);
         gsap.set(dot, { scale: 0 });
 
         const intro = gsap.to(state, {
@@ -143,16 +142,8 @@ export function GriffeSignature() {
           tl.fromTo(hint, { filter: "opacity(1)" }, { filter: "opacity(0)", duration: 0.06 }, 0);
         tl.to(state, { scroll: 1, duration: SIGNED, onUpdate: update }, 0)
           .to(dot, { scale: 1, duration: 0.05, ease: EASE.pop }, SIGNED)
-          .to(
-            words2,
-            {
-              yPercent: 0,
-              duration: 1 - SIGNED - 0.02,
-              stagger: STAGGER.words / 6,
-              ease: EASE.words,
-            },
-            SIGNED + 0.02,
-          );
+          // Hold the signed state for the rest of the pin.
+          .to({}, { duration: 1 - SIGNED - 0.05 });
 
         // Le fil: born at the full stop, it keeps the pen's place on screen while the page moves on.
         const pin = tl.scrollTrigger;

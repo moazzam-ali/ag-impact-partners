@@ -12,6 +12,19 @@ import { armWords } from "@/lib/motion/words";
 
 import styles from "./signature-shell.module.css";
 
+/*
+  Intro timing every signature variant follows: both headline lines rise first, and the signature
+  starts while they are still moving (never after the signature finishes).
+*/
+export const SIGNATURE_INTRO = {
+  /** Line 1 starts rising. */
+  first: 0.15,
+  /** Line 2 starts rising. */
+  second: 0.45,
+  /** The pen (or the variant's own intro) starts. */
+  signature: 0.7,
+} as const;
+
 export type SignatureShellProps = {
   /** The signature: positioned by the variant inside a stage that fills the whole hero. */
   children: ReactNode;
@@ -42,7 +55,7 @@ export function SignatureShell({
   children,
   theme = "dark",
   titleSize = "large",
-  titleTimings = { first: 0.35, second: 1 },
+  titleTimings = { first: SIGNATURE_INTRO.first, second: SIGNATURE_INTRO.second },
   hint,
   hintAt = 4,
   className,

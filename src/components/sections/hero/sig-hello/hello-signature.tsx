@@ -5,11 +5,12 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { EASE, MOTION_OK, REDUCED_MOTION } from "@/lib/motion/tokens";
 
+import { SIGNATURE_INTRO } from "../signature-shell";
 import { COOL_TIME, createHelloRenderer } from "./hello-renderer";
 import styles from "./hello-signature.module.css";
 
-/** When the pen first touches, in seconds after mount (title 1 rises at 0.35). */
-export const PEN_DOWN = 0.45;
+/** When the pen first touches, in seconds after mount: while the headline is still rising. */
+export const PEN_DOWN = SIGNATURE_INTRO.signature;
 
 /*
   "ag impact", written like Apple's hello: one round monoline hand, at an even pen speed, in

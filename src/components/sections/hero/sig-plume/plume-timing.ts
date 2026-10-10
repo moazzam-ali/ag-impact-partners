@@ -1,7 +1,8 @@
+import { SIGNATURE_INTRO } from "../signature-shell";
 import { PLUME_STROKES } from "./plume-geometry";
 
-/** When the pen touches the paper, in seconds after mount. */
-export const PEN_START = 0.9;
+/** When the pen touches the paper, in seconds after mount: while the headline is still rising. */
+export const PEN_START = SIGNATURE_INTRO.signature;
 
 /**
  * When the last stroke (the t-cross) is finished: writing time plus pen lifts (the few short

@@ -18,11 +18,12 @@ import {
 import { armWords } from "@/lib/motion/words";
 
 import styles from "./hero-cables.module.css";
+import { SIGNATURE_INTRO } from "./signature-shell";
 
 /*
   Hero variant "cables". The headline's two lines sit top-left and bottom-right of the frame, as in the
   Figma; between them the light cables flow down the band and bend towards the pointer. Intro: the
-  cables fade up, then each line rises word by word.
+  headline rises word by word, and the cables fade up while it does.
 */
 export function HeroCables() {
   const t = useTranslations("hero");
@@ -49,15 +50,21 @@ export function HeroCables() {
         if (visual) gsap.set(visual, { autoAlpha: 0 });
 
         const tl = gsap.timeline();
-        if (visual) tl.to(visual, { autoAlpha: 1, duration: 1.8, ease: EASE.soft }, 0.2);
+        if (visual) {
+          tl.to(
+            visual,
+            { autoAlpha: 1, duration: 1.8, ease: EASE.soft },
+            SIGNATURE_INTRO.signature,
+          );
+        }
         tl.to(
           words1,
           { yPercent: 0, duration: DURATION.words, stagger: STAGGER.words, ease: EASE.words },
-          0.35,
+          SIGNATURE_INTRO.first,
         ).to(
           words2,
           { yPercent: 0, duration: DURATION.words, stagger: 0.06, ease: EASE.words },
-          1.0,
+          SIGNATURE_INTRO.second,
         );
       });
 

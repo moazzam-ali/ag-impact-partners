@@ -1,0 +1,48 @@
+/*
+  The "figma" stage: one SVG in the Figma frame's coordinates (1512 × 982 design px), laid over the
+  shell's frame (centred, 1512 wide at most, scaled like the type below that). The lines may run
+  outside it when the hero is taller than the frame, so it does not clip.
+*/
+.stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.art {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(1512 * var(--scale));
+  height: auto;
+  overflow: visible;
+  translate: -50% 0;
+}
+
+.ink {
+  fill: var(--accent);
+}
+
+.mask {
+  mask-type: alpha;
+}
+
+.route {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pen {
+  fill: var(--accent-strong);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Hidden until the intro is armed; reduced motion and no-JS get the finished composition. */
+@media (prefers-reduced-motion: no-preference) {
+  :global([data-state="pending"]) .art {
+    visibility: hidden;
+  }
+}

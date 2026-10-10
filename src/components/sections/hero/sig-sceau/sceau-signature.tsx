@@ -5,13 +5,14 @@ import { useId, useRef } from "react";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { EASE, MOTION_OK, REDUCED_MOTION } from "@/lib/motion/tokens";
 
+import { SIGNATURE_INTRO } from "../signature-shell";
 import { SCEAU_GLYPHS, SCEAU_PEN, SCEAU_VIEWBOX } from "./sceau-geometry";
 import { createRelief, REST_LIGHT, type LightAngles } from "./sceau-relief";
 import styles from "./sceau-signature.module.css";
 
-/** Intro timing (seconds after mount). The shell's title 2 rises as the seal settles. */
+/** Intro timing (seconds after mount). The pen starts while the headline is still rising. */
 export const SCEAU_TIMING = {
-  write: 0.45,
+  write: SIGNATURE_INTRO.signature,
   /** Time spent with the pen down; pen lifts are added on top. */
   writeDuration: 1.75,
   liftScale: 0.55,

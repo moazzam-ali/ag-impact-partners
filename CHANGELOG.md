@@ -6,11 +6,14 @@ All notable changes to this project. Newest first.
 
 ### Added (ideation)
 
-- Five signature hero variants (hello, plume, griffe, fil, sceau) on a shared `SignatureShell`, each with its own interaction, desktop only; review pages at `/lab/<name>`, a variant switcher pill (keys 1–6) on the home page, `?hero=<name>`.
+- Five signature hero variants (hello, plume, griffe, fil, sceau) on a shared `SignatureShell`, each with its own interaction, desktop only; review pages at `/lab/<name>`, a variant switcher pill (keys 1–7) on the home page, `?hero=<name>`.
 - `[data-theme="light"]` palette block, so a section can be light on the dark-default page.
+- Figma hero variant (frame 1:155): the signature line through "ag impact partners", smoothed and written in pen order.
 
 ### Changed
 
+- Every hero variant now raises both headline lines first and starts its signature while they rise (`SIGNATURE_INTRO` in the shell); griffe no longer holds line 2 back until the scroll-signing ends.
+- The header switches to the light palette over a light hero.
 - Sizing now follows the Proxy Papers system: a `--scale` unit from the 1512px artboard, a `clamp()` type ramp, a fixed spacing scale, shared radii, gutters and motion curves (`src/styles/tokens.css`). Header, buttons and sections use them.
 - The hero's drawn signature is replaced by the light cables shader on a dark band (hero variant "cables"; variants are registered in `src/components/sections/hero/variants.ts` and switchable with `?hero=`); dark is the default theme. The signature font, geometry and the DrawSVG / MotionPath plugins are gone.
 

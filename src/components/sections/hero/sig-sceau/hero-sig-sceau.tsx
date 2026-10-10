@@ -16,7 +16,6 @@ export function HeroSigSceau() {
     <SignatureShell
       hint={t("hint.sceau")}
       hintAt={SCEAU_SEAL_AT + 2.2}
-      titleTimings={{ first: 0.35, second: SCEAU_SEAL_AT + 0.45 }}
       titleSize="large"
       theme="light"
     >

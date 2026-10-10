@@ -9,13 +9,7 @@ import { GriffeSignature } from "./griffe-signature";
 export function HeroSigGriffe() {
   const t = useTranslations("heroSignature");
   return (
-    <SignatureShell
-      hint={t("hint.griffe")}
-      hintAt={1.5}
-      titleTimings={{ first: 0.35, second: null }} // line 2 rises when the scroll-signing completes
-      titleSize="large"
-      theme="dark"
-    >
+    <SignatureShell hint={t("hint.griffe")} hintAt={1.5} titleSize="large" theme="dark">
       <GriffeSignature />
     </SignatureShell>
   );
