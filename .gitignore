@@ -42,3 +42,6 @@ next-env.d.ts
 
 # keep the documented example env file
 !.env.example
+
+# Re-created by `next dev` on every run; local guidance only
+AGENTS.md
