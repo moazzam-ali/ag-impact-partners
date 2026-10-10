@@ -1,15 +1,15 @@
 .header {
-  --px: var(--stage-px);
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 40;
   display: flex;
-  align-items: flex-start;
-  gap: calc(8 * var(--px));
-  padding: calc(44 * var(--px)) var(--gutter) 0;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--nav-height);
+  padding: 0 var(--page-gutter);
   pointer-events: none;
-  transition: transform var(--motion-dur-base) var(--motion-ease-out);
-  animation: header-in 0.7s var(--motion-ease-out) 0.1s both;
+  transition: transform var(--dur-slow) var(--ease-out);
+  animation: header-in 0.7s var(--ease-out) 0.1s both;
 }
 .header > * {
   pointer-events: auto;
@@ -22,32 +22,33 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: calc(54 * var(--px));
-  height: calc(54 * var(--px));
+  width: var(--tap);
+  height: var(--tap);
   border-radius: 50%;
   background: var(--chip);
   color: var(--ink);
-  transition: background-color var(--motion-dur-fast);
+  transition: background-color var(--dur-base) var(--ease-standard);
 }
 .logo:hover {
   background: var(--chip-hover);
 }
 .mark {
-  width: calc(28 * var(--px));
-  height: calc(20 * var(--px));
+  width: 23px;
+  height: 17px;
   transform: translateX(-1px);
 }
 
 .pill {
   display: flex;
-  gap: calc(40 * var(--px));
-  padding: calc(15 * var(--px)) calc(30 * var(--px));
-  border-radius: calc(40 * var(--px));
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--tap);
+  padding: 0 calc(20 * var(--scale));
+  border-radius: var(--radius-pill);
   background: var(--chip);
   color: var(--ink);
-  font-size: calc(20 * var(--px));
-  font-weight: 500;
-  line-height: normal;
+  font-size: calc(16 * var(--scale));
+  font-weight: var(--weight-medium);
   white-space: nowrap;
 }
 .link {
@@ -58,10 +59,10 @@
   position: absolute;
   left: 0;
   right: 100%;
-  bottom: -0.12em;
+  bottom: -0.15em;
   height: 1px;
   background: currentColor;
-  transition: right var(--motion-dur-fast) var(--motion-ease-out);
+  transition: right var(--dur-base) var(--ease-out);
 }
 .link:hover::after,
 .link:focus-visible::after {
@@ -71,26 +72,8 @@
 .tools {
   display: flex;
   align-items: center;
-  gap: calc(6 * var(--px));
-  height: calc(48 * var(--px));
-  margin-top: calc(3 * var(--px));
+  gap: var(--space-2);
   margin-left: auto;
-}
-
-.cta {
-  margin-top: calc(3 * var(--px));
-  padding: calc(12 * var(--px)) calc(20 * var(--px));
-  border-radius: calc(10 * var(--px));
-  background: var(--accent);
-  color: var(--on-accent);
-  font-size: calc(20 * var(--px));
-  font-weight: 500;
-  line-height: normal;
-  white-space: nowrap;
-  transition: background-color var(--motion-dur-fast);
-}
-.cta:hover {
-  background: var(--accent-strong);
 }
 
 @keyframes header-in {
@@ -102,37 +85,20 @@
   }
 }
 
-@media (max-width: 899px) {
-  .header {
-    align-items: center;
-    padding: 16px var(--gutter) 0;
+@media (max-width: 1023px) {
+  .pill {
+    padding: 0 20px;
+    font-size: var(--text-body);
   }
+}
+@media (max-width: 767px) {
   .pill {
     display: none;
   }
-  .logo {
-    width: 48px;
-    height: 48px;
-  }
-  .mark {
-    width: 28px;
-    height: 20px;
-  }
   .tools {
-    height: auto;
-    margin-top: 0;
-  }
-  .cta {
-    margin-top: 0;
-    padding: 10px 13px;
-    border-radius: 10px;
-    font-size: 14px;
-  }
-  .tools {
-    gap: 4px;
+    gap: var(--space-1);
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .header {
     animation: none;

@@ -6,7 +6,6 @@ export const EASE = {
   out: "power3.out",
   inOut: "power3.inOut",
   soft: "power2.out",
-  draw: "power2.inOut",
   words: "power4.out",
   linear: "none",
   pop: "back.out(3)",
@@ -17,7 +16,6 @@ export const DURATION = {
   base: 0.7,
   slow: 1.1,
   words: 0.95,
-  draw: 2.2,
 } as const;
 
 export const STAGGER = {
@@ -28,5 +26,6 @@ export const STAGGER = {
 export const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 export const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 
-/** The stage switches from the scaled Figma frame to a stacked layout below this width. */
-export const MOBILE_QUERY = "(max-width: 899px)";
+/** Breakpoints, matching the CSS media queries (mobile ≤ 767, tablet ≤ 1023). */
+export const MOBILE_QUERY = "(max-width: 767px)";
+export const TABLET_QUERY = "(max-width: 1023px)";

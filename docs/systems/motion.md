@@ -6,8 +6,7 @@ as a signature stroke. This doc is how that is built. The rules themselves are i
 
 ## Setup
 
-- `src/lib/motion/gsap.ts` is the only place GSAP is imported and plugins registered (ScrollTrigger
-  for the page thread, DrawSVG, MotionPath, `useGSAP`). Components import `{ gsap, useGSAP, ScrollTrigger }` from there.
+- `src/lib/motion/gsap.ts` is the only place GSAP is imported and plugins registered (ScrollTrigger, `useGSAP`). Components import `{ gsap, useGSAP, ScrollTrigger }` from there.
 - `src/lib/motion/tokens.ts` holds eases, durations and staggers. Use them; do not type ease strings
   in components. The brief wants slow, precise motion and nothing that bounces: `EASE.pop` is the
   one exception, for a dot landing.
@@ -20,7 +19,7 @@ as a signature stroke. This doc is how that is built. The rules themselves are i
 ## No flash before hydration
 
 Sections render with `data-state="pending"`. CSS keeps the animated parts in their hidden start
-state (`.word` below its mask, the signature layer `visibility: hidden`). The GSAP setup applies the
+state (`.word` below its mask, the visual layer `visibility: hidden`). The GSAP setup applies the
 real start values with `gsap.set`, then flips to `ready`. Under `prefers-reduced-motion` the CSS
 shows everything immediately, so a no-JS or reduced-motion visitor sees the finished page.
 
@@ -31,36 +30,31 @@ matrix as a fixed pixel `y`, and a later `yPercent` tween to 0 leaves that offse
 never shows). `armWords(section, words)` in `src/lib/motion/words.ts` does it in the right order:
 release `data-state`, then `gsap.set({ yPercent: 112, y: 0 })`. Use it in every intro.
 
-## The hero stage
+## The hero
 
-`HeroStage` (`src/components/sections/hero/hero-stage.tsx`) is the Figma frame: 1512 × 982 stage
-pixels. `--stage-px` (tokens.css) is one stage pixel after scaling the frame to fit the viewport, so
-every measurement from Figma is `calc(N * var(--px))`. The header shares `--gutter` with the stage so
-the logo and the headline align at any width. Below 900px the stage becomes a stacked flow and the
-art layer shows only `MOBILE_CROP` of the stage.
+The hero is built as variants (`src/components/sections/hero/variants.ts`): `home-hero.tsx` renders
+the one named in `siteConfig.heroVariant`, and `?hero=<name>` overrides it for review (the choice is
+remembered locally). Each variant is a self-contained section component.
 
-The headline is one `h1` with two positioned spans; each word is wrapped by `<Words>` for rise-in
-reveals (server-rendered, no SplitText).
+### Variant "cables" (`hero-cables.tsx`)
 
-## The signature
+A full-height dark band (`data-theme="dark"` on the
+section) with the two headline lines top-left and bottom-right of a 1512px frame, positioned with
+the spacing tokens (nav height + space-30 above, space-34 below, the Figma's 206 / 137). The
+headline is one `h1` with two spans; each word is wrapped by `<Words>` for rise-in reveals.
 
-Geometry is in `signature-paths.ts`, in stage space, hand-authored. `home-hero.tsx` draws it in SVG:
-the lead-in and the outro paths with `drawSVG`, the script text (`<text>` in the signature face,
-`textLength` pinned to the Figma width) wiped in with an animated `clipPath` rect, and a pen dot that
-follows each segment with `motionPath`. Timeline: title 1 words rise, pen touches down after the full
-stop, lead-in loop, the name is written, the outro sweeps and loops around the first letter of
-title 2, the pen lifts, title 2 words rise.
+Between the lines: `LightCables` (`src/components/motion/light-cables.tsx`), a WebGL fragment
+shader adapted from Originkit. It fills the band, takes its colours from the hero's `--cables-*`
+tokens, runs only while the hero is on screen, renders one still frame under reduced motion, caps
+device pixel ratio at 1.5 and releases its context on unmount. Tune the bundle through its props
+(`direction`, `positionX/Y`, `bundle`, `flow`, `speed`, `hover`, `grab`) and the three controls
+added to the shader: `curve` (a standing bend, the same pull the pointer applies, so the bundle has
+its S-shape without hover), `feedIn` / `feedOut` (where the cables light up from the tip and where
+the tail fades) and `originGlow` (brightness where the cables converge). The hero's values are the
+approved look; the tip moves per breakpoint because the shader's offsets are height-relative. If
+WebGL is unavailable the band stays plain black and the page still reads.
 
-## Anchors and tuning the paths
-
-The two points that depend on the copy (just right of title 1's full stop, just left of title 2's
-first letter) are measured from the rendered headline by `anchors.ts` and passed into the path
-builders in `signature-paths.ts`, so the French and the English headline both fit. Everything else
-in a path is fixed stage geometry. On the mobile stack the Figma defaults (`DEFAULT_ANCHORS`) apply.
-
-To tune: open `?hero=…`, resize to 1512 wide (`--stage-px` is then 1px, so stage units are CSS
-pixels) and edit the `d` builders. Keep the lead-in starting at `start` and the last segment ending
-at `end`.
+The intro: cables fade up (1.8 s), title 1 words rise at 0.35 s, title 2 words at 1.0 s.
 
 ## Checklist for a new animated section
 

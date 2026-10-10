@@ -1,0 +1,83 @@
+/* The pill button, sized like Proxy Papers' .pp-btn: 10 × 20 scale units, 16 scale units of text, fully rounded like the nav pill and the switches. */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: calc(10 * var(--scale)) calc(20 * var(--scale));
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-body);
+  font-size: calc(16 * var(--scale));
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-normal);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-slow) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.btn:hover,
+.btn:focus-visible {
+  background: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.ghost {
+  background: var(--chip);
+  color: var(--ink);
+}
+.ghost:hover,
+.ghost:focus-visible {
+  background: var(--chip-hover);
+}
+
+/* Text roll: the label slides up and its clone takes its place. */
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin-block: -0.12em;
+}
+.main,
+.clone {
+  display: block;
+  padding: 0.12em 0;
+  transition: transform 0.5s var(--ease-out);
+}
+.clone {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+}
+.btn:hover .main,
+.btn:hover .clone,
+.btn:focus-visible .main,
+.btn:focus-visible .clone {
+  transform: translateY(-100%);
+}
+
+@media (max-width: 1023px) {
+  .btn {
+    padding: 13px 24px;
+    font-size: var(--text-body);
+  }
+}
+@media (max-width: 767px) {
+  .btn {
+    padding: 11px 16px;
+    font-size: var(--text-sm);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .main,
+  .clone {
+    transition: none;
+  }
+}

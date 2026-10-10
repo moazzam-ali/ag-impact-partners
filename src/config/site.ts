@@ -1,3 +1,5 @@
+import { type HeroVariant } from "@/components/sections/hero/variants";
+
 /*
   Site-wide configuration. Copy lives in messages/*.json, colours in src/styles/tokens.css; this is
   for structure and switches. Client decisions that are still open are modelled as switches here so
@@ -25,6 +27,9 @@ export const siteConfig = {
     localeSwitch: true,
     themeToggle: true,
   },
+
+  /** Active hero variant (src/components/sections/hero/variants.ts). Override for review with ?hero=. */
+  heroVariant: "cables" satisfies HeroVariant,
 } as const;
 
 export type NavKey = (typeof siteConfig.nav)[number]["key"];

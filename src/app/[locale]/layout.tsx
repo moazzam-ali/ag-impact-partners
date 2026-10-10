@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { Instrument_Sans, Ms_Madi } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -15,15 +15,6 @@ import "@/styles/globals.css";
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-instrument-sans",
-  display: "swap",
-});
-
-// The Figma uses "Maddison Signature" (a demo-licensed font). Ms Madi is the closest Google face;
-// swap it for the licensed file via next/font/local once the client buys it.
-const msMadi = Ms_Madi({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-ms-madi",
   display: "swap",
 });
 
@@ -64,11 +55,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html
-      lang={locale}
-      suppressHydrationWarning
-      className={`${instrumentSans.variable} ${msMadi.variable}`}
-    >
+    <html lang={locale} suppressHydrationWarning className={instrumentSans.variable}>
       <body className="min-h-svh bg-bg font-sans text-ink">
         <NextIntlClientProvider>
           <Providers>{children}</Providers>

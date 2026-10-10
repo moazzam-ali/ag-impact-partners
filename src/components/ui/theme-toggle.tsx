@@ -21,7 +21,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       title={isDark ? t("light") : t("dark")}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "grid size-9 place-items-center rounded-full bg-chip text-ink transition-colors hover:bg-chip-hover",
+        "grid size-(--tap) place-items-center rounded-full bg-chip text-ink transition-colors hover:bg-chip-hover",
         className,
       )}
     >

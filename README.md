@@ -30,6 +30,6 @@ npm run format         # prettier --write
 
 ## Hero
 
-The homepage hero is the Figma composition: the headline on two lines joined by one signature stroke
-that writes "ag impact partners". Geometry lives in `src/components/sections/hero/signature-paths.ts`;
-see [docs/systems/motion.md](docs/systems/motion.md).
+The homepage hero is the Figma composition, the headline on two lines, with Originkit's light cables
+flowing between them (`src/components/sections/hero/`). See
+[docs/systems/motion.md](docs/systems/motion.md).

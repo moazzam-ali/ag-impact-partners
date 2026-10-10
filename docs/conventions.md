@@ -9,11 +9,11 @@ disagree, fix one of them in the same PR.
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Framework | Next.js 16, App Router, `src/` dir, TypeScript strict (`noUncheckedIndexedAccess` on), React Compiler on, Cache Components off for now                                                                                       |
 | Styling   | Tailwind CSS 4 through `@tailwindcss/postcss` (CSS-first config in `src/styles/globals.css`) + CSS Modules for component geometry and motion. Not the `@tailwindcss/turbopack` loader: its `*.css` rule flattens CSS Modules |
-| Tokens    | `src/styles/tokens.css` (colours, motion, stage); mapped to Tailwind utilities with `@theme inline`                                                                                                                          |
+| Tokens    | `src/styles/tokens.css`: AG colours, Proxy Papers sizing (scale unit, type ramp, spacing, radii, gutters, motion); mapped to Tailwind utilities with `@theme inline`                                                         |
 | i18n      | next-intl 4: `messages/fr.json` (source), `messages/en.json`; FR at `/`, EN at `/en`                                                                                                                                         |
 | Theme     | next-themes on `data-theme` (light default, dark = the Noir direction)                                                                                                                                                       |
-| Motion    | GSAP 3 + ScrollTrigger / DrawSVG / MotionPath via `@gsap/react` (`useGSAP`)                                                                                                                                                  |
-| Fonts     | `next/font/google`: Instrument Sans, Ms Madi                                                                                                                                                                                 |
+| Motion    | GSAP 3 + ScrollTrigger via `@gsap/react` (`useGSAP`); the hero's light cables are a WebGL fragment shader (`src/components/motion/light-cables.tsx`)                                                                         |
+| Fonts     | `next/font/google`: Instrument Sans (variable)                                                                                                                                                                               |
 | Tooling   | npm, Node 22 (`.nvmrc`), ESLint 9 flat config + `eslint-config-next`, Prettier + Tailwind class sorting                                                                                                                      |
 
 Keep dependencies few. Before adding one, check it is not already covered (clsx + tailwind-merge
@@ -47,8 +47,8 @@ Rules:
 
 - One folder per section, files colocated: `home-hero.tsx`, `home-hero.module.css`.
 - No barrel `index.ts` files. Import the file.
-- Feature-specific hooks and helpers sit next to the feature (`anchors.ts` in the hero folder), not
-  in `src/hooks`.
+- Feature-specific hooks and helpers sit next to the feature (in its section folder), not in
+  `src/hooks`, which is for generic hooks only.
 - `src/config` is for structure and switches. Copy goes in `messages/`, colours in `tokens.css`.
 
 ## Naming
@@ -70,16 +70,34 @@ Rules:
 - Copy never appears in JSX. Everything goes through `useTranslations` / `getTranslations`, even
   labels only developers will see.
 
+## Sizing system (from Proxy Papers, until a design system exists)
+
+- **Scale unit** `--scale: min(100vw / 1512, 1px)`: one design pixel of the 1512px artboard,
+  proportional below 1512 and frozen above. Use it for things measured in Figma that should shrink
+  with the viewport but never grow: button padding and text, nav pill, small chrome.
+  `calc(16 * var(--scale))`.
+- **Type ramp** `--text-cover … --text-xs`, all `clamp()` except body/sm/xs. `d1` and `d2` cap at
+  the Figma hero sizes (95 / 76). Headings use the ramp, never ad-hoc pixel sizes. With Tailwind:
+  `text-(length:--text-h1)`; `text-xs|sm|base` are mapped to the ramp.
+- **Spacing** `--space-1 … --space-34` (4, 8, 12, 16, 20, 24, 32, 40, 48, 60, 66, 80, 92, 120, 137).
+  Tailwind's 4px scale covers the regular steps; the odd ones are tokens: `py-(--space-30)`.
+- **Layout** `--page-gutter` (78px at 1512, fluid below), `--page-max` 1360 for text content,
+  `--frame-max` 1512 for full-width compositions, `--nav-height`, `--tap` 44 for anything clickable.
+- **Breakpoints** mobile ≤ 767, tablet ≤ 1023 (`MOBILE_QUERY`, `TABLET_QUERY` in
+  `src/lib/motion/tokens.ts`; Tailwind `md:` / `lg:`).
+- **Radii** xs 2, sm 8, md 13, lg 20, pill. Buttons, the nav pill and the switches are all pills. **Motion** `--ease-out`, `--ease-standard`,
+  `--dur-fast|base|slow`.
+- **Buttons** are `ButtonLink` (`src/components/ui/button-link.tsx`): 10 × 20 scale units of
+  padding, 16 scale units of text, pill radius, text-roll hover. No other button styles.
+
 ## Styling
 
 - Tailwind utilities for layout, spacing, type and colour in ordinary components.
-- CSS Modules when a component is mostly geometry or motion state (the hero, the header). Inside
-  modules use the CSS tokens (`var(--accent)`), not raw hex.
+- CSS Modules when a component is mostly geometry or motion state (the hero, the header, buttons).
+  Inside modules use the tokens (`var(--accent)`, `var(--space-6)`), not raw values.
 - Never hardcode a colour. Add a token to `tokens.css` (both themes) and map it in `globals.css`.
-- Figma measurements: desktop hero and header use stage pixels, `calc(N * var(--px))`. Elsewhere
-  use `clamp()` and Tailwind's scale.
-- Mobile breakpoint for the stage is 899px (`MOBILE_QUERY`); keep CSS and JS in sync through that
-  constant and the matching media queries.
+- The dark palette is `[data-theme="dark"]`, which next-themes sets on `<html>`; a section can opt
+  in by setting the attribute itself (the hero does, because the cables need a black ground).
 
 ## Copy and content rules (from the brief)
 

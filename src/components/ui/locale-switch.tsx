@@ -17,7 +17,7 @@ export function LocaleSwitch({ className }: { className?: string }) {
       role="group"
       aria-label={t("switch")}
       className={cn(
-        "flex items-center rounded-full bg-chip p-1 text-[13px] font-medium",
+        "flex h-(--tap) items-center rounded-full bg-chip p-1 text-xs font-medium",
         className,
       )}
     >
@@ -27,7 +27,7 @@ export function LocaleSwitch({ className }: { className?: string }) {
           type="button"
           aria-pressed={candidate === locale}
           onClick={() => router.replace(pathname, { locale: candidate })}
-          className="rounded-full px-2.5 py-1 text-ink-soft transition-colors hover:text-ink aria-pressed:bg-ink aria-pressed:text-bg"
+          className="h-full rounded-full px-3 text-ink-soft transition-colors hover:text-ink aria-pressed:bg-ink aria-pressed:text-bg"
         >
           {t(candidate)}
         </button>

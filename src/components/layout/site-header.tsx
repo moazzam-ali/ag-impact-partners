@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 
 import { PeakMark } from "@/components/brand/peak-mark";
+import { ButtonLink } from "@/components/ui/button-link";
 import { LocaleSwitch } from "@/components/ui/locale-switch";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { siteConfig } from "@/config/site";
@@ -12,8 +13,8 @@ import { Link } from "@/i18n/navigation";
 import styles from "./site-header.module.css";
 
 /*
-  Figma header: logo circle, nav pill, CTA on the right, measured in stage pixels so it stays aligned
-  with the hero. Hides on scroll down and returns on scroll up (brief, G1).
+  Logo circle, nav pill, tools and the one CTA. Sized on the shared scale and gutter so it lines up
+  with page content. Hides on scroll down and returns on scroll up (brief, G1).
 */
 export function SiteHeader() {
   const t = useTranslations("nav");
@@ -58,12 +59,10 @@ export function SiteHeader() {
 
       <div className={styles.tools}>
         {siteConfig.features.localeSwitch ? <LocaleSwitch /> : null}
-        {siteConfig.features.themeToggle ? <ThemeToggle /> : null}
+        {siteConfig.features.themeToggle ? <ThemeToggle className="max-md:hidden" /> : null}
       </div>
 
-      <Link href="/contact" className={styles.cta}>
-        {t("cta")}
-      </Link>
+      <ButtonLink href="/contact">{t("cta")}</ButtonLink>
     </header>
   );
 }

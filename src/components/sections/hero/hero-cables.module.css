@@ -1,0 +1,85 @@
+/*
+  The homepage hero: a dark band (the cables need a black ground, so the section opts into the dark
+  palette whatever the site theme), the light cables filling it, and the two headline lines on the
+  frame, top-left and bottom-right as in the Figma.
+*/
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+
+  --cables-bg: var(--bg);
+  --cables-base: var(--bg);
+  --cables-accent: var(--accent-strong);
+  --cables-highlight: var(--accent);
+}
+
+.visual {
+  position: absolute;
+  inset: 0;
+}
+.cables {
+  position: absolute;
+  inset: 0;
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100svh;
+  max-width: var(--frame-max);
+  margin-inline: auto;
+  padding: calc(var(--nav-height) + var(--space-30)) var(--page-gutter) var(--space-34);
+  pointer-events: none;
+}
+.frame > * {
+  pointer-events: auto;
+}
+
+.headline {
+  display: contents;
+}
+.title1,
+.title2 {
+  display: block;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.title1 {
+  align-self: flex-start;
+  max-width: 11ch;
+  font-size: var(--text-mega);
+  font-weight: var(--weight-semibold);
+}
+.title2 {
+  align-self: flex-end;
+  max-width: 14ch;
+  font-size: var(--text-d1);
+  font-weight: var(--weight-medium);
+  text-align: right;
+}
+
+.hero[data-state="pending"] .visual {
+  visibility: hidden;
+}
+
+@media (max-width: 767px) {
+  .frame {
+    padding: calc(var(--nav-height) + var(--space-16)) var(--page-gutter) var(--space-20);
+  }
+  .title1,
+  .title2 {
+    max-width: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero[data-state="pending"] .visual {
+    visibility: visible;
+  }
+}
