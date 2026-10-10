@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "title": "AG Impact Partners · Conseil en négociation, télécoms, médias et contenus",
+    "description": "Cabinet de conseil indépendant à Paris. Nous négocions les contrats de distribution, les droits, les contenus et les accords fournisseurs, jusqu'à la signature."
+  },
+  "nav": {
+    "home": "Accueil",
+    "expertise": "Expertise",
+    "references": "Références",
+    "contact": "Contact",
+    "cta": "Demander un échange",
+    "primary": "Navigation principale"
+  },
+  "hero": {
+    "eyebrow": "Cabinet de conseil indépendant · Paris",
+    "title1": "Nous négocions.",
+    "title2": "Jusqu'à la signature.",
+    "sub": "Contrats de distribution, droits, contenus et accords fournisseurs, pour les opérateurs, les groupes média et les détenteurs de droits.",
+    "primary": "Demander un échange",
+    "secondary": "Notre expertise",
+    "signature": "ag impact partners",
+    "signatureAlt": "Un trait de signature relie les deux lignes du titre."
+  },
+  "theme": {
+    "toggle": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "locale": {
+    "switch": "Changer de langue",
+    "fr": "FR",
+    "en": "EN"
+  },
+  "placeholder": {
+    "label": "A2 · Ce que nous négocions",
+    "note": "Section suivante, à construire d'après docs/brief/site-structure.md."
+  },
+  "notFound": {
+    "title": "Page introuvable.",
+    "back": "Retour à l'accueil"
+  }
+}

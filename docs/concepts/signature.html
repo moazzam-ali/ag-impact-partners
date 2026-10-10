@@ -1,0 +1,280 @@
+<title>AG Impact Signature Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap">
+<style>
+/* Layout from the Figma frame (1512 × 982): nav row at the top, "We negotiate." top-left, "All the way to signature." bottom-right,
+   and the open diagonal between them carries one continuous signature stroke that joins the two. Everything scales from --px. */
+:root{
+  --bg:#f2f2ee; --ink:#191a23; --chip:#e6e6e2; --accent:#dd7d57; --btn-ink:#000000;
+  --fd:"Instrument Sans",system-ui,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fd);font-variation-settings:"wdth" 100;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.wrap{container-type:inline-size;min-height:100vh;min-height:100svh;display:grid;align-content:start}
+.stage{--px:calc(100cqw / 1512);position:relative;width:100%;height:min(calc(982 * var(--px)),calc(100vh - 96px));height:min(calc(982 * var(--px)),calc(100svh - 96px));overflow:hidden}
+canvas.sig{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.nav{position:absolute;left:calc(78 * var(--px));right:calc(78 * var(--px));top:calc(44 * var(--px));display:flex;align-items:flex-start;gap:calc(8 * var(--px));z-index:2;opacity:0;transition:opacity .7s ease}
+.nav.is-in{opacity:1}
+.logo{width:calc(54 * var(--px));height:calc(54 * var(--px));border-radius:50%;background:var(--chip);display:grid;place-items:center;flex:none}
+.mark{width:calc(28 * var(--px));height:calc(20 * var(--px));display:grid;place-items:center;transform:translateX(-1px);font-size:calc(11 * var(--px));font-weight:700;letter-spacing:-.02em;line-height:1}
+.pill{display:flex;gap:calc(40 * var(--px));padding:calc(15 * var(--px)) calc(30 * var(--px));border-radius:calc(40 * var(--px));background:var(--chip);font-size:calc(20 * var(--px));font-weight:500;line-height:normal;color:var(--btn-ink);white-space:nowrap}
+.cta{margin-left:auto;margin-top:calc(3 * var(--px));padding:calc(12 * var(--px)) calc(20 * var(--px));border-radius:calc(10 * var(--px));background:var(--accent);font-size:calc(20 * var(--px));font-weight:500;line-height:normal;color:var(--btn-ink);white-space:nowrap;transition:background-color .25s}
+.cta:hover{background:#e3906f}
+
+.t{position:absolute;z-index:1;line-height:normal;letter-spacing:-.03em;white-space:nowrap;text-wrap:balance}
+.t1{left:calc(78 * var(--px));top:23.32%;font-size:calc(76 * var(--px));font-weight:600}
+.t2{right:calc(78 * var(--px));top:80.24%;font-size:calc(61 * var(--px));font-weight:500;text-align:right}
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .02em .14em 0;margin-bottom:-.14em}
+.w>span{display:inline-block;transition:transform .95s cubic-bezier(.2,.8,.2,1)}
+.js .t:not(.is-in) .w>span{transform:translateY(112%)}
+
+.switch{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:5;display:flex;gap:2px;padding:4px;border-radius:999px;background:var(--chip);box-shadow:0 12px 34px rgba(25,26,35,.14);opacity:0;transition:opacity .6s ease}
+.switch.is-in{opacity:1}
+.switch button{appearance:none;border:0;background:transparent;color:var(--ink);font:500 14px/1 var(--fd);display:flex;align-items:center;gap:9px;padding:10px 16px 10px 12px;border-radius:999px;cursor:pointer;transition:background-color .25s,color .25s}
+.switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.switch svg{width:22px;height:12px;overflow:visible;display:block}
+.switch svg path{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.switch svg circle{fill:currentColor}
+.switch kbd{font:inherit;font-size:11px;opacity:.45}
+.hint{position:fixed;left:50%;bottom:calc(72px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:5;font-size:12.5px;color:var(--ink);opacity:0;transition:opacity .4s ease;pointer-events:none;white-space:nowrap;background:var(--chip);padding:7px 12px;border-radius:999px}
+.hint.is-on{opacity:.9}
+
+.measure{position:absolute;width:0;height:0;overflow:hidden}
+
+@media (max-width:899px){
+  .wrap{align-content:start}
+  .stage{height:auto;display:grid;gap:26px;padding:16px 20px 110px;overflow:visible}
+  canvas.sig{position:static;width:100%;height:auto;aspect-ratio:1.12}
+  .nav{position:static;align-items:center;gap:8px;order:0}
+  .t1{order:1}
+  canvas.sig{order:2}
+  .t2{order:3}
+  .logo{width:48px;height:48px}
+  .mark{width:28px;height:20px;font-size:11px}
+  .pill{display:none}
+  .cta{margin-top:0;padding:12px 18px;border-radius:10px;font-size:16px}
+  .t{position:static;white-space:normal}
+  .t1{font-size:clamp(38px,11vw,54px);margin-top:34px}
+  .t2{font-size:clamp(27px,7.4vw,38px)}
+  .switch kbd{display:none}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .nav,.switch{opacity:1;transition:none}
+  .js .t:not(.is-in) .w>span{transform:none}
+}
+</style>
+
+<div class="wrap">
+  <section class="stage" id="stage">
+    <canvas class="sig" id="sig" aria-label="AG signature stroke joining the two headlines" role="img"></canvas>
+    <header class="nav" id="nav">
+      <a class="logo" href="#" aria-label="AG Impact Partners"><span class="mark" data-asset="AG-Impact_Peak_mark_charcoal">AG</span></a>
+      <nav class="pill"><a href="#">home</a><a href="#">product</a><a href="#">services</a><a href="#">contact</a></nav>
+      <a class="cta" href="#">Get in touch</a>
+    </header>
+    <h1 class="t t1" id="t1">We negotiate.</h1>
+    <p class="t t2" id="t2">All the way to signature.</p>
+  </section>
+</div>
+
+<nav class="switch" id="switch" aria-label="Signature style">
+  <button type="button" data-mode="trait" aria-pressed="true"><svg viewBox="0 0 22 12"><path d="M1 9 C 5 1, 9 12, 13 4 S 18 6, 21 3"/></svg>Trait<kbd>1</kbd></button>
+  <button type="button" data-mode="fil" aria-pressed="false"><svg viewBox="0 0 22 12"><path d="M1 7 C 5 -1, 9 10, 13 2 S 18 4, 21 1"/><path d="M1 9 C 5 1, 9 12, 13 4 S 18 6, 21 3"/><path d="M1 11 C 5 3, 9 14, 13 6 S 18 8, 21 5"/></svg>Fil<kbd>2</kbd></button>
+  <button type="button" data-mode="trame" aria-pressed="false"><svg viewBox="0 0 22 12"><circle cx="2" cy="9" r="1.3"/><circle cx="6" cy="4" r="1.3"/><circle cx="10" cy="8" r="1.3"/><circle cx="14" cy="3" r="1.3"/><circle cx="18" cy="6" r="1.3"/><circle cx="21" cy="2" r="1.3"/></svg>Trame<kbd>3</kbd></button>
+</nav>
+<p class="hint" id="hint" aria-live="polite"></p>
+
+<svg class="measure" aria-hidden="true"><path id="sigpath" d="M590 302 C 560 330, 548 470, 572 600 C 566 650, 600 560, 640 450 C 680 340, 700 300, 712 318 C 740 360, 790 530, 822 640 C 834 680, 810 690, 796 660 C 740 560, 660 520, 640 545 C 625 565, 680 575, 740 555 C 830 525, 880 435, 940 445 C 1040 460, 1060 560, 1020 640 C 985 705, 880 705, 858 635 C 846 595, 900 565, 962 578 C 1070 600, 1180 640, 1160 720 C 1140 790, 980 790, 826 778"/></svg>
+
+<script>
+(function(){
+'use strict';
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOBILE = matchMedia('(max-width: 899px)');
+document.body.classList.add('js');
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const easeInOut = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+/* ---- sample the signature path once: points, tangents, normals ---- */
+const path = $('#sigpath'), LEN = path.getTotalLength(), STEP = 2, N = Math.floor(LEN / STEP);
+const S = [];
+for (let i = 0; i <= N; i++) { const p = path.getPointAtLength(Math.min(LEN, i * STEP)); S.push({ x: p.x, y: p.y, t: i / N, nx: 0, ny: 0 }); }
+for (let i = 0; i <= N; i++) {
+  const a = S[Math.max(0, i - 1)], b = S[Math.min(N, i + 1)];
+  const dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy) || 1;
+  S[i].nx = -dy / l; S[i].ny = dx / l;
+}
+const BOUNDS = { x: 538, y: 282, w: 650, h: 520 };
+/* pen pressure along the stroke: heavier on the long pulls, thin at the lift-off and landing */
+const profile = t => { const taper = Math.min(1, t * 9) * Math.min(1, (1 - t) * 5); return Math.max(0.08, (0.45 + 0.55 * Math.sin(t * Math.PI * 2 * 3.1 + 0.9)) * taper); };
+
+/* ---- canvas ---- */
+const canvas = $('#sig'), ctx = canvas.getContext('2d');
+const INK = '#191a23', ACC = '#dd7d57';
+let W = 0, H = 0, dpr = 1, view = { x: 0, y: 0, w: 1512, h: 982 }, sx = 1, sy = 1, s = 1;
+let mode = 'trait', prog = RM ? 1 : 0, animStart = -1, armed = false;
+const mouse = { x: -1e4, y: -1e4 };
+let cells = [], field = [], G = 11;
+
+function resize(){
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = canvas.clientWidth; H = canvas.clientHeight;
+  canvas.width = Math.max(1, W * dpr); canvas.height = Math.max(1, H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (MOBILE.matches) {
+    const ar = W / H, b = BOUNDS; let w = b.w, h = b.h;
+    if (w / h > ar) h = w / ar; else w = h * ar;
+    view = { x: b.x + b.w / 2 - w / 2, y: b.y + b.h / 2 - h / 2, w, h };
+  } else if (W / H > 1512 / 982) {
+    /* short viewport: scale by height, keep the stroke true, centre it between the gutters */
+    const k = H / 982, w = W / k;
+    view = { x: (1512 - w) / 2, y: 0, w, h: 982 };
+  } else view = { x: 0, y: 0, w: 1512, h: 982 };
+  sx = W / view.w; sy = H / view.h; s = Math.min(sx, sy);
+  buildGrid();
+  draw();
+}
+const mx = x => (x - view.x) * sx, my = y => (y - view.y) * sy;
+
+/* ---- Trame: a dot grid over the stage; cells the pen passes over light up in stroke order ---- */
+function buildGrid(){
+  G = MOBILE.matches ? 13 : 11;
+  const c0 = Math.floor(view.x / G) - 1, c1 = Math.ceil((view.x + view.w) / G) + 1;
+  const r0 = Math.floor(view.y / G) - 1, r1 = Math.ceil((view.y + view.h) / G) + 1;
+  const map = new Map(); field = [];
+  for (let cy = r0; cy <= r1; cy++) for (let cx = c0; cx <= c1; cx++) field.push({ x: cx * G, y: cy * G });
+  for (let i = 0; i <= N; i++) {
+    const p = S[i], r = 5 + 13 * profile(p.t);
+    for (let cy = Math.floor((p.y - r) / G); cy <= Math.ceil((p.y + r) / G); cy++)
+      for (let cx = Math.floor((p.x - r) / G); cx <= Math.ceil((p.x + r) / G); cx++) {
+        const x = cx * G, y = cy * G, d = Math.hypot(x - p.x, y - p.y);
+        if (d >= r) continue;
+        const k = cx + ',' + cy, w = 1 - d / r, c = map.get(k);
+        if (!c) map.set(k, { x, y, w, i }); else { c.w = Math.max(c.w, w); c.i = Math.min(c.i, i); }
+      }
+  }
+  cells = Array.from(map.values()).sort((a, b) => a.i - b.i);
+}
+
+function drawTrait(){
+  const n = Math.floor(prog * N);
+  if (prog > 0) { ctx.fillStyle = ACC; ctx.beginPath(); ctx.arc(mx(S[0].x), my(S[0].y), s * 5, 0, Math.PI * 2); ctx.fill(); }
+  ctx.fillStyle = INK;
+  for (let i = 0; i <= n; i++) {
+    const p = S[i], r = s * (1.5 + 7.4 * profile(p.t));
+    ctx.beginPath(); ctx.arc(mx(p.x), my(p.y), r, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+function drawFil(now){
+  const K = 14, time = now / 1000;
+  ctx.lineWidth = Math.max(0.75, s * 0.85); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const sig = (s * 120) ** 2 * 2;
+  for (let k = 0; k < K; k++) {
+    const pk = clamp((prog - k * 0.014) / (1 - (K - 1) * 0.014), 0, 1), n = Math.floor(pk * N);
+    if (n < 2) continue;
+    ctx.strokeStyle = k === 4 ? ACC : INK; ctx.globalAlpha = k === 4 ? 1 : 0.8;
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const p = S[i], px = mx(p.x), py = my(p.y);
+      const d2 = (px - mouse.x) ** 2 + (py - mouse.y) ** 2;
+      const f = 1 + 5.2 * Math.exp(-d2 / sig);
+      const off = (k - (K - 1) / 2) * 1.7 * f + 2.2 * Math.sin(p.t * Math.PI * 2 * 4 + k * 0.9 + time * 0.9) * profile(p.t);
+      const x = mx(p.x + p.nx * off), y = my(p.y + p.ny * off);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawTrame(){
+  const n = prog * N, base = s * G;
+  ctx.fillStyle = INK; ctx.globalAlpha = 0.13;
+  const q = Math.max(1, s * 1.2);
+  for (let i = 0; i < field.length; i++) { const c = field[i]; ctx.fillRect(mx(c.x) - q / 2, my(c.y) - q / 2, q, q); }
+  ctx.globalAlpha = 1;
+  const sig = (s * 110) ** 2 * 2;
+  for (let i = 0; i < cells.length; i++) {
+    const c = cells[i]; if (c.i > n) break;
+    const px = mx(c.x), py = my(c.y);
+    const d2 = (px - mouse.x) ** 2 + (py - mouse.y) ** 2, hot = Math.exp(-d2 / sig);
+    const r = base * (0.16 + 0.26 * c.w) * (1 + 0.6 * hot);
+    ctx.fillStyle = (c.w < 0.34 || hot > 0.5) ? ACC : INK;
+    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+let raf = 0, running = false;
+function draw(now){
+  now = now || performance.now();
+  if (animStart >= 0) { prog = easeInOut(clamp((now - animStart) / 2300, 0, 1)); if (prog >= 1) animStart = -1; }
+  ctx.clearRect(0, 0, W, H);
+  if (mode === 'trait') drawTrait(); else if (mode === 'fil') drawFil(now); else drawTrame();
+}
+function loop(now){
+  draw(now);
+  const live = animStart >= 0 || mode === 'fil' || (mode === 'trame' && mouse.x > -1e3);
+  if (running && live) raf = requestAnimationFrame(loop); else running = false;
+}
+function wake(){ if (!running) { running = true; raf = requestAnimationFrame(loop); } }
+
+function setMode(m, replay){
+  if (!['trait', 'fil', 'trame'].includes(m)) return;
+  mode = m;
+  $$('#switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+  if (replay && !RM) { prog = 0; animStart = performance.now(); } else prog = 1;
+  try { localStorage.setItem('agi-sig', m); } catch (e) {}
+  hint(m);
+  wake();
+}
+const HINTS = { trait: 'Trait: one calligraphic stroke, pressure in the long pulls.', fil: 'Fil: fourteen threads on the same line. Move the cursor to open them.', trame: 'Trame: the stroke on a dot grid, lit in pen order.' };
+let hintTimer = 0;
+function hint(m){ const h = $('#hint'); h.textContent = HINTS[m]; h.classList.add('is-on'); clearTimeout(hintTimer); hintTimer = setTimeout(() => h.classList.remove('is-on'), 3600); }
+
+/* ---- pointer ---- */
+const stage = $('#stage');
+stage.addEventListener('pointermove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; wake(); });
+stage.addEventListener('pointerleave', () => { mouse.x = -1e4; mouse.y = -1e4; wake(); });
+
+/* ---- switcher ---- */
+$$('#switch button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode, true)));
+addEventListener('keydown', e => { const m = { '1': 'trait', '2': 'fil', '3': 'trame' }[e.key]; if (m) setMode(m, true); });
+
+/* ---- headline words ---- */
+function split(el){
+  const words = el.textContent.trim().split(/\s+/); el.textContent = '';
+  words.forEach((w, i) => { const o = document.createElement('span'); o.className = 'w'; const sp = document.createElement('span'); sp.textContent = w; sp.style.transitionDelay = (i * 70) + 'ms'; o.appendChild(sp); el.appendChild(o); if (i < words.length - 1) el.appendChild(document.createTextNode(' ')); });
+}
+split($('#t1')); split($('#t2'));
+
+/* ---- intro sequence: nav, first headline, the pen writes, second headline lands, then the switcher ---- */
+let start = 'trait'; try { start = localStorage.getItem('agi-sig') || 'trait'; } catch (e) {}
+if (!['trait', 'fil', 'trame'].includes(start)) start = 'trait';
+mode = start; $$('#switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === start)));
+addEventListener('resize', resize);
+MOBILE.addEventListener ? MOBILE.addEventListener('change', resize) : MOBILE.addListener(resize);
+resize();
+if (RM) {
+  prog = 1; $('#nav').classList.add('is-in'); $('#t1').classList.add('is-in'); $('#t2').classList.add('is-in'); $('#switch').classList.add('is-in'); draw();
+} else {
+  prog = 0; draw();
+  setTimeout(() => $('#nav').classList.add('is-in'), 100);
+  setTimeout(() => $('#t1').classList.add('is-in'), 250);
+  setTimeout(() => { animStart = performance.now(); wake(); }, 1000);
+  setTimeout(() => $('#t2').classList.add('is-in'), 2750);
+  setTimeout(() => { $('#switch').classList.add('is-in'); hint(mode); }, 3300);
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => draw());
+})();
+</script>

@@ -1,0 +1,62 @@
+/*
+  Design tokens.
+  Light = the Figma hero palette (file R10TRadHemcHKlFgCnBgAM). Dark = the "Noir" direction from
+  docs/concepts/directions.html. Components never hardcode colours: use var(--…) or the Tailwind
+  utilities mapped in globals.css (bg-bg, text-ink, bg-accent, …).
+*/
+:root {
+  color-scheme: light;
+
+  --bg: #f2f2ee;
+  --ink: #191a23;
+  --ink-soft: #6a6a72;
+  --chip: #e6e6e2;
+  --chip-hover: #dcdcd7;
+  --rule: #d8d8d1;
+  --accent: #f4b07b;
+  --accent-strong: #dd7d57;
+  --on-accent: #000000;
+
+  /* Motion (CSS side; the GSAP side lives in src/lib/motion/tokens.ts) */
+  --motion-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-dur-fast: 240ms;
+  --motion-dur-base: 600ms;
+  --motion-dur-slow: 950ms;
+
+  /*
+    The hero is composed on the 1512 × 982 Figma frame. --stage-px is "one Figma pixel" once the
+    frame is scaled to fit the viewport, so any Figma measurement becomes calc(N * var(--stage-px)).
+    The header shares --gutter with the stage so the logo and the headline stay aligned.
+  */
+  --stage-w: 1512;
+  --stage-h: 982;
+  --stage-px: min(calc(100vw / var(--stage-w)), calc(100svh / var(--stage-h)));
+  --stage-inset-x: max(0px, calc((100vw - var(--stage-w) * var(--stage-px)) / 2));
+  --gutter: calc(var(--stage-inset-x) + 78 * var(--stage-px));
+  --header-h: calc(98 * var(--stage-px));
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #000000;
+  --ink: #f4f1ec;
+  --ink-soft: #8c8780;
+  --chip: #161618;
+  --chip-hover: #222225;
+  --rule: #262321;
+  --accent: #ffb088;
+  --accent-strong: #ff7a3d;
+  --on-accent: #000000;
+}
+
+/* Below 900px the stage becomes a stacked layout and stops scaling. */
+@media (max-width: 899px) {
+  :root {
+    --stage-px: 1px;
+    --stage-inset-x: 0px;
+    --gutter: 20px;
+    --header-h: 80px;
+  }
+}

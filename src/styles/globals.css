@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Theme is a data attribute set by next-themes, not the OS preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-chip: var(--chip);
+  --color-chip-hover: var(--chip-hover);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-signature: var(--font-ms-madi), cursive;
+
+  --ease-out: var(--motion-ease-out);
+  --ease-in-out: var(--motion-ease-in-out);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /*
+    Word masks for headline reveals. <Words> renders each word as .word-mask > .word; a section in
+    data-state="pending" keeps the words below the mask until GSAP takes over (no flash before hydration).
+  */
+  .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding: 0 0.04em 0.14em 0;
+    margin-bottom: -0.14em;
+  }
+  .word {
+    display: inline-block;
+    will-change: transform;
+  }
+  [data-state="pending"] .word {
+    transform: translateY(112%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-state="pending"] .word {
+      transform: none;
+    }
+  }
+}
