@@ -36,5 +36,23 @@
   "notFound": {
     "title": "Page not found.",
     "back": "Back to home"
+  },
+  "heroSwitcher": {
+    "label": "Hero variant",
+    "cables": "Cables",
+    "hello": "Hello",
+    "plume": "Plume",
+    "griffe": "Griffe",
+    "fil": "Fil",
+    "sceau": "Sceau"
+  },
+  "heroSignature": {
+    "hint": {
+      "hello": "Run your cursor across the signature.",
+      "plume": "Click and drag to sign.",
+      "griffe": "Scroll to sign.",
+      "fil": "Pull the thread.",
+      "sceau": "Move the light."
+    }
   }
 }

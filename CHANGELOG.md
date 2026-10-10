@@ -4,6 +4,11 @@ All notable changes to this project. Newest first.
 
 ## Unreleased
 
+### Added (ideation)
+
+- Five signature hero variants (hello, plume, griffe, fil, sceau) on a shared `SignatureShell`, each with its own interaction, desktop only; review pages at `/lab/<name>`, a variant switcher pill (keys 1–6) on the home page, `?hero=<name>`.
+- `[data-theme="light"]` palette block, so a section can be light on the dark-default page.
+
 ### Changed
 
 - Sizing now follows the Proxy Papers system: a `--scale` unit from the 1512px artboard, a `clamp()` type ramp, a fixed spacing scale, shared radii, gutters and motion curves (`src/styles/tokens.css`). Header, buttons and sections use them.

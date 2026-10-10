@@ -36,5 +36,23 @@
   "notFound": {
     "title": "Page introuvable.",
     "back": "Retour à l'accueil"
+  },
+  "heroSwitcher": {
+    "label": "Variante du hero",
+    "cables": "Câbles",
+    "hello": "Hello",
+    "plume": "Plume",
+    "griffe": "Griffe",
+    "fil": "Fil",
+    "sceau": "Sceau"
+  },
+  "heroSignature": {
+    "hint": {
+      "hello": "Passez le curseur sur la signature.",
+      "plume": "Cliquez et faites glisser pour signer.",
+      "griffe": "Faites défiler pour signer.",
+      "fil": "Tirez le fil.",
+      "sceau": "Déplacez la lumière."
+    }
   }
 }

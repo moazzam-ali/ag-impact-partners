@@ -1,16 +1,17 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
 import { isHeroVariant, type HeroVariant } from "./variants";
 
 /*
   Which hero variant is showing. Read order: ?hero= in the URL, then localStorage, then the site
-  default. The URL value is written to localStorage so a review link sticks across pages.
+  default. Writes go to both so a review link can be shared and a choice survives reloads.
 */
 const STORAGE_KEY = "agi:hero-variant";
 const PARAM = "hero";
 
+const listeners = new Set<() => void>();
 let current: HeroVariant | null = null;
 
 function read(fallback: HeroVariant): HeroVariant {
@@ -27,12 +28,32 @@ function read(fallback: HeroVariant): HeroVariant {
   return current;
 }
 
-const subscribe = () => () => {};
+function subscribe(onChange: () => void) {
+  listeners.add(onChange);
+  return () => {
+    listeners.delete(onChange);
+  };
+}
 
-export function useHeroVariant(fallback: HeroVariant): HeroVariant {
-  return useSyncExternalStore(
+export function useHeroVariant(fallback: HeroVariant) {
+  const variant = useSyncExternalStore(
     subscribe,
     () => read(fallback),
     () => fallback,
   );
+
+  const setVariant = useCallback((next: HeroVariant) => {
+    current = next;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // See above.
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set(PARAM, next);
+    window.history.replaceState(window.history.state, "", url);
+    listeners.forEach((notify) => notify());
+  }, []);
+
+  return [variant, setVariant] as const;
 }

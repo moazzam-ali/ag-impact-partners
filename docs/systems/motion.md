@@ -56,6 +56,25 @@ WebGL is unavailable the band stays plain black and the page still reads.
 
 The intro: cables fade up (1.8 s), title 1 words rise at 0.35 s, title 2 words at 1.0 s.
 
+### Signature variants (ideation round, desktop only)
+
+Five studies of an "AG Impact" signature in the centre, each on `signature-shell.tsx` (band,
+headline, hint; a variant passes its signature as children; `titleTimings.second: null` lets the
+variant reveal line 2 itself). Each lives in `sig-<name>/` with its geometry generated offline from
+a real font (sources and licences in the geometry file headers) and has an isolated review page at
+`/lab/<name>`.
+
+| Variant | Signature                                                                                         | Technique                                           | Interaction                                                            |
+| ------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------- |
+| hello   | lowercase "ag impact", monoline school cursive (Hershey Script, Hershey licence)                  | canvas, constant pen speed                          | cursor plucks the strokes; a damped wave travels along them            |
+| plume   | copperplate "AG Impact" (Pinyon Script, OFL) with a designed flourish                             | per-letter SVG masks drawn with DrawSVG, nib dot    | press and drag to write in peach; visitor ink fades                    |
+| griffe  | executive autograph, peak A (Mrs Saint Delafield, Herr Von Muellerhoff, Hurricane, OFL) + paraphe | skeletonised glyphs, pressure-width outline         | scroll-pinned signing; the paraphe's tail becomes the page thread      |
+| fil     | "AG Impact" as one thread (EMS Felix, OFL)                                                        | canvas, three twisted strands                       | two lines meet, then gather into the name; grab and pull (Verlet rope) |
+| sceau   | "AG Impact" embossed on paper (Luxurious Script, OFL), light theme                                | ink write-on, then WebGL relief from a height field | the pointer is the light                                               |
+
+When one is chosen: delete the other folders, the `/lab` routes, the switcher flag and the GSAP
+plugins nobody uses, then do mobile and polish.
+
 ## Checklist for a new animated section
 
 1. One motion idea. It explains something (a figure, a change of side, a sequence).

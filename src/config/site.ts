@@ -26,6 +26,8 @@ export const siteConfig = {
     /** The brief launches French-only; keep the switch in the header until then and hide it at launch. */
     localeSwitch: true,
     themeToggle: true,
+    /** Floating pill to compare hero variants while one is being chosen. */
+    heroVariantSwitcher: true,
   },
 
   /** Active hero variant (src/components/sections/hero/variants.ts). Override for review with ?hero=. */

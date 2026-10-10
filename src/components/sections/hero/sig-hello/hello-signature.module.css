@@ -1,0 +1,14 @@
+/*
+  The "hello" signature's canvas fills the shell's stage, so the plucked string can swing anywhere
+  and the pointer is read across the whole band.
+*/
+.root {
+  position: absolute;
+  inset: 0;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
