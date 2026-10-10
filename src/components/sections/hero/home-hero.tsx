@@ -19,7 +19,7 @@ import {
 import styles from "./home-hero.module.css";
 import { HeroStage } from "./hero-stage";
 import { measureAnchors } from "./anchors";
-import { DEFAULT_ANCHORS, DESKTOP_VIEWBOX, MOBILE_VIEWBOX, PARAPHE } from "./signature-paths";
+import { DEFAULT_ANCHORS, DESKTOP_VIEWBOX, MOBILE_VIEWBOX, SIGNATURE } from "./signature-paths";
 
 /*
   The homepage hero, the Figma composition as drawn: one peach line leaves the full stop of the
@@ -31,7 +31,7 @@ export function HomeHero() {
   const root = useRef<HTMLElement>(null);
   const mobile = useMediaQuery(MOBILE_QUERY);
   const clipId = useId();
-  const { script } = PARAPHE;
+  const { script } = SIGNATURE;
 
   useGSAP(
     () => {
@@ -51,8 +51,8 @@ export function HomeHero() {
       let drawing = false;
       const fit = () => {
         const anchors = mobile ? DEFAULT_ANCHORS : measureAnchors(el);
-        lead.setAttribute("d", PARAPHE.leadIn(anchors.start));
-        outro.setAttribute("d", PARAPHE.outro(anchors.end));
+        lead.setAttribute("d", SIGNATURE.leadIn(anchors.start));
+        outro.setAttribute("d", SIGNATURE.outro(anchors.end));
         if (!drawing) gsap.set([lead, outro], { drawSVG: "0%" });
       };
       fit();
@@ -135,7 +135,7 @@ export function HomeHero() {
           </defs>
           <path
             data-stroke="lead"
-            d={PARAPHE.leadIn(DEFAULT_ANCHORS.start)}
+            d={SIGNATURE.leadIn(DEFAULT_ANCHORS.start)}
             className={styles.stroke}
           />
           <g clipPath={`url(#${clipId})`}>
@@ -150,10 +150,10 @@ export function HomeHero() {
               {t("signature")}
             </text>
           </g>
-          <path data-stroke="baseline" d={PARAPHE.baseline} className={styles.guide} />
+          <path data-stroke="baseline" d={SIGNATURE.baseline} className={styles.guide} />
           <path
             data-stroke="outro"
-            d={PARAPHE.outro(DEFAULT_ANCHORS.end)}
+            d={SIGNATURE.outro(DEFAULT_ANCHORS.end)}
             className={styles.stroke}
           />
           <circle data-pen cx="0" cy="0" r="5.5" className={styles.pen} />

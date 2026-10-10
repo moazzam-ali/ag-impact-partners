@@ -29,7 +29,7 @@ const n = (v: number) => v.toFixed(1);
   written along a baseline, then an outro that sweeps right, dives back under and loops around the
   first letter of title 2.
 */
-export const PARAPHE = {
+export const SIGNATURE = {
   leadIn: ({ x, y }: Point) =>
     `M ${n(x)} ${n(y)} C ${n(x + 26)} ${n(y + 42)}, 690 400, 600 470 C 500 530, 300 500, 215 540 C 170 562, 190 600, 250 598 C 290 597, 310 585, 326 572`,
   script: { x: 325, y: 572, width: 1057, fontSize: 100, clip: { x: 300, y: 430, w: 1110, h: 230 } },
