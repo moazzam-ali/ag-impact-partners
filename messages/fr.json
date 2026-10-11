@@ -39,6 +39,11 @@
   },
   "heroSwitcher": {
     "label": "Variante du hero",
+    "cadre": "Plein cadre",
+    "index": "Index",
+    "editorial": "Éditorial",
+    "diptyque": "Diptyque",
+    "fenetres": "Fenêtres",
     "table": "Table",
     "popup": "Pop-up",
     "dossier": "Dossier",

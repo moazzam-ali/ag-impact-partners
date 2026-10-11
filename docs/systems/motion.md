@@ -77,6 +77,26 @@ Over a light hero (sceau, figma) the header takes the light palette too (`[data-
 `tokens.css`). When one is chosen: delete the other folders, the `/lab` routes, the switcher flag and the GSAP
 plugins nobody uses, then do mobile and polish.
 
+### Hero studies, round 5 (cadre, index, editorial, diptyque, fenetres)
+
+Feedback on round 4: popup, dossier and macro liked; table "too much for a hero". The ask for round
+5: different layouts, the decoration and titles working together, images that show what the firm
+does. These are image-led intros with the full brief copy (eyebrow, headline, sub-line, both calls to
+action). Switcher keys 1–5; `/lab/<name>`.
+
+Imagery: eight pictures generated for the project in one art direction (low-key, charcoal, one
+peach-amber light, no faces, no logos), in `src/assets/hero/`, imported through `hero/imagery.ts`
+(`FIELD_IMAGES` in the brief's fixed order, `SCENES`). Not stock, but the client must approve them
+(or a commissioned shoot replaces them) before any real use.
+
+| Variant   | What happens                                                                                                                                                                                                                                                          | Technique                                                                                       |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| cadre     | Full-bleed pictures of the five fields take turns behind the headline (wipe from the right behind a peach hairline, slow push-in). Bottom right, the five fields as a timeline: current one lit, its line from the brief, a filling progress line; any can be chosen. | `next/image` stack, clip-path transitions in CSS, React state for the index.                    |
+| index     | On paper: intro on top, the five fields as a large index below. Hovering a row opens its picture in a frame that trails the cursor; idle, the index walks through the fields with the frame parked.                                                                   | GSAP `quickTo` for the frame, clip-path reveals per picture.                                    |
+| editorial | A magazine cover: copy left (second line in italic), a tall picture of the roofs with an inset of a hand signing, the three approved figures across the bottom. Plates open upwards; parallax with cursor and scroll.                                                 | CSS grid, GSAP timeline, ScrollTrigger scrub.                                                   |
+| diptyque  | Two pictures, the boardroom under "Nous négocions." and the signing hand under "Jusqu'à la signature.", come in from opposite edges and meet at a peach hairline (the "meet"). The side under the cursor opens wider.                                                 | Two clipped panels driven by one `--split`. Stacks the two lines on phones.                     |
+| fenetres  | "Nous négocions." in heavy capitals with the fields' pictures inside the letters, taking turns; scrolling dives through the O until the picture fills the screen and names its field.                                                                                 | `background-clip: text`, cross-fading twins, a pinned scroll that scales about the O's counter. |
+
 ### Hero studies, round 4 (table, popup, dossier, macro)
 
 The user liked signataire, pile and (a bit) salle: 3D, physical, cinematic. Round 4 stays there.

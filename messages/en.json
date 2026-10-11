@@ -39,6 +39,11 @@
   },
   "heroSwitcher": {
     "label": "Hero variant",
+    "cadre": "Full frame",
+    "index": "Index",
+    "editorial": "Editorial",
+    "diptyque": "Diptych",
+    "fenetres": "Windows",
     "table": "Table",
     "popup": "Pop-up",
     "dossier": "Dossier",
