@@ -12,7 +12,7 @@ disagree, fix one of them in the same PR.
 | Tokens    | `src/styles/tokens.css`: AG colours, Proxy Papers sizing (scale unit, type ramp, spacing, radii, gutters, motion); mapped to Tailwind utilities with `@theme inline`                                                         |
 | i18n      | next-intl 4: `messages/fr.json` (source), `messages/en.json`; FR at `/`, EN at `/en`                                                                                                                                         |
 | Theme     | next-themes on `data-theme` (light default, dark = the Noir direction)                                                                                                                                                       |
-| Motion    | GSAP 3 + ScrollTrigger via `@gsap/react` (`useGSAP`); the hero's light cables are a WebGL fragment shader (`src/components/motion/light-cables.tsx`)                                                                         |
+| Motion    | GSAP 3 + ScrollTrigger via `@gsap/react` (`useGSAP`); WebGL fragment shaders for the light cables and accord; Three.js for the round-3 3D hero studies (signataire, pile, salle)                                             |
 | Fonts     | `next/font/google`: Instrument Sans (variable)                                                                                                                                                                               |
 | Tooling   | npm, Node 22 (`.nvmrc`), ESLint 9 flat config + `eslint-config-next`, Prettier + Tailwind class sorting                                                                                                                      |
 

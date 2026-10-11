@@ -112,6 +112,24 @@ html:has(main > section[data-theme="light"]:first-child) [data-header] {
   /* Redline: the contract's paper and the correction pen. Same in both themes. */
   --paper: #f3efe6;
   --pen: #c8381f;
+  /* Signataire: the desk, its lamp, the plaster hand, the pen's lacquer, signing ink, print. */
+  --desk: #0b0a09;
+  --sleeve: #15171d;
+  --cuff: #eeebe4;
+  --lamp: #fff0dc;
+  --plaster: #d8cfc2;
+  --lacquer: #121216;
+  --sign-ink: #1c2650;
+  --print: #1d1d22;
+  --print-soft: #77726b;
+  --print-rule: #cbc4b8;
+  /* Loupe: the tint of the letterforms behind the fine print. */
+  --loupe-faint: #d9d0c1;
+  /* Confidentiel: the lamp's ultraviolet and the dossier's paper. */
+  --uv: #7c6cff;
+  --dossier: #0d0d12;
+  /* Pile: the pale studio ground the ream sits on. */
+  --pile-ground: #e7e2d8;
 }
 
 /* Any element can opt into either palette; next-themes sets it on <html>, a section can set its own. */

@@ -39,6 +39,11 @@
   },
   "heroSwitcher": {
     "label": "Variante du hero",
+    "signataire": "Signataire",
+    "loupe": "Loupe",
+    "confidentiel": "Confidentiel",
+    "pile": "Pile",
+    "salle": "Salle",
     "redline": "Redline",
     "accord": "Accord",
     "rapport": "Rapport",
@@ -129,6 +134,47 @@
     },
     "rapport": {
       "hint": "Faites glisser la ligne."
+    },
+    "signataire": {
+      "ref": "Confidentiel · exemplaire original",
+      "between": ["Entre", "et"],
+      "place": "Fait à Paris, en deux exemplaires originaux.",
+      "parties": ["Pour l'Éditeur", "Pour le Distributeur"],
+      "docs": ["Contrat de distribution", "Accord de licence de droits", "Avenant n° 2"]
+    },
+    "loupe": {
+      "hint": "Passez la loupe sur les lettres."
+    },
+    "confidentiel": {
+      "dossier": "Dossier",
+      "stamp": "Confidentiel",
+      "hint": "Éclairez le dossier.",
+      "facts": [
+        {
+          "value": "25 ans",
+          "label": "d’expérience dans ces cinq domaines, au niveau direction générale"
+        },
+        {
+          "value": "Plus d’1 milliard d’euros",
+          "label": "de droits et de contenus négociés"
+        },
+        {
+          "value": "10 à 30 %",
+          "label": "d’économies obtenues sur les contrats d’achat renégociés"
+        }
+      ],
+      "clients": {
+        "label": "Clients",
+        "value": "Confidentiel"
+      }
+    },
+    "pile": {
+      "label": "contrats négociés",
+      "sheet": "Feuille",
+      "hint": "Passez sur la pile pour la feuilleter."
+    },
+    "salle": {
+      "hint": "Faites défiler"
     }
   }
 }

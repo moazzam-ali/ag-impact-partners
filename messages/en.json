@@ -39,6 +39,11 @@
   },
   "heroSwitcher": {
     "label": "Hero variant",
+    "signataire": "Signataire",
+    "loupe": "Loupe",
+    "confidentiel": "Confidentiel",
+    "pile": "Pile",
+    "salle": "Salle",
     "redline": "Redline",
     "accord": "Accord",
     "rapport": "Rapport",
@@ -129,6 +134,47 @@
     },
     "rapport": {
       "hint": "Drag the line."
+    },
+    "signataire": {
+      "ref": "Confidential · original copy",
+      "between": ["Between", "and"],
+      "place": "Done in Paris, in two original copies.",
+      "parties": ["For the Publisher", "For the Distributor"],
+      "docs": ["Distribution agreement", "Rights licence agreement", "Amendment No. 2"]
+    },
+    "loupe": {
+      "hint": "Run the loupe over the letters."
+    },
+    "confidentiel": {
+      "dossier": "File",
+      "stamp": "Confidential",
+      "hint": "Light up the file.",
+      "facts": [
+        {
+          "value": "25 years",
+          "label": "of experience in these five fields, at executive level"
+        },
+        {
+          "value": "Over €1 billion",
+          "label": "of rights and content negotiated"
+        },
+        {
+          "value": "10 to 30%",
+          "label": "savings on renegotiated purchase contracts"
+        }
+      ],
+      "clients": {
+        "label": "Clients",
+        "value": "Confidential"
+      }
+    },
+    "pile": {
+      "label": "contracts negotiated",
+      "sheet": "Sheet",
+      "hint": "Move across the ream to riffle through it."
+    },
+    "salle": {
+      "hint": "Scroll"
     }
   }
 }

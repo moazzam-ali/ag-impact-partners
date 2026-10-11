@@ -6,6 +6,8 @@ All notable changes to this project. Newest first.
 
 ### Added (ideation)
 
+- Hero studies, round 3, first in the switcher (keys 1–5, `/lab/<name>`): **signataire** (a 3D hand in a suit sleeve signs contract after contract on a dark desk), **loupe** (the headline as letters made of fine print, with a loupe to read it), **confidentiel** (approved figures under redaction, revealed by an ultraviolet lamp; the clients stay confidential), **pile** (300 contract sheets land into a ream you can riffle) and **salle** (Paris in hairlines, a pinned scroll flight through a lit window to the table). Three.js added; the WebXR generic hand model (MIT) in `public/models/`.
+- The variant switcher wraps, marks each round with a divider and keys only the first ten.
 - Hero studies, round 2, first in the switcher (keys 1–3, `/lab/<name>`): **redline** (a contract on paper; a red pen edits it, every clause is struck except the words that spell the headline, which lift out and set themselves large; rest on a clause to read it back), **accord** (WebGL: two detuned strings tune into one line as the cursor nears the centre, then drop down the page as the thread; optional sound, off by default) and **rapport** (a peach / black split; dragging the line stretches one side's letters and squeezes the other's on Archivo's width axis). Faces for these only in `hero/study-fonts.ts`; `--paper` and `--pen` tokens.
 - Five signature hero variants (hello, plume, griffe, fil, sceau) on a shared `SignatureShell`, each with its own interaction, desktop only; review pages at `/lab/<name>`, a variant switcher pill (keys 1–7) on the home page, `?hero=<name>`.
 - `[data-theme="light"]` palette block, so a section can be light on the dark-default page.
@@ -13,7 +15,7 @@ All notable changes to this project. Newest first.
 
 ### Changed
 
-- The active hero is now "redline"; the switcher takes key 0 for the tenth variant.
+- The active hero is now "signataire" (was "redline"); the switcher takes key 0 for the tenth variant.
 - Every hero variant now raises both headline lines first and starts its signature while they rise (`SIGNATURE_INTRO` in the shell); griffe no longer holds line 2 back until the scroll-signing ends.
 - The header switches to the light palette over a light hero.
 - Sizing now follows the Proxy Papers system: a `--scale` unit from the 1512px artboard, a `clamp()` type ramp, a fixed spacing scale, shared radii, gutters and motion curves (`src/styles/tokens.css`). Header, buttons and sections use them.

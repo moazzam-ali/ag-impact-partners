@@ -1,13 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 import styles from "./hero-switcher.module.css";
-import { HERO_VARIANTS, type HeroVariant } from "./variants";
+import { HERO_ROUND_STARTS, HERO_VARIANTS, type HeroVariant } from "./variants";
 
 /*
-  Review tool: a floating pill to compare hero variants; keys 1–9 and 0 (the tenth) also switch. Turn it off in
+  Review tool: a floating bar to compare hero variants, split by round; keys 1–9 and 0 switch to the
+  first ten. It wraps on narrow screens. Turn it off in
   siteConfig.features once a variant is chosen.
 */
 export function HeroSwitcher({
@@ -35,16 +36,20 @@ export function HeroSwitcher({
   return (
     <nav aria-label={t("label")} className={styles.switch}>
       {HERO_VARIANTS.map((variant, i) => (
-        <button
-          key={variant}
-          type="button"
-          aria-pressed={variant === value}
-          onClick={() => onChange(variant)}
-          className={styles.button}
-        >
-          {t(variant)}
-          <kbd className={styles.key}>{(i + 1) % 10}</kbd>
-        </button>
+        <Fragment key={variant}>
+          {HERO_ROUND_STARTS.includes(variant) ? (
+            <span className={styles.divider} aria-hidden="true" />
+          ) : null}
+          <button
+            type="button"
+            aria-pressed={variant === value}
+            onClick={() => onChange(variant)}
+            className={styles.button}
+          >
+            {t(variant)}
+            {i < 10 ? <kbd className={styles.key}>{(i + 1) % 10}</kbd> : null}
+          </button>
+        </Fragment>
       ))}
     </nav>
   );
