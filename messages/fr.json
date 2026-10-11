@@ -19,6 +19,68 @@
     "primary": "Demander un échange",
     "secondary": "Notre expertise"
   },
+  "pile": {
+    "label": "contrats négociés",
+    "onTop": "Sur la pile",
+    "services": "Cinq domaines",
+    "fields": [
+      {
+        "n": "01",
+        "title": "Télécom",
+        "body": "Expertise technique et commerciale sur les réseaux fixes et mobiles.",
+        "items": ["Expertise technique et commerciale", "Réseaux fixes et mobiles"]
+      },
+      {
+        "n": "02",
+        "title": "Média",
+        "body": "Télévision, radio, droits sportifs, chaînes FAST, publicité.",
+        "items": ["Télévision", "Radio", "Droits sportifs", "Chaînes FAST", "Publicité"]
+      },
+      {
+        "n": "03",
+        "title": "Distribution",
+        "body": "Organisation d’un réseau de distribution, définition des tarifs de vente, pilotage de l’activité commerciale.",
+        "items": [
+          "Organisation d’un réseau de distribution",
+          "Définition des tarifs de vente",
+          "Pilotage de l’activité commerciale"
+        ]
+      },
+      {
+        "n": "04",
+        "title": "Contenus",
+        "body": "Acquisition et vente de contenus : droits sportifs, cinéma, divertissement, chaînes de télévision.",
+        "items": [
+          "Acquisition et vente de contenus",
+          "Droits sportifs",
+          "Cinéma",
+          "Divertissement",
+          "Chaînes de télévision"
+        ]
+      },
+      {
+        "n": "05",
+        "title": "Optimisation des contrats d’achat",
+        "body": "Négociation avec les fournisseurs, 10 à 30 % d’économies, rémunération au résultat.",
+        "items": [
+          "Négociation avec les fournisseurs",
+          "10 à 30 % d’économies",
+          "Rémunération au résultat"
+        ]
+      }
+    ],
+    "document": {
+      "ref": "Confidentiel · exemplaire original",
+      "between": ["Entre", "et"],
+      "parties": ["Pour l'Éditeur", "Pour le Distributeur"],
+      "place": "Fait à Paris, en deux exemplaires originaux.",
+      "stamp": "Confidentiel",
+      "figure": {
+        "value": "10 à 30 %",
+        "label": "d’économies obtenues sur les contrats d’achat renégociés"
+      }
+    }
+  },
   "theme": {
     "toggle": "Changer de thème",
     "light": "Clair",
@@ -37,34 +99,6 @@
     "title": "Page introuvable.",
     "back": "Retour à l'accueil"
   },
-  "heroSwitcher": {
-    "label": "Variante du hero",
-    "pile2": "Pile 2",
-    "cadre": "Plein cadre",
-    "index": "Index",
-    "editorial": "Éditorial",
-    "diptyque": "Diptyque",
-    "fenetres": "Fenêtres",
-    "table": "Table",
-    "popup": "Pop-up",
-    "dossier": "Dossier",
-    "macro": "Macro",
-    "signataire": "Signataire",
-    "loupe": "Loupe",
-    "confidentiel": "Confidentiel",
-    "pile": "Pile",
-    "salle": "Salle",
-    "redline": "Redline",
-    "accord": "Accord",
-    "rapport": "Rapport",
-    "cables": "Câbles",
-    "hello": "Hello",
-    "plume": "Plume",
-    "griffe": "Griffe",
-    "fil": "Fil",
-    "sceau": "Sceau",
-    "figma": "Figma"
-  },
   "curtainSwitcher": {
     "label": "Rideau",
     "fil": "Fil",
@@ -78,213 +112,7 @@
     "replay": "Rejouer"
   },
   "expertise": {
-    "metaTitle": "Expertise · AG Impact Partners"
-  },
-  "heroSignature": {
-    "hint": {
-      "hello": "Passez le curseur sur la signature.",
-      "plume": "Cliquez et faites glisser pour signer.",
-      "griffe": "Faites défiler pour signer.",
-      "fil": "Tirez le fil.",
-      "sceau": "Déplacez la lumière."
-    }
-  },
-  "heroStudies": {
-    "pile2": {
-      "label": "contrats négociés",
-      "sheet": "Feuille",
-      "onTop": "Sur la pile",
-      "random": "Une feuille au hasard",
-      "hint": "Cliquez une feuille de la pile pour la poser dessus.",
-      "services": "Cinq domaines",
-      "fields": [
-        {
-          "n": "01",
-          "title": "Télécom",
-          "body": "Expertise technique et commerciale sur les réseaux fixes et mobiles.",
-          "items": ["Expertise technique et commerciale", "Réseaux fixes et mobiles"]
-        },
-        {
-          "n": "02",
-          "title": "Média",
-          "body": "Télévision, radio, droits sportifs, chaînes FAST, publicité.",
-          "items": ["Télévision", "Radio", "Droits sportifs", "Chaînes FAST", "Publicité"]
-        },
-        {
-          "n": "03",
-          "title": "Distribution",
-          "body": "Organisation d’un réseau de distribution, définition des tarifs de vente, pilotage de l’activité commerciale.",
-          "items": [
-            "Organisation d’un réseau de distribution",
-            "Définition des tarifs de vente",
-            "Pilotage de l’activité commerciale"
-          ]
-        },
-        {
-          "n": "04",
-          "title": "Contenus",
-          "body": "Acquisition et vente de contenus : droits sportifs, cinéma, divertissement, chaînes de télévision.",
-          "items": [
-            "Acquisition et vente de contenus",
-            "Droits sportifs",
-            "Cinéma",
-            "Divertissement",
-            "Chaînes de télévision"
-          ]
-        },
-        {
-          "n": "05",
-          "title": "Optimisation des contrats d’achat",
-          "body": "Négociation avec les fournisseurs, 10 à 30 % d’économies, rémunération au résultat.",
-          "items": [
-            "Négociation avec les fournisseurs",
-            "10 à 30 % d’économies",
-            "Rémunération au résultat"
-          ]
-        }
-      ]
-    },
-    "redline": {
-      "hint": "Survolez une clause pour relire l'original.",
-      "contract": {
-        "title": "Contrat de distribution de services audiovisuels",
-        "draft": "Projet · version 7 · confidentiel",
-        "articles": [
-          {
-            "title": "Article 1 · Parties",
-            "body": "<k>Nous</k>, soussignés, l'Éditeur d'une part et le Distributeur d'autre part, ci-après ensemble les Parties, sommes convenus de ce qui suit, sous réserve de l'accord préalable de leurs organes de direction respectifs."
-          },
-          {
-            "title": "Article 2 · Objet",
-            "body": "Le présent contrat définit les conditions dans lesquelles le Distributeur met à la disposition de ses abonnés les services de l'Éditeur, sur l'ensemble des réseaux qu'il exploite <e>ou viendrait à exploiter|à ce jour</e>, en direct comme en différé, sur tous les terminaux compatibles."
-          },
-          {
-            "title": "Article 3 · Durée",
-            "body": "Le contrat est conclu pour une durée de <e>cinq (5) ans|trois (3) ans</e> à compter de sa date d'effet. Il se renouvelle ensuite par tacite reconduction pour des périodes successives d'un (1) an, sauf dénonciation adressée par l'une des Parties six (6) mois avant l'échéance."
-          },
-          {
-            "title": "Article 4 · Exclusivité",
-            "body": "L'Éditeur concède au Distributeur une exclusivité <e>mondiale, sur tous supports|limitée au territoire français</e>. Toute extension fera l'objet d'un avenant, dans des conditions que nous <k>négocions</k> de bonne foi et dans le respect des engagements pris envers les ayants droit."
-          },
-          {
-            "title": "Article 5 · Rémunération",
-            "body": "En contrepartie, le Distributeur verse à l'Éditeur une rémunération mensuelle par abonné actif, révisée chaque année selon l'indice prévu en annexe 2. Les minima garantis sont exigibles dès le premier mois d'exploitation <e>sans abattement|après six (6) mois de lancement</e>."
-          },
-          {
-            "title": "Article 6 · Obligations de l'Éditeur",
-            "body": "L'Éditeur fournit un signal conforme aux spécifications techniques de l'annexe 3, garantit la continuité du service et informe le Distributeur, avec un préavis raisonnable, de toute modification substantielle de sa grille de programmes."
-          },
-          {
-            "title": "Article 7 · Confidentialité",
-            "body": "Les Parties s'interdisent de divulguer les termes du présent contrat à quiconque, sauf obligation légale. Cette obligation s'étend à leurs dirigeants, salariés et conseils, et demeure en vigueur trois (3) ans après le terme du contrat."
-          },
-          {
-            "title": "Article 8 · Entrée en vigueur",
-            "body": "<k>Jusqu'à</k> <k>la</k> <k>signature</k> du présent contrat par les deux Parties, aucune de ses dispositions n'engage l'une ou l'autre. Il prend effet à la date de la dernière signature."
-          },
-          {
-            "title": "Article 9 · Résiliation",
-            "body": "En cas de manquement grave de l'une des Parties, non réparé dans les trente (30) jours suivant une mise en demeure, l'autre Partie peut résilier le contrat de plein droit, sans préjudice de tous dommages et intérêts."
-          },
-          {
-            "title": "Article 10 · Droit applicable",
-            "body": "Le présent contrat est soumis au droit français. Tout différend relatif à son interprétation ou à son exécution relève de la compétence exclusive des tribunaux de Paris."
-          }
-        ],
-        "closing": "Fait à Paris, en deux exemplaires originaux.",
-        "signatories": ["Pour l'Éditeur", "Pour le Distributeur"]
-      }
-    },
-    "accord": {
-      "hint": "Amenez le curseur au centre pour accorder les deux lignes.",
-      "partyA": "A",
-      "partyB": "B",
-      "unit": "Hz",
-      "phase": "Δφ",
-      "status": {
-        "off": "Désaccord",
-        "on": "Accord"
-      },
-      "sound": {
-        "label": "Son",
-        "on": "activé",
-        "off": "coupé"
-      }
-    },
-    "rapport": {
-      "hint": "Faites glisser la ligne."
-    },
-    "signataire": {
-      "ref": "Confidentiel · exemplaire original",
-      "between": ["Entre", "et"],
-      "place": "Fait à Paris, en deux exemplaires originaux.",
-      "parties": ["Pour l'Éditeur", "Pour le Distributeur"],
-      "docs": ["Contrat de distribution", "Accord de licence de droits", "Avenant n° 2"]
-    },
-    "loupe": {
-      "hint": "Passez la loupe sur les lettres."
-    },
-    "confidentiel": {
-      "dossier": "Dossier",
-      "stamp": "Confidentiel",
-      "hint": "Éclairez le dossier.",
-      "facts": [
-        {
-          "value": "25 ans",
-          "label": "d’expérience dans ces cinq domaines, au niveau direction générale"
-        },
-        {
-          "value": "Plus d’1 milliard d’euros",
-          "label": "de droits et de contenus négociés"
-        },
-        {
-          "value": "10 à 30 %",
-          "label": "d’économies obtenues sur les contrats d’achat renégociés"
-        }
-      ],
-      "clients": {
-        "label": "Clients",
-        "value": "Confidentiel"
-      }
-    },
-    "pile": {
-      "label": "contrats négociés",
-      "sheet": "Feuille",
-      "hint": "Passez sur la pile pour la feuilleter."
-    },
-    "salle": {
-      "hint": "Faites défiler"
-    },
-    "dossier": {
-      "hint": "Faites défiler pour tourner les pages.",
-      "intro": "Cinq domaines. Un mandat en croise presque toujours plusieurs.",
-      "fields": [
-        {
-          "n": "01",
-          "title": "Télécom",
-          "body": "Expertise technique et commerciale sur les réseaux fixes et mobiles."
-        },
-        {
-          "n": "02",
-          "title": "Média",
-          "body": "Télévision, radio, droits sportifs, chaînes FAST, publicité."
-        },
-        {
-          "n": "03",
-          "title": "Distribution",
-          "body": "Organisation d’un réseau de distribution, définition des tarifs de vente, pilotage de l’activité commerciale."
-        },
-        {
-          "n": "04",
-          "title": "Contenus",
-          "body": "Acquisition et vente de contenus : droits sportifs, cinéma, divertissement, chaînes de télévision."
-        },
-        {
-          "n": "05",
-          "title": "Optimisation des contrats d’achat",
-          "body": "Négociation avec les fournisseurs, 10 à 30 % d’économies, rémunération au résultat."
-        }
-      ]
-    }
+    "metaTitle": "Expertise · AG Impact Partners",
+    "intro": "Cinq domaines. Un mandat en croise presque toujours plusieurs."
   }
 }

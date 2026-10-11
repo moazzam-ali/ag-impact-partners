@@ -4,6 +4,10 @@ All notable changes to this project. Newest first.
 
 ## Unreleased
 
+### Removed
+
+- Every hero but Pile 2: the signature variants, light cables, the five rounds of hero studies, their lab pages, the hero variant switcher, the round-5 images, the hand model and the study fonts. All of it is kept on the `archive/hero-studies` branch. Pile 2 is the homepage hero; its copy is the `pile` namespace.
+
 ### Added (ideation)
 
 - Six more curtain styles, all building the traced lockup with the wordmark (the mark traced shape by shape, the wordmark rising, a hairline loader): **esquisse** (a paper proof, then a mark-shaped window), **iris** (an inverted disc that closes onto the mark, and opens from the clicked link on page changes), **biais** (a panel leaving on the A's angle), **feuille** (one sheet with an accent rim) and **tourne** (a page turn). Page transitions are one movement and carry no logo: a sweep to the next page; links are prefetched when pointed at.
@@ -20,6 +24,7 @@ All notable changes to this project. Newest first.
 
 ### Changed
 
+- Pile 2: the same small gap above and below the ream, more room above the eyebrow and before the line of fields, more room between the ream and the callout, a wider container (1720px), and the hero is as tall as its content instead of one screen. The callout keeps one height for every field and sets a long name (purchase contract optimisation) a size down on two lines. Removed the hover tag, the callout's hint and its "a sheet at random" link, the line of fields' "Five fields" label and its outline on the field on top.
 - Motion follows Proxy Papers' conventions, now the project's (docs/systems/motion.md, "Animation conventions"): shared `EASE_OUT` / `EASE_STANDARD` / `scheduleRefresh`, one hook per section in `src/lib/animations/`, client-navigation state for intro delays. Pile 2, its line of fields and the Expertise page are rebuilt on it (rows reveal on scroll); the curtains are retimed to the same curves, sommet's mark pops in like Proxy Papers' icon, and page changes are its bending sheet with the mark rising in between.
 - The active hero is now "signataire" (was "redline"); the switcher takes key 0 for the tenth variant.
 - Every hero variant now raises both headline lines first and starts its signature while they rise (`SIGNATURE_INTRO` in the shell); griffe no longer holds line 2 back until the scroll-signing ends.

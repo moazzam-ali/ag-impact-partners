@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { type Ref, useImperativeHandle, useLayoutEffect, useRef } from "react";
 
 import { LogoLockup } from "@/components/brand/logo-lockup";
-import { signature } from "@/components/sections/hero/signataire/strokes";
+import { signature } from "@/lib/signature";
 import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 

@@ -1,7 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 
 import { SiteHeader } from "@/components/layout/site-header";
-import { HomeHero } from "@/components/sections/hero/home-hero";
+import { HeroPile2 } from "@/components/sections/hero/pile2/hero-pile2";
 import { NextPlaceholder } from "@/components/sections/home/next-placeholder";
 import { type Locale } from "@/i18n/routing";
 
@@ -14,7 +14,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     <>
       <SiteHeader />
       <main id="main">
-        <HomeHero />
+        <HeroPile2 />
         <NextPlaceholder />
       </main>
     </>

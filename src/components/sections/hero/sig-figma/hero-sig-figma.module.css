@@ -1,5 +1,0 @@
-/* The Figma sets "All the way to signature." on one line; the shell caps line 2 at 14ch. */
-.hero :global([data-title="2"]) {
-  max-width: none;
-  white-space: nowrap;
-}

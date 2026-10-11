@@ -11,9 +11,9 @@ import { FieldIcon } from "./icons";
 
 /*
   "Le fil des domaines": a slim running line of the five fields, each a small card with its line
-  icon (one moving part in ink) and its name. Fixed label on the left, the line runs on to the right: drawn in from
-  the left on load, faster with the scroll (backwards when scrolling up), almost still under the
-  pointer. The field whose document is on top of the pile is marked.
+  icon (one moving part in ink) and its name. No visible label (it names the list for screen
+  readers): the line runs edge to edge, drawn in from the left on load, faster with the scroll
+  (backwards when scrolling up), almost still under the pointer.
 */
 
 /** A field's icon at the size and colours of the thread; also used beside the callout's title. */
@@ -25,20 +25,16 @@ export function FieldMark({ index, className }: { index: number; className?: str
   );
 }
 
-type Props = { fields: Field[]; label: string; active: number; className?: string };
+type Props = { fields: Field[]; label: string; className?: string };
 
-export function FilDomaines({ fields, label, active, className }: Props) {
+export function FilDomaines({ fields, label, className }: Props) {
   const root = useRef<HTMLDivElement>(null);
 
   useFieldsLine(root);
 
   const items = (copy: number) =>
     fields.map((field, i) => (
-      <li
-        key={`${copy}-${field.n}`}
-        className={styles.item}
-        data-current={i === active ? "" : undefined}
-      >
+      <li key={`${copy}-${field.n}`} className={styles.item}>
         <FieldMark index={i} />
         <span className={styles.title}>{field.title}</span>
       </li>
@@ -46,7 +42,6 @@ export function FilDomaines({ fields, label, active, className }: Props) {
 
   return (
     <div ref={root} className={cn(styles.fil, className)} data-fil>
-      <p className={styles.label}>{label}</p>
       <div className={styles.window} data-window>
         <div className={styles.track} data-track>
           {/* Three runs: the window can be wider than one, and the loop needs one more beyond it. */}
@@ -55,6 +50,7 @@ export function FilDomaines({ fields, label, active, className }: Props) {
               key={copy}
               className={styles.run}
               data-run={copy === 0 ? "" : undefined}
+              aria-label={copy === 0 ? label : undefined}
               aria-hidden={copy > 0 || undefined}
             >
               {items(copy)}

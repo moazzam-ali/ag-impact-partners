@@ -1,5 +1,3 @@
-import { type HeroVariant } from "@/components/sections/hero/variants";
-
 /*
   Site-wide configuration. Copy lives in messages/*.json, colours in src/styles/tokens.css; this is
   for structure and switches. Client decisions that are still open are modelled as switches here so
@@ -26,16 +24,11 @@ export const siteConfig = {
     /** The brief launches French-only; keep the switch in the header until then and hide it at launch. */
     localeSwitch: true,
     themeToggle: true,
-    /** Floating pill to compare hero variants while one is being chosen. */
-    heroVariantSwitcher: true,
     /** The splash on every page load (logo build-up and loader); page transitions run regardless. */
     splash: true,
     /** Floating pill to compare splash / page-transition styles while one is being chosen. */
     curtainSwitcher: true,
   },
-
-  /** Active hero variant (src/components/sections/hero/variants.ts). Override for review with ?hero=. */
-  heroVariant: "signataire" satisfies HeroVariant,
 } as const;
 
 export type NavKey = (typeof siteConfig.nav)[number]["key"];

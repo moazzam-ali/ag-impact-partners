@@ -19,6 +19,64 @@
     "primary": "Request a conversation",
     "secondary": "Our expertise"
   },
+  "pile": {
+    "label": "contracts negotiated",
+    "onTop": "On top of the pile",
+    "services": "Five fields",
+    "fields": [
+      {
+        "n": "01",
+        "title": "Telecom",
+        "body": "Technical and commercial expertise on fixed and mobile networks.",
+        "items": ["Technical and commercial expertise", "Fixed and mobile networks"]
+      },
+      {
+        "n": "02",
+        "title": "Media",
+        "body": "TV, radio, sports rights, FAST channels, advertising.",
+        "items": ["TV", "Radio", "Sports rights", "FAST channels", "Advertising"]
+      },
+      {
+        "n": "03",
+        "title": "Distribution",
+        "body": "Building a distribution network, setting sale prices, steering commercial activity.",
+        "items": [
+          "Building a distribution network",
+          "Setting sale prices",
+          "Steering commercial activity"
+        ]
+      },
+      {
+        "n": "04",
+        "title": "Content",
+        "body": "Buying and selling content: sports rights, film, entertainment, TV channels.",
+        "items": [
+          "Buying and selling content",
+          "Sports rights",
+          "Film",
+          "Entertainment",
+          "TV channels"
+        ]
+      },
+      {
+        "n": "05",
+        "title": "Purchase contract optimisation",
+        "body": "Supplier negotiation, 10 to 30% savings, paid on results.",
+        "items": ["Supplier negotiation", "10 to 30% savings", "Paid on results"]
+      }
+    ],
+    "document": {
+      "ref": "Confidential · original copy",
+      "between": ["Between", "and"],
+      "parties": ["For the Publisher", "For the Distributor"],
+      "place": "Done in Paris, in two original copies.",
+      "stamp": "Confidential",
+      "figure": {
+        "value": "10 to 30%",
+        "label": "savings on renegotiated purchase contracts"
+      }
+    }
+  },
   "theme": {
     "toggle": "Switch theme",
     "light": "Light",
@@ -37,34 +95,6 @@
     "title": "Page not found.",
     "back": "Back to home"
   },
-  "heroSwitcher": {
-    "label": "Hero variant",
-    "pile2": "Pile 2",
-    "cadre": "Full frame",
-    "index": "Index",
-    "editorial": "Editorial",
-    "diptyque": "Diptych",
-    "fenetres": "Windows",
-    "table": "Table",
-    "popup": "Pop-up",
-    "dossier": "Dossier",
-    "macro": "Macro",
-    "signataire": "Signataire",
-    "loupe": "Loupe",
-    "confidentiel": "Confidentiel",
-    "pile": "Pile",
-    "salle": "Salle",
-    "redline": "Redline",
-    "accord": "Accord",
-    "rapport": "Rapport",
-    "cables": "Cables",
-    "hello": "Hello",
-    "plume": "Plume",
-    "griffe": "Griffe",
-    "fil": "Fil",
-    "sceau": "Sceau",
-    "figma": "Figma"
-  },
   "curtainSwitcher": {
     "label": "Curtain",
     "fil": "Thread",
@@ -78,209 +108,7 @@
     "replay": "Replay"
   },
   "expertise": {
-    "metaTitle": "Expertise · AG Impact Partners"
-  },
-  "heroSignature": {
-    "hint": {
-      "hello": "Run your cursor across the signature.",
-      "plume": "Click and drag to sign.",
-      "griffe": "Scroll to sign.",
-      "fil": "Pull the thread.",
-      "sceau": "Move the light."
-    }
-  },
-  "heroStudies": {
-    "pile2": {
-      "label": "contracts negotiated",
-      "sheet": "Sheet",
-      "onTop": "On top of the pile",
-      "random": "A sheet at random",
-      "hint": "Click any sheet in the pile to bring it to the top.",
-      "services": "Five fields",
-      "fields": [
-        {
-          "n": "01",
-          "title": "Telecom",
-          "body": "Technical and commercial expertise on fixed and mobile networks.",
-          "items": ["Technical and commercial expertise", "Fixed and mobile networks"]
-        },
-        {
-          "n": "02",
-          "title": "Media",
-          "body": "TV, radio, sports rights, FAST channels, advertising.",
-          "items": ["TV", "Radio", "Sports rights", "FAST channels", "Advertising"]
-        },
-        {
-          "n": "03",
-          "title": "Distribution",
-          "body": "Building a distribution network, setting sale prices, steering commercial activity.",
-          "items": [
-            "Building a distribution network",
-            "Setting sale prices",
-            "Steering commercial activity"
-          ]
-        },
-        {
-          "n": "04",
-          "title": "Content",
-          "body": "Buying and selling content: sports rights, film, entertainment, TV channels.",
-          "items": [
-            "Buying and selling content",
-            "Sports rights",
-            "Film",
-            "Entertainment",
-            "TV channels"
-          ]
-        },
-        {
-          "n": "05",
-          "title": "Purchase contract optimisation",
-          "body": "Supplier negotiation, 10 to 30% savings, paid on results.",
-          "items": ["Supplier negotiation", "10 to 30% savings", "Paid on results"]
-        }
-      ]
-    },
-    "redline": {
-      "hint": "Hover a clause to read the original.",
-      "contract": {
-        "title": "Audiovisual services distribution agreement",
-        "draft": "Draft · version 7 · confidential",
-        "articles": [
-          {
-            "title": "Article 1 · Parties",
-            "body": "<k>We</k>, the undersigned, the Publisher of the one part and the Distributor of the other part, hereinafter together the Parties, have agreed as follows, subject to the prior approval of their respective boards."
-          },
-          {
-            "title": "Article 2 · Purpose",
-            "body": "This agreement sets out the terms on which the Distributor makes the Publisher's services available to its subscribers, on every network it operates <e>or may come to operate|as of today</e>, live and on demand, on all compatible devices."
-          },
-          {
-            "title": "Article 3 · Term",
-            "body": "This agreement is entered into for a term of <e>five (5) years|three (3) years</e> from its effective date. It then renews automatically for successive periods of one (1) year, unless terminated by either Party six (6) months before expiry."
-          },
-          {
-            "title": "Article 4 · Exclusivity",
-            "body": "The Publisher grants the Distributor <e>worldwide exclusivity on all media|exclusivity in France only</e>. Any extension shall be set out in an amendment, on terms we <k>negotiate</k> in good faith and in keeping with the commitments made to rights holders."
-          },
-          {
-            "title": "Article 5 · Fees",
-            "body": "In return, the Distributor pays the Publisher a monthly fee per active subscriber, revised each year according to the index in Schedule 2. Minimum guarantees are payable from the first month of operation <e>without abatement|after a six (6) month launch</e>."
-          },
-          {
-            "title": "Article 6 · Publisher's obligations",
-            "body": "The Publisher supplies a signal that meets the technical specifications of Schedule 3, guarantees continuity of service and informs the Distributor, with reasonable notice, of any material change to its programme schedule."
-          },
-          {
-            "title": "Article 7 · Confidentiality",
-            "body": "<k>All</k> terms of this agreement are confidential and may not be disclosed save where required by law. This obligation extends to the Parties' officers, employees and advisers and survives for three (3) years after the agreement ends."
-          },
-          {
-            "title": "Article 8 · Entry into force",
-            "body": "No provision of this agreement binds <k>the</k> Parties in any <k>way</k> prior <k>to</k> <k>signature</k> by both of them. It takes effect on the date of the last signature."
-          },
-          {
-            "title": "Article 9 · Termination",
-            "body": "If either Party commits a material breach that is not remedied within thirty (30) days of formal notice, the other Party may terminate the agreement forthwith, without prejudice to any claim for damages."
-          },
-          {
-            "title": "Article 10 · Governing law",
-            "body": "This agreement is governed by French law. Any dispute as to its interpretation or performance falls within the exclusive jurisdiction of the courts of Paris."
-          }
-        ],
-        "closing": "Done in Paris, in two original copies.",
-        "signatories": ["For the Publisher", "For the Distributor"]
-      }
-    },
-    "accord": {
-      "hint": "Bring your cursor to the centre to tune the two lines.",
-      "partyA": "A",
-      "partyB": "B",
-      "unit": "Hz",
-      "phase": "Δφ",
-      "status": {
-        "off": "Discord",
-        "on": "Accord"
-      },
-      "sound": {
-        "label": "Sound",
-        "on": "on",
-        "off": "off"
-      }
-    },
-    "rapport": {
-      "hint": "Drag the line."
-    },
-    "signataire": {
-      "ref": "Confidential · original copy",
-      "between": ["Between", "and"],
-      "place": "Done in Paris, in two original copies.",
-      "parties": ["For the Publisher", "For the Distributor"],
-      "docs": ["Distribution agreement", "Rights licence agreement", "Amendment No. 2"]
-    },
-    "loupe": {
-      "hint": "Run the loupe over the letters."
-    },
-    "confidentiel": {
-      "dossier": "File",
-      "stamp": "Confidential",
-      "hint": "Light up the file.",
-      "facts": [
-        {
-          "value": "25 years",
-          "label": "of experience in these five fields, at executive level"
-        },
-        {
-          "value": "Over €1 billion",
-          "label": "of rights and content negotiated"
-        },
-        {
-          "value": "10 to 30%",
-          "label": "savings on renegotiated purchase contracts"
-        }
-      ],
-      "clients": {
-        "label": "Clients",
-        "value": "Confidential"
-      }
-    },
-    "pile": {
-      "label": "contracts negotiated",
-      "sheet": "Sheet",
-      "hint": "Move across the ream to riffle through it."
-    },
-    "salle": {
-      "hint": "Scroll"
-    },
-    "dossier": {
-      "hint": "Scroll to turn the pages.",
-      "intro": "Five fields. A mandate almost always crosses several.",
-      "fields": [
-        {
-          "n": "01",
-          "title": "Telecom",
-          "body": "Technical and commercial expertise on fixed and mobile networks."
-        },
-        {
-          "n": "02",
-          "title": "Media",
-          "body": "TV, radio, sports rights, FAST channels, advertising."
-        },
-        {
-          "n": "03",
-          "title": "Distribution",
-          "body": "Building a distribution network, setting sale prices, steering commercial activity."
-        },
-        {
-          "n": "04",
-          "title": "Content",
-          "body": "Buying and selling content: sports rights, film, entertainment, TV channels."
-        },
-        {
-          "n": "05",
-          "title": "Purchase contract optimisation",
-          "body": "Supplier negotiation, 10 to 30% savings, paid on results."
-        }
-      ]
-    }
+    "metaTitle": "Expertise · AG Impact Partners",
+    "intro": "Five fields. A mandate almost always crosses several."
   }
 }

@@ -1,5 +1,6 @@
 /*
-  The pen's strokes for one page, in page pixels (y down): a strike through a phrase, the initials
+  A practised hand's pen strokes, used by Pile 2's printed documents and the feuillets splash. In
+  page pixels (y down): a strike through a phrase, the initials
   in the margin beside it, the signature and its underline. The signature is drawn, not lettered: a
   run of slanted loops of irregular size (a prolate cycloid, loops at the top), the way a practised
   signature reads from a distance. Seeded, so it is the same hand on every page.

@@ -1,7 +1,6 @@
 import * as THREE from "three";
 
-import { PX } from "../signataire/documents";
-import { OTHER_HAND, paraphe, signature, strikeStroke } from "../signataire/strokes";
+import { OTHER_HAND, paraphe, signature, strikeStroke } from "@/lib/signature";
 
 /*
   The five documents of Pile 2, one per field, each a different kind of paper: a contract, an
@@ -11,6 +10,10 @@ import { OTHER_HAND, paraphe, signature, strikeStroke } from "../signataire/stro
 
   Drawn in A4 page pixels (1240 × 1754, as Signataire) onto a smaller canvas.
 */
+
+/** A sheet: A4 in metres (for the scene) and in page pixels at 150 dpi (for printing). */
+export const PAGE = { w: 0.21, h: 0.297 } as const;
+export const PX = { w: 1240, h: 1754 } as const;
 
 export type Field = { n: string; title: string; body: string; items: string[] };
 export type DocCopy = {

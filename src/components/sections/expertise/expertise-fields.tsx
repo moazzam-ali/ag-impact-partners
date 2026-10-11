@@ -17,8 +17,8 @@ import styles from "./expertise-fields.module.css";
 */
 export function ExpertiseFields() {
   const t = useTranslations();
-  const studies = useMessages().heroStudies;
-  const [heading = "", ...rest] = studies.dossier.intro.split(/(?<=\.)\s+/);
+  const messages = useMessages();
+  const [heading = "", ...rest] = messages.expertise.intro.split(/(?<=\.)\s+/);
   const lede = rest.join(" ");
   const root = useRef<HTMLElement>(null);
 
@@ -40,7 +40,7 @@ export function ExpertiseFields() {
       </header>
 
       <ol className={styles.fields}>
-        {studies.pile2.fields.map((field, i) => (
+        {messages.pile.fields.map((field, i) => (
           <li key={field.n} className={styles.field}>
             <span className={styles.rule} data-rule />
             <div className={styles.row} data-row>

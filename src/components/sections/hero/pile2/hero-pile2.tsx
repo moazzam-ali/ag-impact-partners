@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { usePile2Hero } from "@/lib/animations/use-pile2-hero";
 import { curtain } from "@/lib/motion/curtain";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
-import { EASE, REDUCED_MOTION } from "@/lib/motion/tokens";
+import { REDUCED_MOTION } from "@/lib/motion/tokens";
 
 import { type DocCopy } from "./documents";
 import { FieldMark, FilDomaines } from "./fil-domaines";
@@ -25,25 +25,26 @@ import { BUILT, createPile2Scene, landedBy, SHEETS } from "./pile2-scene";
   The "contrats négociés" label for 300 is still to be confirmed by the client.
 */
 
+/** Field names longer than this (purchase contract optimisation) are set smaller, on two lines. */
+const LONG = 14;
+
 export function HeroPile2() {
   const t = useTranslations("hero");
-  const tp = useTranslations("heroStudies.pile2");
-  const studies = useMessages().heroStudies;
-  const fields = studies.pile2.fields;
-  const figure = studies.confidentiel.facts[2];
+  const tp = useTranslations("pile");
+  const pile = useMessages().pile;
+  const fields = pile.fields;
+  const doc = pile.document;
   const copy: DocCopy = {
     fields,
-    ref: studies.signataire.ref,
-    between: [studies.signataire.between[0] ?? "", studies.signataire.between[1] ?? ""],
-    parties: [studies.signataire.parties[0] ?? "", studies.signataire.parties[1] ?? ""],
-    place: studies.signataire.place,
-    stamp: studies.confidentiel.stamp,
-    figure: { value: figure?.value ?? "", label: figure?.label ?? "" },
+    ref: doc.ref,
+    between: [doc.between[0] ?? "", doc.between[1] ?? ""],
+    parties: [doc.parties[0] ?? "", doc.parties[1] ?? ""],
+    place: doc.place,
+    stamp: doc.stamp,
+    figure: doc.figure,
   };
   const [top, setTop] = useState(0);
-  const field = fields[top] ?? fields[0];
   const root = useRef<HTMLElement>(null);
-  const random = useRef<() => void>(() => {});
   usePile2Hero(root);
 
   useGSAP(
@@ -54,14 +55,12 @@ export function HeroPile2() {
       const [canvas] = q<HTMLCanvasElement>("[data-canvas]");
       const [stage] = q<HTMLElement>("[data-stage]");
       const [count] = q<HTMLElement>("[data-count]");
-      const [pill] = q<HTMLElement>("[data-pill]");
-      const [pillText] = q<HTMLElement>("[data-pill-text]");
       const [leader] = q<SVGPolylineElement>("[data-leader]");
       const [knot] = q<SVGCircleElement>("[data-knot]");
       const [callout] = q<HTMLElement>("[data-callout]");
       const [one] = q<HTMLElement>("[data-one]");
       const [two] = q<HTMLElement>("[data-two]");
-      if (!canvas || !stage || !count || !pill || !pillText || !leader || !knot || !callout) return;
+      if (!canvas || !stage || !count || !leader || !knot || !callout) return;
       if (!one || !two) return;
       const reduced = window.matchMedia(REDUCED_MOTION).matches;
       const css = getComputedStyle(el);
@@ -77,8 +76,6 @@ export function HeroPile2() {
       let lastInput = 0;
       let lastAuto = 0;
       const aim = { x: 0, y: 0, moved: false, inside: false };
-      const pillX = gsap.quickTo(pill, "x", { duration: 0.35, ease: EASE.out });
-      const pillY = gsap.quickTo(pill, "y", { duration: 0.35, ease: EASE.out });
 
       // Line two is set a little wider than line one (desktop), within the frame: measured at its
       // CSS size, then scaled.
@@ -129,10 +126,6 @@ export function HeroPile2() {
           const hit = aim.inside ? scene.pick(aim.x, aim.y) : null;
           scene.hover(hit?.kind === "sheet" ? hit.id : -1);
           el.dataset.pick = hit ? "on" : "off";
-          if (hit) {
-            pillText.textContent =
-              hit.kind === "sheet" ? `${tp("sheet")} ${hit.place}` : tp("random");
-          }
         }
         // Left alone, a sheet comes up now and then on its own.
         if (clock > BUILT + 2.5 && clock - lastInput > 7 && clock - lastAuto > 6.5) {
@@ -165,9 +158,6 @@ export function HeroPile2() {
         aim.moved = true;
         lastInput = clock;
         if (!reduced) scene?.setPointer((aim.x / box.width) * 2 - 1, (aim.y / box.height) * 2 - 1);
-        const section = el.getBoundingClientRect();
-        pillX(e.clientX - section.left);
-        pillY(e.clientY - section.top);
       };
       const onLeave = () => {
         aim.inside = false;
@@ -183,10 +173,6 @@ export function HeroPile2() {
         if (hit.kind === "sheet") scene.pull(hit.id);
         else scene.pullRandom();
         aim.moved = true;
-      };
-      random.current = () => {
-        lastInput = clock;
-        scene?.pullRandom();
       };
 
       void Promise.all(
@@ -291,27 +277,28 @@ export function HeroPile2() {
 
         <div className={styles.callout} data-callout data-rise aria-live="polite">
           <p className={styles.onTop}>{tp("onTop")}</p>
-          <div key={top} className={styles.doc}>
-            <p className={styles.docTitle}>
-              <FieldMark index={top} className={styles.docMark} />
-              {field?.title}
-            </p>
-            <p className={styles.docBody}>{field?.body}</p>
+          {/* Every field's text in one cell, only the one on top shown: the callout keeps the
+              height of the longest, so neither it nor the leader line moves as the top changes. */}
+          <div className={styles.docs}>
+            {fields.map((f, i) => (
+              <div
+                key={f.n}
+                className={styles.doc}
+                data-current={i === top ? "" : undefined}
+                aria-hidden={i === top ? undefined : true}
+              >
+                <p className={styles.docTitle} data-long={f.title.length > LONG ? "" : undefined}>
+                  <FieldMark index={i} className={styles.docMark} />
+                  <span className={styles.docName}>{f.title}</span>
+                </p>
+                <p className={styles.docBody}>{f.body}</p>
+              </div>
+            ))}
           </div>
-          <p className={styles.hint}>
-            {tp("hint")}{" "}
-            <button type="button" className={styles.shuffle} onClick={() => random.current()}>
-              {tp("random")}
-            </button>
-          </p>
         </div>
 
-        <FilDomaines className={styles.fil} fields={fields} label={tp("services")} active={top} />
+        <FilDomaines className={styles.fil} fields={fields} label={tp("services")} />
       </div>
-
-      <p className={styles.pill} data-pill aria-hidden="true">
-        <span data-pill-text />
-      </p>
     </section>
   );
 }

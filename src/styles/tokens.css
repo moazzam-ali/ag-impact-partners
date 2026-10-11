@@ -7,9 +7,7 @@
   hardcode a size or a colour: they use these tokens or the Tailwind utilities mapped in globals.css.
 */
 :root,
-[data-theme="light"],
-/* The header takes the hero's palette when the hero is a light band (sceau, figma). */
-html:has(main > section[data-theme="light"]:first-child) [data-header] {
+[data-theme="light"] {
   color-scheme: light;
 
   /* ---- Colour ---------------------------------------------------------- */
@@ -108,38 +106,15 @@ html:has(main > section[data-theme="light"]:first-child) [data-header] {
   --dur-slow: 420ms;
   --transition-base: all var(--dur-base) var(--ease-standard);
 
-  /* ---- Hero studies (round 2) ------------------------------------------ */
-  /* Redline: the contract's paper and the correction pen. Same in both themes. */
+  /* ---- Printed paper (Pile 2's documents, the curtain) ----------------- */
+  /* The same in both themes: paper, its print, the correction pen, signing ink, the dark sheet. */
   --paper: #f3efe6;
-  --pen: #c8381f;
-  /* Signataire: the desk, its lamp, the plaster hand, the pen's lacquer, signing ink, print. */
-  --desk: #0b0a09;
-  --sleeve: #15171d;
-  --cuff: #eeebe4;
-  --lamp: #fff0dc;
-  --plaster: #d8cfc2;
-  --lacquer: #121216;
-  --sign-ink: #1c2650;
   --print: #1d1d22;
   --print-soft: #77726b;
   --print-rule: #cbc4b8;
-  /* Table: the walnut top, the blotters, the room around it, the other party's sleeve. */
-  --walnut: #3a291d;
-  --leather: #1c1814;
-  --room: #090807;
-  --sleeve-them: #4a4b52;
-  /* Pop-up: the desk and the book's cloth. */
-  --popup-ground: #e9e3d8;
-  --popup-cloth: #22283a;
-  /* Dossier: the portfolio's leather. */
-  --dossier-leather: #4a2e20;
-  /* Loupe: the tint of the letterforms behind the fine print. */
-  --loupe-faint: #d9d0c1;
-  /* Confidentiel: the lamp's ultraviolet and the dossier's paper. */
-  --uv: #7c6cff;
-  --dossier: #0d0d12;
-  /* Pile: the pale studio ground the ream sits on. */
-  --pile-ground: #e7e2d8;
+  --pen: #c8381f;
+  --sign-ink: #1c2650;
+  --sleeve: #15171d;
 }
 
 /* Any element can opt into either palette; next-themes sets it on <html>, a section can set its own. */

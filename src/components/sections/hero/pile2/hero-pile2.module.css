@@ -3,10 +3,9 @@
   WebGL ream (transparent canvas, so the ream stands on the type and its shadow falls on it), then
   everything you read or press: the aside, the callout with its leader line, the thread of fields.
 
-  Grid (desktop): space / eyebrow / line one / [aside | stage | callout] / line two / space / thread.
-  The two spaces share whatever height is left, so the composition sits in the middle of a tall
-  screen. The headline is a subgrid over rows 3–5, so its two lines sit above and below the middle
-  row without leaving the one h1. Line two is set (in JS) a little wider than line one, through
+  Grid (desktop): eyebrow / line one / [aside | stage | callout] / line two / thread, as tall as
+  its content (it does not have to fit one screen). The headline is a subgrid over rows 2–4, so its
+  two lines sit above and below the middle row without leaving the one h1. Line two is set (in JS) a little wider than line one, through
   `--two`. The stage is an empty box the scene frames the ream into; it reaches into line one.
 */
 .hero {
@@ -67,13 +66,14 @@
 .frame {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 0.7fr);
-  grid-template-rows: minmax(0, 1fr) auto auto auto auto minmax(0, 1fr) auto;
-  column-gap: var(--space-8);
-  min-height: 100svh;
-  max-width: var(--frame-max);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 0.75fr);
+  grid-template-rows: auto auto auto auto auto;
+  column-gap: var(--space-12);
+  /* Wider than the page frame: the hero is a poster and takes more of a large screen. */
+  max-width: 1720px;
   margin-inline: auto;
-  padding: calc(var(--nav-height) + var(--space-8)) var(--page-gutter) var(--space-6);
+  padding: calc(var(--nav-height) + clamp(var(--space-15), 6vw, var(--space-34))) var(--page-gutter)
+    var(--space-6);
   pointer-events: none;
 }
 .frame a,
@@ -85,7 +85,7 @@
 .eyebrow {
   position: relative;
   z-index: 2;
-  grid-row: 2;
+  grid-row: 1;
   grid-column: 1 / -1;
   margin-bottom: var(--space-5);
   font-size: var(--text-xs);
@@ -97,7 +97,7 @@
 
 .headline {
   display: grid;
-  grid-row: 3 / 6;
+  grid-row: 2 / 5;
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
@@ -132,17 +132,17 @@
   laptop screen and a tall screen adds room around it, not inside it.
 */
 .stage {
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 2;
   align-self: center;
-  height: clamp(300px, 44svh, 30vw);
-  margin-block: calc(var(--one) * -0.3) calc(var(--two) * -0.2);
+  height: clamp(320px, 31vw, 540px);
+  margin-block: var(--space-4) calc(var(--two) * -0.2);
 }
 
 .aside {
   position: relative;
   z-index: 2;
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 1;
   align-self: center;
   display: grid;
@@ -181,23 +181,30 @@
 .callout {
   position: relative;
   z-index: 2;
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 3;
   align-self: center;
   justify-self: end;
-  width: min(100%, 280px);
+  width: min(100%, 300px);
   margin-top: var(--space-12);
 }
-.onTop,
-.hint {
+.onTop {
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--ink-soft);
 }
+.docs {
+  display: grid;
+  margin-top: var(--space-3);
+}
 .doc {
-  margin-block: var(--space-3) var(--space-6);
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.doc[data-current] {
+  visibility: visible;
   animation: doc 0.7s var(--ease-out) both;
 }
 @keyframes doc {
@@ -208,12 +215,20 @@
 }
 .docTitle {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
   font-size: var(--text-h2);
   font-weight: var(--weight-medium);
   line-height: 1;
   letter-spacing: -0.035em;
+}
+/* A long name steps down a size and holds to two balanced lines; the icon stays on the first. */
+.docTitle[data-long] {
+  font-size: calc(var(--text-h2) * 0.78);
+  line-height: 1.04;
+}
+.docName {
+  text-wrap: balance;
 }
 /* Beats the thread's own icon size (two single-class rules otherwise race on load order). */
 .docTitle .docMark {
@@ -228,59 +243,12 @@
   line-height: var(--leading-body);
   color: var(--ink-soft);
 }
-.hint {
-  letter-spacing: var(--tracking-wide);
-  text-transform: none;
-  line-height: var(--leading-body);
-}
-.shuffle {
-  display: inline;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ink);
-  font: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--thread);
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-.shuffle:hover {
-  color: var(--thread);
-}
-
 .fil {
   position: relative;
   z-index: 2;
-  grid-row: 7;
+  grid-row: 5;
   grid-column: 1 / -1;
-  margin-top: var(--space-15);
-}
-
-.pill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  margin: 18px 0 0 18px;
-  padding: 6px 12px;
-  border-radius: var(--radius-pill);
-  background: var(--ink);
-  color: var(--bg);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-wide);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(0.9);
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    scale var(--dur-base) var(--ease-out);
-}
-.hero[data-pick="on"] .pill {
-  opacity: 1;
-  scale: 1.1;
+  margin-top: clamp(var(--space-30), 8vw, 180px);
 }
 
 /* ---- Tablet and phone: one column, the ream between the two lines ------------------------------ */
@@ -291,12 +259,12 @@
   }
   .frame {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 0 auto auto minmax(46svh, auto) auto auto auto auto;
+    grid-template-rows: auto auto minmax(46svh, auto) auto auto auto auto;
     min-height: 0;
     padding-top: calc(var(--nav-height) + var(--space-8));
   }
   .headline {
-    grid-row: 3 / 6;
+    grid-row: 2 / 5;
     grid-column: 1;
   }
   .one,
@@ -308,19 +276,19 @@
     text-align: right;
   }
   .stage {
-    grid-row: 4;
+    grid-row: 3;
     grid-column: 1;
     height: auto;
     align-self: stretch;
-    margin-block: calc(var(--one) * -0.2) calc(var(--two) * -0.3);
+    margin-block: var(--space-8) calc(var(--two) * -0.3);
   }
   .aside {
-    grid-row: 6;
+    grid-row: 5;
     grid-column: 1;
     padding-block: var(--space-8) var(--space-6);
   }
   .callout {
-    grid-row: 7;
+    grid-row: 6;
     grid-column: 1;
     justify-self: start;
     width: 100%;
@@ -330,7 +298,7 @@
     display: none;
   }
   .fil {
-    grid-row: 8;
+    grid-row: 7;
     margin-top: var(--space-12);
   }
 }

@@ -1,8 +1,7 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-import { PAGE } from "../signataire/documents";
-import { DESIGNS, type DocCopy, type DocInks, PAPERS, printDocuments } from "./documents";
+import { DESIGNS, type DocCopy, type DocInks, PAGE, PAPERS, printDocuments } from "./documents";
 
 /*
   Pile 2's scene: the 300 contracts as a ream of different documents (five kinds of paper, one per

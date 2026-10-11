@@ -30,6 +30,7 @@ npm run format         # prettier --write
 
 ## Hero
 
-The homepage hero is the Figma composition, the headline on two lines, with Originkit's light cables
-flowing between them (`src/components/sections/hero/`). See
-[docs/systems/motion.md](docs/systems/motion.md).
+The homepage hero is Pile 2: the headline at poster size with a 3D ream of the 300 contracts on it,
+sheets you can pull out (each a different document), the five fields on a running line
+(`src/components/sections/hero/pile2/`). The other heroes studied along the way are on the
+`archive/hero-studies` branch. See [docs/systems/motion.md](docs/systems/motion.md).
