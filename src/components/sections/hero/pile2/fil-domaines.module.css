@@ -1,0 +1,252 @@
+/*
+  Le fil des domaines. The track's bottom border is the thread: names and lines sit on it, and the
+  drawings (strokes that don't scale) touch it where they rise.
+  Thread and drawings in the accent, the moving parts in ink.
+*/
+.fil {
+  --thread: var(--accent-strong);
+  --glyph-h: 120px;
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-8);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+:global([data-theme="dark"]) .fil {
+  --thread: var(--accent);
+}
+
+.label {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--page-gutter);
+  z-index: 1;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* The thread: one border under the whole track, so it never breaks where the pieces meet. */
+.track {
+  display: flex;
+  width: max-content;
+  padding-top: var(--space-10);
+  border-bottom: 1.5px solid var(--thread);
+  will-change: transform;
+}
+.run {
+  display: flex;
+  align-items: flex-end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  display: flex;
+  align-items: flex-end;
+}
+
+.name {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2em;
+  padding: 0 0.16em 0.06em 0.1em;
+  font-size: clamp(36px, 4.6vw, 70px);
+  font-weight: var(--weight-medium);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  transition: color var(--dur-slow) var(--ease-out);
+}
+.n {
+  margin-top: 0.1em;
+  padding: 3px 7px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1.2;
+  color: var(--thread);
+  box-shadow: inset 0 0 0 1px var(--thread);
+  transition:
+    background-color var(--dur-slow) var(--ease-out),
+    color var(--dur-slow) var(--ease-out);
+}
+.item[data-current] .n {
+  background: var(--thread);
+  color: var(--on-accent);
+}
+.item:hover .name {
+  color: var(--thread);
+}
+
+.glyph {
+  display: block;
+  height: var(--glyph-h);
+  padding-inline: var(--space-4) var(--space-3);
+}
+.glyph svg {
+  display: block;
+  width: auto;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.glyph svg * {
+  vector-effect: non-scaling-stroke;
+}
+.item:hover .glyph svg {
+  stroke-width: 2.25;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-4) var(--space-3) var(--space-2);
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  line-height: 1.55;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+.gap {
+  width: clamp(40px, 5vw, 88px);
+}
+
+/* ---- The drawings' moving parts --------------------------------------------------------------- */
+.dot {
+  fill: var(--thread);
+  stroke: none;
+}
+.node {
+  fill: var(--bg);
+}
+.wave {
+  stroke: var(--ink);
+  opacity: 0.12;
+  animation: wave 2.2s var(--ease-standard) infinite;
+}
+@keyframes wave {
+  25% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.12;
+  }
+}
+.play {
+  fill: var(--thread);
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: 40% 50%;
+  animation: play 2.6s var(--ease-standard) infinite;
+}
+@keyframes play {
+  50% {
+    transform: scale(0.82);
+    opacity: 0.55;
+  }
+}
+.scan {
+  stroke: var(--ink);
+  opacity: 0.4;
+  animation: scan 2.4s linear infinite;
+}
+@keyframes scan {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(54px);
+  }
+}
+.parcel {
+  fill: var(--ink);
+  stroke: none;
+  animation: parcel 1.8s var(--ease-standard) infinite;
+}
+@keyframes parcel {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0;
+  }
+}
+.spin {
+  stroke: var(--ink);
+  animation: spin 3.2s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.beam {
+  fill: var(--thread);
+  stroke: none;
+  opacity: 0.16;
+  animation: beam 0.9s steps(3) infinite alternate;
+}
+@keyframes beam {
+  to {
+    opacity: 0.28;
+  }
+}
+.ruled {
+  opacity: 0.5;
+}
+.sign {
+  stroke: var(--ink);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sign 3.4s var(--ease-standard) infinite;
+}
+@keyframes sign {
+  45% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .fil {
+    --glyph-h: 88px;
+  }
+  .name {
+    font-size: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fil * {
+    animation: none !important;
+  }
+  .sign {
+    stroke-dashoffset: 0;
+  }
+}

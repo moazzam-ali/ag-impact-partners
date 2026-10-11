@@ -11,6 +11,7 @@ import { type HeroVariant } from "./variants";
 
 // Loaded on demand, so only the active variant's code (and shader / canvas work) ships.
 const VARIANTS: Record<HeroVariant, ComponentType> = {
+  pile2: dynamic(() => import("./pile2/hero-pile2").then((m) => m.HeroPile2)),
   cadre: dynamic(() => import("./cadre/hero-cadre").then((m) => m.HeroCadre)),
   index: dynamic(() => import("./index/hero-index").then((m) => m.HeroIndex)),
   editorial: dynamic(() => import("./editorial/hero-editorial").then((m) => m.HeroEditorial)),

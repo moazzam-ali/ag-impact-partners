@@ -39,6 +39,7 @@
   },
   "heroSwitcher": {
     "label": "Variante du hero",
+    "pile2": "Pile 2",
     "cadre": "Plein cadre",
     "index": "Index",
     "editorial": "Éditorial",
@@ -74,6 +75,60 @@
     }
   },
   "heroStudies": {
+    "pile2": {
+      "label": "contrats négociés",
+      "sheet": "Feuille",
+      "onTop": "Sur la pile",
+      "random": "Une feuille au hasard",
+      "hint": "Cliquez une feuille de la pile pour la poser dessus.",
+      "services": "Cinq domaines",
+      "fields": [
+        {
+          "n": "01",
+          "title": "Télécom",
+          "body": "Expertise technique et commerciale sur les réseaux fixes et mobiles.",
+          "items": ["Expertise technique et commerciale", "Réseaux fixes et mobiles"]
+        },
+        {
+          "n": "02",
+          "title": "Média",
+          "body": "Télévision, radio, droits sportifs, chaînes FAST, publicité.",
+          "items": ["Télévision", "Radio", "Droits sportifs", "Chaînes FAST", "Publicité"]
+        },
+        {
+          "n": "03",
+          "title": "Distribution",
+          "body": "Organisation d’un réseau de distribution, définition des tarifs de vente, pilotage de l’activité commerciale.",
+          "items": [
+            "Organisation d’un réseau de distribution",
+            "Définition des tarifs de vente",
+            "Pilotage de l’activité commerciale"
+          ]
+        },
+        {
+          "n": "04",
+          "title": "Contenus",
+          "body": "Acquisition et vente de contenus : droits sportifs, cinéma, divertissement, chaînes de télévision.",
+          "items": [
+            "Acquisition et vente de contenus",
+            "Droits sportifs",
+            "Cinéma",
+            "Divertissement",
+            "Chaînes de télévision"
+          ]
+        },
+        {
+          "n": "05",
+          "title": "Optimisation des contrats d’achat",
+          "body": "Négociation avec les fournisseurs, 10 à 30 % d’économies, rémunération au résultat.",
+          "items": [
+            "Négociation avec les fournisseurs",
+            "10 à 30 % d’économies",
+            "Rémunération au résultat"
+          ]
+        }
+      ]
+    },
     "redline": {
       "hint": "Survolez une clause pour relire l'original.",
       "contract": {

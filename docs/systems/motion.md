@@ -77,6 +77,43 @@ Over a light hero (sceau, figma) the header takes the light palette too (`[data-
 `tokens.css`). When one is chosen: delete the other folders, the `/lab` routes, the switcher flag and the GSAP
 plugins nobody uses, then do mobile and polish.
 
+### Hero study "pile2" (Pile, redone)
+
+Asked for on 12 Oct 2026: Pile again, in the site's own face (Instrument Sans) at poster size, a
+redone title and UI, a shorter and calmer build, sheets you can pull out and lay on top (each one a
+different document), the services as a creative running list with drawings, and both themes. First
+in the switcher (key 1); `/lab/pile2`.
+
+- **Layers.** Back to front: line one of the headline, the WebGL ream (transparent canvas: the ream
+  stands on the type and, on light, its shadow falls on it), then line two, the copy, the callout
+  and the thread. The h1 is a subgrid over the middle rows, so its two lines frame the ream without
+  leaving one heading. An empty `[data-stage]` box marks where the ream goes; the scene centres it
+  there and backs the camera off until it fits the box's height or width.
+- **Build.** About 1.7 s: sheets settle from 3 cm with a little drift (no tumbling), the signed top
+  sheet last and slower. The counter keeps pace.
+- **Pull.** The sheet under the cursor slides 4.5 cm out (a pill names it, "Feuille 147"); a click
+  draws it out along its length, lifts it, turns it towards you and lays it on top (1.35 s). The
+  top face or the "Une feuille au hasard" button takes one at random; idle, one comes up every few
+  seconds. The next document is always the field that has been longest off the top, so the five
+  come round in turn. A leader line ties the top sheet to a callout naming its field; the thread
+  marks the same field.
+- **Documents.** Five designs, one per field, printed once to canvas (`pile2/documents.ts`): a
+  contract, an annex with a schedule and a "Confidentiel" stamp, articles in two columns, a term
+  sheet with dotted leaders, the approved "10 à 30 %" page. Real words only from the brief; the
+  rest is greyed lines. Each design has its own paper stock and size, so the ream's edge shows
+  different documents. Sheets are one instanced mesh; a pool of six printed planes follows the
+  faces that can be seen.
+- **Le fil des domaines** (`pile2/fil-domaines.tsx`). The five fields on one running thread (the
+  track's bottom border): names sit on it, and between them it rises into a line drawing of the
+  field (mast, screen, network, projector, signed page; strokes don't scale) whose ink parts move in
+  CSS. The field's own lines from the brief stand beside it in small capitals. Drawn in from the
+  left on load, then a GSAP loop: faster with scroll, reversed when scrolling up, nearly still
+  under the pointer.
+- **Themes.** No `data-theme` on the section: it follows the site. A MutationObserver on
+  `<html data-theme>` re-lights the scene (shadow catcher only on light). Thread in
+  `--accent-strong` on light, `--accent` on dark.
+- **Reduced motion.** Ream already built, pulls are instant, the thread stands still.
+
 ### Hero studies, round 5 (cadre, index, editorial, diptyque, fenetres)
 
 Feedback on round 4: popup, dossier and macro liked; table "too much for a hero". The ask for round
