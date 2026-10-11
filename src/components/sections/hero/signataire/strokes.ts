@@ -59,7 +59,7 @@ export function paraphe(x: number, y: number): Point[] {
 }
 
 /** One letter-like movement of the signature, starting and ending on the baseline. */
-type Move = { kind: "loop" | "arch"; w: number; h: number };
+export type Move = { kind: "loop" | "arch"; w: number; h: number };
 
 /*
   A practised signature, read from a distance: a tall opening loop, low arches, a second ascender,
@@ -78,8 +78,26 @@ const MOVES: Move[] = [
   { kind: "arch", w: 20, h: 20 },
 ];
 
+/** A second hand, for the other party: arches first, one tall loop, a shorter run. */
+export const OTHER_HAND: Move[] = [
+  { kind: "arch", w: 30, h: 46 },
+  { kind: "loop", w: 44, h: 138 },
+  { kind: "arch", w: 22, h: 28 },
+  { kind: "arch", w: 24, h: 34 },
+  { kind: "loop", w: 26, h: 64 },
+  { kind: "arch", w: 18, h: 22 },
+  { kind: "arch", w: 16, h: 18 },
+];
+
 /** The signature (body with its sweeping tail) and the quick flick over it, sized to the line. */
-export function signature(x1: number, x2: number, baseline: number, seed = 7): Point[][] {
+export function signature(
+  x1: number,
+  x2: number,
+  baseline: number,
+  seed = 7,
+  moves: Move[] = MOVES,
+): Point[][] {
+  const MOVES = moves;
   const r = rng(seed);
   const total = MOVES.reduce((a, m) => a + m.w, 0);
   const scale = (x2 - x1 - 60) / total;

@@ -39,6 +39,10 @@
   },
   "heroSwitcher": {
     "label": "Variante du hero",
+    "table": "Table",
+    "popup": "Pop-up",
+    "dossier": "Dossier",
+    "macro": "Macro",
     "signataire": "Signataire",
     "loupe": "Loupe",
     "confidentiel": "Confidentiel",
@@ -175,6 +179,37 @@
     },
     "salle": {
       "hint": "Faites défiler"
+    },
+    "dossier": {
+      "hint": "Faites défiler pour tourner les pages.",
+      "intro": "Cinq domaines. Un mandat en croise presque toujours plusieurs.",
+      "fields": [
+        {
+          "n": "01",
+          "title": "Télécom",
+          "body": "Expertise technique et commerciale sur les réseaux fixes et mobiles."
+        },
+        {
+          "n": "02",
+          "title": "Média",
+          "body": "Télévision, radio, droits sportifs, chaînes FAST, publicité."
+        },
+        {
+          "n": "03",
+          "title": "Distribution",
+          "body": "Organisation d’un réseau de distribution, définition des tarifs de vente, pilotage de l’activité commerciale."
+        },
+        {
+          "n": "04",
+          "title": "Contenus",
+          "body": "Acquisition et vente de contenus : droits sportifs, cinéma, divertissement, chaînes de télévision."
+        },
+        {
+          "n": "05",
+          "title": "Optimisation des contrats d’achat",
+          "body": "Négociation avec les fournisseurs, 10 à 30 % d’économies, rémunération au résultat."
+        }
+      ]
     }
   }
 }

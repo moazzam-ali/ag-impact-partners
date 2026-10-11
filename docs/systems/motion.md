@@ -77,6 +77,18 @@ Over a light hero (sceau, figma) the header takes the light palette too (`[data-
 `tokens.css`). When one is chosen: delete the other folders, the `/lab` routes, the switcher flag and the GSAP
 plugins nobody uses, then do mobile and polish.
 
+### Hero studies, round 4 (table, popup, dossier, macro)
+
+The user liked signataire, pile and (a bit) salle: 3D, physical, cinematic. Round 4 stays there.
+Switcher keys 1–4; `/lab/<name>`. They reuse signataire's printed page, strokes, pen and hand.
+
+| Variant | What happens                                                                                                                                                                                                                                                                                 | Technique                                                                                                                                                                                              |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| table   | Seen from above a walnut table: our hand (navy sleeve, navy ink) near the camera, theirs (grey sleeve, red ink) across. One contract goes back and forth, spinning to face each side, collecting a struck term and initials from each, then both sign; it slides away and the next comes in. | Two posed hands (`loadHand` twice), one page with per-stroke inks (`PaperDoc.setStrokes` takes a colour per stroke), a second signature hand (`OTHER_HAND`); all a function of time in a 12.4 s cycle. |
+| popup   | A cloth-bound book opens on a pale desk and Paris rises out of it in cut paper: the Eiffel Tower, two rows of Haussmann facades with windows cut through, one lit, a front row of lamps; "Paris" printed on the page. Cursor tilts; scrolling away closes it.                                | Canvas-drawn alpha cut-outs on cards hinged to the far page (alpha-tested shadows through the windows), raking light from behind.                                                                      |
+| dossier | A leather portfolio with the peak mark in peach foil opens onto the first of the five fields; three screens of pinned scroll turn the pages, each curling over, through the five fields (brief copy, fixed order) to the signed contract.                                                    | Leaves are 40-segment strips rebuilt per frame from their turn angle (the free edge lags: the curl); two-sided materials, the back mirrored.                                                           |
+| macro   | A few centimetres from a fountain pen's nib, shallow focus, following it as it writes the signature in wet, glossy ink; the pen lies down and the camera pulls back to the signed contract. The headline turns from dark to light as the desk comes into view.                               | Bokeh pass (focus tracks the nib, aperture closes on the pull-back), paper tooth as a bump map, ink as clear-coated ribbons drying to matte.                                                           |
+
 ### Hero studies, round 3 (signataire, loupe, confidentiel, pile, salle)
 
 Round 2's contract idea (redline) was liked but not its execution; round 3 tries the dossier world

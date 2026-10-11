@@ -183,15 +183,27 @@ export class PaperDoc {
     };
   }
 
-  /** Replaces the page's ink with these strokes (page pixels), all hidden until revealed. */
-  setStrokes(strokes: Point[][], color: string, width = 0.00105) {
+  /**
+   * Replaces the page's ink with these strokes (page pixels), all hidden until revealed. `color` is
+   * one ink for all, or one per stroke (two parties, two inks).
+   */
+  setStrokes(strokes: Point[][], color: string | string[], width = 0.00105) {
     for (const ribbon of this.ribbons) {
       this.mesh.remove(ribbon);
       ribbon.geometry.dispose();
     }
-    const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.94 });
-    this.ribbons = strokes.map((points) => {
-      const mesh = new THREE.Mesh(ribbon(points, width), material);
+    const inks = new Map<string, THREE.MeshBasicMaterial>();
+    const inkFor = (c: string) => {
+      let material = inks.get(c);
+      if (!material) {
+        material = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.94 });
+        inks.set(c, material);
+      }
+      return material;
+    };
+    this.ribbons = strokes.map((points, i) => {
+      const c = Array.isArray(color) ? (color[i] ?? color[0] ?? "#000") : color;
+      const mesh = new THREE.Mesh(ribbon(points, width), inkFor(c));
       mesh.geometry.setDrawRange(0, 0);
       this.mesh.add(mesh);
       return mesh;
