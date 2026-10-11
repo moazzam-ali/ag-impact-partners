@@ -1,0 +1,107 @@
+/*
+  Expertise (simple): a heading row (eyebrow, the brief's line, the rest of it and the one call to
+  action), then the five fields as ruled rows: icon, name, line from the brief.
+*/
+.page {
+  --thread: var(--accent-strong);
+  max-width: var(--frame-max);
+  margin-inline: auto;
+  padding: calc(var(--nav-height) + var(--space-23)) var(--page-gutter) var(--space-30);
+}
+
+:global([data-theme="dark"]) .page {
+  --thread: var(--accent);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-6) var(--space-12);
+  margin-bottom: var(--space-23);
+}
+.eyebrow {
+  grid-column: 1 / -1;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.title {
+  font-size: var(--text-mega);
+  font-weight: var(--weight-semibold);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+.side {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+  padding-bottom: var(--space-2);
+}
+.lede {
+  max-width: 32ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--ink-soft);
+}
+
+.fields {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.field {
+  position: relative;
+}
+.rule {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left center;
+}
+.field:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-8);
+  padding-block: var(--space-8);
+}
+.row .mark {
+  width: 44px;
+  height: 44px;
+  padding: 9px;
+  border-radius: 50%;
+  background: var(--chip);
+}
+.name {
+  font-size: var(--text-h1);
+  font-weight: var(--weight-medium);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.body {
+  max-width: 44ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--ink-soft);
+}
+
+@media (max-width: 767px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: var(--space-12);
+  }
+  .row {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: var(--space-3) var(--space-4);
+  }
+  .body {
+    grid-column: 2;
+  }
+}

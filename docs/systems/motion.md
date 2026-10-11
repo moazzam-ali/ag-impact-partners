@@ -30,6 +30,55 @@ matrix as a fixed pixel `y`, and a later `yPercent` tween to 0 leaves that offse
 never shows). `armWords(section, words)` in `src/lib/motion/words.ts` does it in the right order:
 release `data-state`, then `gsap.set({ yPercent: 112, y: 0 })`. Use it in every intro.
 
+## The curtain: splash and page transitions
+
+One fixed layer over everything (`src/components/motion/curtain/`), run by `MotionShell` in the
+locale layout. It plays the splash once per page load, then covers and uncovers the page on every
+internal link. Eight styles are under review, each a splash and its matching page transition; the
+pill under the header ("Rideau") switches them (stored, reloads), `?curtain=<name>` too.
+
+Feedback so far: the traced build-up (the mark drawn shape by shape) and feuillets' in and out are
+liked; the splash must show the wordmark; motion smooth, minimal, finished in the details. The
+six newer styles all build the same traced lockup (`lockup.tsx`: the mark traced shape by shape
+and filled as each closes, the wordmark rising line by line from a mask, a hairline loader with a
+head dot and a count, never faster than one trace in 1.1 s).
+
+| Style     | Splash                                                                                                                                                             | Page transition (one movement)                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| fil       | A hairline across the middle; the mark rises above it, the wordmark hangs below, the line fills. Both go back into the line; the screen parts along it.            | The halves meet on the line and part again.                                          |
+| sommet    | Peach floods out, the mark assembles from its three shapes, the letters rise, a big count. The page shows through the mark, which zooms open.                      | A peach sheet sweeps up over the page and on off the top.                            |
+| feuillets | Ink, peach and paper sheets slide up with curved edges; the lockup builds on the paper, a signature is written as the loader; the sheets lift away.                | The sheets sweep up over the page and on off the top.                                |
+| esquisse  | A paper proof: the sheet wipes up, crop marks open, the traced lockup. Then the mark becomes a paper window onto the page and zooms open, edged in accent.         | The paper wipes up over the page and on off the top, an accent hairline on its edge. |
+| iris      | A disc in the page's colours inverted opens from the centre, a fine accent ring on its edge; the traced lockup. Then the iris closes onto the mark.                | The iris opens from the link that was clicked and closes on the next page.           |
+| biais     | The traced lockup with a caption on the page's colour. The curtain leaves along the A's angle, an accent hairline on its edge, the lockup held still as it is cut. | The panel crosses on the bias, both edges lined in accent.                           |
+| feuille   | One paper sheet rises with a thin rim of accent on its curved edge; the traced lockup drifts against its movement. The sheet lifts away, the rim trailing.         | The sheet sweeps up through the screen, its rim leading.                             |
+| tourne    | A page turn: ink then paper slide in from the right, edges curved, the paper's shadow on the ink; the traced lockup. They carry on out to the left.                | A page turns across the screen.                                                      |
+
+- **Page transitions are one movement, with no logo.** Just a sweep to the next page: the timeline
+  plays to a `covered` label, the route changes there, and it plays on (`swapThrough` in `run.ts`).
+  It only holds at the label if the next page is not ready; pages are prefetched when their link is
+  pointed at and again at the click, so in production it rarely does.
+- **Logo.** `brand/logo-parts.ts` is the logo SVG split into parts (the mark's three shapes, each
+  letter with its counters), generated from `public/brand/logo-charcoal.svg`; `LogoLockup` draws
+  the lockup, the mark or the wordmark with every part addressable. `markStage` (`run.ts`) places
+  the mark on a viewport-sized SVG and zooms a mark-shaped window or clip (sommet, niveau). A
+  `clipPath` takes shapes only, so niveau puts the transform on each path.
+- **Loader.** `trackLoad()` (`lib/motion/curtain.ts`) crawls while fonts and the page load, for at
+  least ~1.4 s so it reads as a count, finishes when both are in, never waits more than 6 s.
+- **Page intros wait.** The curtain store is closed while the page is covered and opens as the
+  reveal starts. `afterCurtain(fn)` starts a timeline then (pile2, its thread, Expertise);
+  `useCurtainOpen()` renders on it. Other hero variants are remounted once it opens.
+- **Navigation.** A click on an internal link to another page is caught in the capture phase (so
+  Next's Link sees it as prevented) and runs the style's swap. Modified clicks, new tabs,
+  downloads, other origins and same-page links are left alone; back and forward have no cover.
+- **First paint.** The server HTML has a plain cover in the page colour; the chosen style replaces
+  it after hydration and starts the splash. Without script the cover is not shown; if the script
+  never starts it fades on its own after 7 s.
+- **Reduced motion.** The lockup stands still while the count runs, then the curtain fades;
+  transitions are a short fade.
+- **Demo page.** `/expertise` (simple): the brief's line on the five fields and the fields in
+  order, with an intro gated on the curtain, so switching pages shows both halves.
+
 ## The hero
 
 The hero is built as variants (`src/components/sections/hero/variants.ts`): `home-hero.tsx` renders

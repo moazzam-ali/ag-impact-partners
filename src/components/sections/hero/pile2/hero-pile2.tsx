@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 
 import { Words } from "@/components/motion/words";
 import { ButtonLink } from "@/components/ui/button-link";
+import { afterCurtain, curtain } from "@/lib/motion/curtain";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { DURATION, EASE, MOTION_OK, REDUCED_MOTION, STAGGER } from "@/lib/motion/tokens";
 import { armWords } from "@/lib/motion/words";
@@ -120,7 +121,8 @@ export function HeroPile2() {
         target instanceof Element && !!target.closest("a, button, [data-fil]");
 
       const tick = (_t: number, deltaMs: number) => {
-        if (!scene || !visible) return;
+        // Nothing moves until the splash or a page transition has uncovered the page.
+        if (!scene || !visible || !curtain.isOpen()) return;
         clock += Math.min(0.05, deltaMs / 1000);
 
         if (aim.moved) {
@@ -195,8 +197,8 @@ export function HeroPile2() {
       mm.add(MOTION_OK, () => {
         armWords(el, words);
         gsap.set(chrome, { autoAlpha: 0, y: 10 });
-        gsap
-          .timeline({ delay: 0.1 })
+        const intro = gsap
+          .timeline({ delay: 0.1, paused: true })
           .to(words, {
             yPercent: 0,
             duration: DURATION.words,
@@ -208,6 +210,7 @@ export function HeroPile2() {
             { autoAlpha: 1, y: 0, duration: DURATION.base, ease: EASE.soft, stagger: 0.06 },
             0.35,
           );
+        return afterCurtain(() => intro.play());
       });
 
       void Promise.all(

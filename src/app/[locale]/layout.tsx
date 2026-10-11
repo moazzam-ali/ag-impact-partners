@@ -5,6 +5,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type ReactNode } from "react";
 
+import { MotionShell } from "@/components/motion/curtain/motion-shell";
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
@@ -55,10 +56,19 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} suppressHydrationWarning className={instrumentSans.variable}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={instrumentSans.variable}
+      // Lets Next turn smooth scrolling off while it scrolls to the top on a route change.
+      data-scroll-behavior="smooth"
+    >
       <body className="min-h-svh bg-bg font-sans text-ink">
         <NextIntlClientProvider>
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+            <MotionShell />
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

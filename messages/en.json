@@ -65,6 +65,21 @@
     "sceau": "Sceau",
     "figma": "Figma"
   },
+  "curtainSwitcher": {
+    "label": "Curtain",
+    "fil": "Thread",
+    "sommet": "Peak",
+    "feuillets": "Sheets",
+    "esquisse": "Sketch",
+    "iris": "Iris",
+    "biais": "Bias",
+    "feuille": "Leaf",
+    "tourne": "Page turn",
+    "replay": "Replay"
+  },
+  "expertise": {
+    "metaTitle": "Expertise · AG Impact Partners"
+  },
   "heroSignature": {
     "hint": {
       "hello": "Run your cursor across the signature.",

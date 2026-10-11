@@ -1,9 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { type ComponentType } from "react";
+import { type ComponentType, useEffect, useState } from "react";
 
 import { siteConfig } from "@/config/site";
+import { afterCurtain } from "@/lib/motion/curtain";
 
 import { HeroSwitcher } from "./hero-switcher";
 import { useHeroVariant } from "./use-hero-variant";
@@ -40,14 +41,23 @@ const VARIANTS: Record<HeroVariant, ComponentType> = {
   figma: dynamic(() => import("./sig-figma/hero-sig-figma").then((m) => m.HeroSigFigma)),
 };
 
-/** The homepage hero: renders the active variant (see variants.ts) and, in review, the switcher. */
+/** Variants whose intro waits for the curtain (lib/motion/curtain) by itself. */
+const AWAITS_CURTAIN: ReadonlySet<HeroVariant> = new Set(["pile2"]);
+
+/**
+ * The homepage hero: renders the active variant (see variants.ts) and, in review, the switcher.
+ * The others are mounted again once the curtain opens, so their intro plays where it can be seen
+ * rather than behind the splash or a page transition.
+ */
 export function HomeHero() {
   const [variant, setVariant] = useHeroVariant(siteConfig.heroVariant);
+  const [shown, setShown] = useState(false);
+  useEffect(() => afterCurtain(() => setShown(true)), []);
   const Hero = VARIANTS[variant];
 
   return (
     <>
-      <Hero key={variant} />
+      <Hero key={AWAITS_CURTAIN.has(variant) ? variant : `${variant}:${shown}`} />
       {siteConfig.features.heroVariantSwitcher ? (
         <HeroSwitcher value={variant} onChange={setVariant} />
       ) : null}

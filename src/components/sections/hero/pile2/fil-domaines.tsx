@@ -3,6 +3,7 @@
 import { useRef } from "react";
 
 import { cn } from "@/lib/cn";
+import { afterCurtain } from "@/lib/motion/curtain";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/motion/gsap";
 import { MOTION_OK } from "@/lib/motion/tokens";
 
@@ -55,11 +56,18 @@ export function FilDomaines({ fields, label, active, className }: Props) {
           loop.totalTime(loop.duration() * (60 + progress));
         };
         build();
-        gsap.fromTo(
+        const reveal = gsap.fromTo(
           view,
           { clipPath: "inset(0 100% 0 0)" },
-          { clipPath: "inset(0 0% 0 0)", duration: 1.9, ease: "power2.inOut", delay: 0.45 },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.9,
+            ease: "power2.inOut",
+            delay: 0.45,
+            paused: true,
+          },
         );
+        const stop = afterCurtain(() => reveal.play());
 
         let boost = 0;
         let calm = 1;
@@ -86,6 +94,7 @@ export function FilDomaines({ fields, label, active, className }: Props) {
         resize.observe(run);
 
         return () => {
+          stop();
           gsap.ticker.remove(tick);
           el.removeEventListener("pointerenter", enter);
           el.removeEventListener("pointerleave", leave);

@@ -28,6 +28,10 @@ export const siteConfig = {
     themeToggle: true,
     /** Floating pill to compare hero variants while one is being chosen. */
     heroVariantSwitcher: true,
+    /** The splash on every page load (logo build-up and loader); page transitions run regardless. */
+    splash: true,
+    /** Floating pill to compare splash / page-transition styles while one is being chosen. */
+    curtainSwitcher: true,
   },
 
   /** Active hero variant (src/components/sections/hero/variants.ts). Override for review with ?hero=. */
