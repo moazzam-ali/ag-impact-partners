@@ -7,7 +7,7 @@ import styles from "./hero-switcher.module.css";
 import { HERO_VARIANTS, type HeroVariant } from "./variants";
 
 /*
-  Review tool: a floating pill to compare hero variants; keys 1–9 also switch. Turn it off in
+  Review tool: a floating pill to compare hero variants; keys 1–9 and 0 (the tenth) also switch. Turn it off in
   siteConfig.features once a variant is chosen.
 */
 export function HeroSwitcher({
@@ -24,7 +24,8 @@ export function HeroSwitcher({
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       if (target && /^(input|textarea|select)$/i.test(target.tagName)) return;
-      const next = HERO_VARIANTS[Number(e.key) - 1];
+      if (!/^\d$/.test(e.key)) return;
+      const next = HERO_VARIANTS[e.key === "0" ? 9 : Number(e.key) - 1];
       if (next) onChange(next);
     };
     window.addEventListener("keydown", onKey);
@@ -42,7 +43,7 @@ export function HeroSwitcher({
           className={styles.button}
         >
           {t(variant)}
-          <kbd className={styles.key}>{i + 1}</kbd>
+          <kbd className={styles.key}>{(i + 1) % 10}</kbd>
         </button>
       ))}
     </nav>

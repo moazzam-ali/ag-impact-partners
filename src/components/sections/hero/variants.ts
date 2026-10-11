@@ -1,10 +1,14 @@
 /*
   Hero variants. Each is a self-contained section component; the active one is picked by
   siteConfig.heroVariant and can be overridden for review with ?hero=<name> (persisted locally).
-  "cables" is the light-cables shader; "figma" is the Figma frame 1:155; the others are signature
-  studies. All signature variants are built on SignatureShell.
+  Round 2 studies first: "redline" (the contract), "accord" (two signals tuned into one line),
+  "rapport" (the line as a balance of power). Then round 1: "cables" (light-cables shader), "figma"
+  (Figma frame 1:155) and the signature studies built on SignatureShell.
 */
 export const HERO_VARIANTS = [
+  "redline",
+  "accord",
+  "rapport",
   "cables",
   "hello",
   "plume",

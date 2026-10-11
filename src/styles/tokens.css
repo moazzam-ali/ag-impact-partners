@@ -107,6 +107,11 @@ html:has(main > section[data-theme="light"]:first-child) [data-header] {
   --dur-base: 220ms;
   --dur-slow: 420ms;
   --transition-base: all var(--dur-base) var(--ease-standard);
+
+  /* ---- Hero studies (round 2) ------------------------------------------ */
+  /* Redline: the contract's paper and the correction pen. Same in both themes. */
+  --paper: #f3efe6;
+  --pen: #c8381f;
 }
 
 /* Any element can opt into either palette; next-themes sets it on <html>, a section can set its own. */

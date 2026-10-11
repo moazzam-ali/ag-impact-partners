@@ -77,10 +77,27 @@ Over a light hero (sceau, figma) the header takes the light palette too (`[data-
 `tokens.css`). When one is chosen: delete the other folders, the `/lab` routes, the switcher flag and the GSAP
 plugins nobody uses, then do mobile and polish.
 
+### Hero studies, round 2 (redline, accord, rapport)
+
+The round-1 heroes were all one composition (headline top-left / bottom-right, an ornament between)
+and put the signature, the story's ending, at the start. Round 2 tries three directions where the
+hero shows the negotiation itself. Each is a self-contained variant (switcher keys 1–3, `/lab/<name>`);
+faces that only they use load from `hero/study-fonts.ts` (Newsreader, Geist Mono, Archivo with its
+width axis). WebGL is allowed for this round.
+
+| Variant | Direction                             | What happens                                                                                                                                                                                                                                                                                                                                                                                    | Technique                                                                                                                                                                                                                                                                      |
+| ------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| redline | Le Dossier: the site is a contract    | A contract tilts up off the table; a red pen strikes a term and writes the new one in; every clause is struck in a wave from where the pen lifted, except the words that spell the headline, which lift out and set themselves large; the pen underlines "signature". Rest on a clause to read it back.                                                                                         | Contract in `messages` (`heroStudies.redline.contract`, `<k>` kept words, `<e>before\|after</e>` edits, read raw); strikes are seeded SVG paths measured from `getClientRects()` with the sheet flat, drawn with DrawSVG; headline words FLIP from the kept words; CSS 3D tilt |
+| accord  | L'Accord: negotiation as resonance    | Two strings come in from the edges out of tune (noise, phosphor trails) and the headline jitters in two copies; cursor to the centre tunes them, holding locks: light runs out from the centre, the headline focuses, the string comes to rest flat. Auto-tunes after a few idle seconds; scroll locks at once, then the line retracts and drops down the page. Optional sound, off by default. | Fragment shader (`accord-signal.ts`) driven by a GSAP ticker loop; WebAudio fifth (`accord-sound.ts`), started only by the visitor                                                                                                                                             |
+| rapport | Rapport de force: type under pressure | A line splits the band into a peach and a black field; the headline is a poster across both, inverted at the line. Drag the line: the side gaining ground stretches its letters (wdth 125), the losing side is squeezed (wdth 62, heavier); release and it returns to even. Scroll gives the band to the peach side.                                                                            | Two clipped poster layers; per-letter advances measured at three wdth values and interpolated, so each frame lays out without DOM reads; rows refit to the measure every frame                                                                                                 |
+
+Every study has a reduced-motion branch that renders its settled state.
+
 ## Checklist for a new animated section
 
 1. One motion idea. It explains something (a figure, a change of side, a sequence).
 2. Works as a still page; reduced-motion branch present.
-3. Tokens only (`EASE`, `DURATION`); no gradients, blur, video or 3D.
+3. Tokens only (`EASE`, `DURATION`); no gradients, blur, video or 3D (the round-2 hero studies are
+   an agreed exception while a direction is chosen).
 4. Hidden start state in CSS behind `data-state="pending"`.
 5. Mobile: shorter or simpler; pinned sequences capped.

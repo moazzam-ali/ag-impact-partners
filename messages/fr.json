@@ -39,6 +39,9 @@
   },
   "heroSwitcher": {
     "label": "Variante du hero",
+    "redline": "Redline",
+    "accord": "Accord",
+    "rapport": "Rapport",
     "cables": "Câbles",
     "hello": "Hello",
     "plume": "Plume",
@@ -54,6 +57,78 @@
       "griffe": "Faites défiler pour signer.",
       "fil": "Tirez le fil.",
       "sceau": "Déplacez la lumière."
+    }
+  },
+  "heroStudies": {
+    "redline": {
+      "hint": "Survolez une clause pour relire l'original.",
+      "contract": {
+        "title": "Contrat de distribution de services audiovisuels",
+        "draft": "Projet · version 7 · confidentiel",
+        "articles": [
+          {
+            "title": "Article 1 · Parties",
+            "body": "<k>Nous</k>, soussignés, l'Éditeur d'une part et le Distributeur d'autre part, ci-après ensemble les Parties, sommes convenus de ce qui suit, sous réserve de l'accord préalable de leurs organes de direction respectifs."
+          },
+          {
+            "title": "Article 2 · Objet",
+            "body": "Le présent contrat définit les conditions dans lesquelles le Distributeur met à la disposition de ses abonnés les services de l'Éditeur, sur l'ensemble des réseaux qu'il exploite <e>ou viendrait à exploiter|à ce jour</e>, en direct comme en différé, sur tous les terminaux compatibles."
+          },
+          {
+            "title": "Article 3 · Durée",
+            "body": "Le contrat est conclu pour une durée de <e>cinq (5) ans|trois (3) ans</e> à compter de sa date d'effet. Il se renouvelle ensuite par tacite reconduction pour des périodes successives d'un (1) an, sauf dénonciation adressée par l'une des Parties six (6) mois avant l'échéance."
+          },
+          {
+            "title": "Article 4 · Exclusivité",
+            "body": "L'Éditeur concède au Distributeur une exclusivité <e>mondiale, sur tous supports|limitée au territoire français</e>. Toute extension fera l'objet d'un avenant, dans des conditions que nous <k>négocions</k> de bonne foi et dans le respect des engagements pris envers les ayants droit."
+          },
+          {
+            "title": "Article 5 · Rémunération",
+            "body": "En contrepartie, le Distributeur verse à l'Éditeur une rémunération mensuelle par abonné actif, révisée chaque année selon l'indice prévu en annexe 2. Les minima garantis sont exigibles dès le premier mois d'exploitation <e>sans abattement|après six (6) mois de lancement</e>."
+          },
+          {
+            "title": "Article 6 · Obligations de l'Éditeur",
+            "body": "L'Éditeur fournit un signal conforme aux spécifications techniques de l'annexe 3, garantit la continuité du service et informe le Distributeur, avec un préavis raisonnable, de toute modification substantielle de sa grille de programmes."
+          },
+          {
+            "title": "Article 7 · Confidentialité",
+            "body": "Les Parties s'interdisent de divulguer les termes du présent contrat à quiconque, sauf obligation légale. Cette obligation s'étend à leurs dirigeants, salariés et conseils, et demeure en vigueur trois (3) ans après le terme du contrat."
+          },
+          {
+            "title": "Article 8 · Entrée en vigueur",
+            "body": "<k>Jusqu'à</k> <k>la</k> <k>signature</k> du présent contrat par les deux Parties, aucune de ses dispositions n'engage l'une ou l'autre. Il prend effet à la date de la dernière signature."
+          },
+          {
+            "title": "Article 9 · Résiliation",
+            "body": "En cas de manquement grave de l'une des Parties, non réparé dans les trente (30) jours suivant une mise en demeure, l'autre Partie peut résilier le contrat de plein droit, sans préjudice de tous dommages et intérêts."
+          },
+          {
+            "title": "Article 10 · Droit applicable",
+            "body": "Le présent contrat est soumis au droit français. Tout différend relatif à son interprétation ou à son exécution relève de la compétence exclusive des tribunaux de Paris."
+          }
+        ],
+        "closing": "Fait à Paris, en deux exemplaires originaux.",
+        "signatories": ["Pour l'Éditeur", "Pour le Distributeur"]
+      }
+    },
+    "accord": {
+      "hint": "Amenez le curseur au centre pour accorder les deux lignes.",
+      "partyA": "A",
+      "partyB": "B",
+      "unit": "Hz",
+      "phase": "Δφ",
+      "status": {
+        "off": "Désaccord",
+        "on": "Accord"
+      },
+      "sound": {
+        "label": "Son",
+        "on": "activé",
+        "off": "coupé"
+      }
+    },
+    "rapport": {
+      "hint": "Faites glisser la ligne."
     }
   }
 }

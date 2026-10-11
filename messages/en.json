@@ -39,6 +39,9 @@
   },
   "heroSwitcher": {
     "label": "Hero variant",
+    "redline": "Redline",
+    "accord": "Accord",
+    "rapport": "Rapport",
     "cables": "Cables",
     "hello": "Hello",
     "plume": "Plume",
@@ -54,6 +57,78 @@
       "griffe": "Scroll to sign.",
       "fil": "Pull the thread.",
       "sceau": "Move the light."
+    }
+  },
+  "heroStudies": {
+    "redline": {
+      "hint": "Hover a clause to read the original.",
+      "contract": {
+        "title": "Audiovisual services distribution agreement",
+        "draft": "Draft · version 7 · confidential",
+        "articles": [
+          {
+            "title": "Article 1 · Parties",
+            "body": "<k>We</k>, the undersigned, the Publisher of the one part and the Distributor of the other part, hereinafter together the Parties, have agreed as follows, subject to the prior approval of their respective boards."
+          },
+          {
+            "title": "Article 2 · Purpose",
+            "body": "This agreement sets out the terms on which the Distributor makes the Publisher's services available to its subscribers, on every network it operates <e>or may come to operate|as of today</e>, live and on demand, on all compatible devices."
+          },
+          {
+            "title": "Article 3 · Term",
+            "body": "This agreement is entered into for a term of <e>five (5) years|three (3) years</e> from its effective date. It then renews automatically for successive periods of one (1) year, unless terminated by either Party six (6) months before expiry."
+          },
+          {
+            "title": "Article 4 · Exclusivity",
+            "body": "The Publisher grants the Distributor <e>worldwide exclusivity on all media|exclusivity in France only</e>. Any extension shall be set out in an amendment, on terms we <k>negotiate</k> in good faith and in keeping with the commitments made to rights holders."
+          },
+          {
+            "title": "Article 5 · Fees",
+            "body": "In return, the Distributor pays the Publisher a monthly fee per active subscriber, revised each year according to the index in Schedule 2. Minimum guarantees are payable from the first month of operation <e>without abatement|after a six (6) month launch</e>."
+          },
+          {
+            "title": "Article 6 · Publisher's obligations",
+            "body": "The Publisher supplies a signal that meets the technical specifications of Schedule 3, guarantees continuity of service and informs the Distributor, with reasonable notice, of any material change to its programme schedule."
+          },
+          {
+            "title": "Article 7 · Confidentiality",
+            "body": "<k>All</k> terms of this agreement are confidential and may not be disclosed save where required by law. This obligation extends to the Parties' officers, employees and advisers and survives for three (3) years after the agreement ends."
+          },
+          {
+            "title": "Article 8 · Entry into force",
+            "body": "No provision of this agreement binds <k>the</k> Parties in any <k>way</k> prior <k>to</k> <k>signature</k> by both of them. It takes effect on the date of the last signature."
+          },
+          {
+            "title": "Article 9 · Termination",
+            "body": "If either Party commits a material breach that is not remedied within thirty (30) days of formal notice, the other Party may terminate the agreement forthwith, without prejudice to any claim for damages."
+          },
+          {
+            "title": "Article 10 · Governing law",
+            "body": "This agreement is governed by French law. Any dispute as to its interpretation or performance falls within the exclusive jurisdiction of the courts of Paris."
+          }
+        ],
+        "closing": "Done in Paris, in two original copies.",
+        "signatories": ["For the Publisher", "For the Distributor"]
+      }
+    },
+    "accord": {
+      "hint": "Bring your cursor to the centre to tune the two lines.",
+      "partyA": "A",
+      "partyB": "B",
+      "unit": "Hz",
+      "phase": "Δφ",
+      "status": {
+        "off": "Discord",
+        "on": "Accord"
+      },
+      "sound": {
+        "label": "Sound",
+        "on": "on",
+        "off": "off"
+      }
+    },
+    "rapport": {
+      "hint": "Drag the line."
     }
   }
 }

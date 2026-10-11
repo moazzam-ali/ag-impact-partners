@@ -31,7 +31,7 @@ export const siteConfig = {
   },
 
   /** Active hero variant (src/components/sections/hero/variants.ts). Override for review with ?hero=. */
-  heroVariant: "cables" satisfies HeroVariant,
+  heroVariant: "redline" satisfies HeroVariant,
 } as const;
 
 export type NavKey = (typeof siteConfig.nav)[number]["key"];
