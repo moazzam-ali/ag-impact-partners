@@ -10,7 +10,7 @@ import { DURATION, EASE, MOTION_OK, REDUCED_MOTION, STAGGER } from "@/lib/motion
 import { armWords } from "@/lib/motion/words";
 
 import { type DocCopy } from "./documents";
-import { FilDomaines } from "./fil-domaines";
+import { FieldMark, FilDomaines } from "./fil-domaines";
 import styles from "./hero-pile2.module.css";
 import { BUILT, createPile2Scene, landedBy, SHEETS } from "./pile2-scene";
 
@@ -57,7 +57,10 @@ export function HeroPile2() {
       const [leader] = q<SVGPolylineElement>("[data-leader]");
       const [knot] = q<SVGCircleElement>("[data-knot]");
       const [callout] = q<HTMLElement>("[data-callout]");
+      const [one] = q<HTMLElement>("[data-one]");
+      const [two] = q<HTMLElement>("[data-two]");
       if (!canvas || !stage || !count || !pill || !pillText || !leader || !knot || !callout) return;
+      if (!one || !two) return;
       const words = q<HTMLElement>("[data-title] .word");
       const chrome = q<HTMLElement>("[data-chrome]");
       const reduced = window.matchMedia(REDUCED_MOTION).matches;
@@ -77,11 +80,31 @@ export function HeroPile2() {
       const pillX = gsap.quickTo(pill, "x", { duration: 0.35, ease: EASE.out });
       const pillY = gsap.quickTo(pill, "y", { duration: 0.35, ease: EASE.out });
 
+      // Line two is set a little wider than line one (desktop), within the frame: measured at its
+      // CSS size, then scaled.
+      const wide = window.matchMedia("(min-width: 1024px)");
+      const level = () => {
+        el.style.removeProperty("--two");
+        if (!wide.matches) return;
+        const room = two.parentElement?.getBoundingClientRect().width ?? Infinity;
+        const target = Math.min(one.getBoundingClientRect().width * 1.12, room);
+        const natural = two.getBoundingClientRect().width;
+        const size = parseFloat(getComputedStyle(two).fontSize);
+        if (target > 0 && natural > 0) {
+          el.style.setProperty("--two", `${((size * target) / natural).toFixed(2)}px`);
+        }
+      };
+      level();
+      void document.fonts.ready.then(() => alive && level());
+      wide.addEventListener("change", level);
+      const lines = new ResizeObserver(level);
+      lines.observe(one);
+
       const tie = { x: 0, y: 0, on: "" };
       const fit = () => {
         const box = el.getBoundingClientRect();
         const c = callout.getBoundingClientRect();
-        tie.x = c.left - box.left - 16;
+        tie.x = c.left - box.left - 14;
         tie.y = c.top - box.top + 22;
         if (!scene) return;
         const s = stage.getBoundingClientRect();
@@ -236,6 +259,8 @@ export function HeroPile2() {
         el.removeEventListener("pointerleave", onLeave);
         el.removeEventListener("click", onClick);
         theme.disconnect();
+        wide.removeEventListener("change", level);
+        lines.disconnect();
         resize.disconnect();
         io.disconnect();
         scene?.dispose();
@@ -258,10 +283,10 @@ export function HeroPile2() {
           {t("eyebrow")}
         </p>
         <h1 className={styles.headline} data-title>
-          <span className={styles.one}>
+          <span className={styles.one} data-one>
             <Words text={t("title1")} />
           </span>{" "}
-          <span className={styles.two}>
+          <span className={styles.two} data-two>
             <Words text={t("title2")} />
           </span>
         </h1>
@@ -288,7 +313,7 @@ export function HeroPile2() {
           <p className={styles.onTop}>{tp("onTop")}</p>
           <div key={top} className={styles.doc}>
             <p className={styles.docTitle}>
-              <span className={styles.docN}>{field?.n}</span>
+              <FieldMark index={top} className={styles.docMark} />
               {field?.title}
             </p>
             <p className={styles.docBody}>{field?.body}</p>

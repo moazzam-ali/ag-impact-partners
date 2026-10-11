@@ -211,7 +211,7 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
   };
 
   // ---- Flights ---------------------------------------------------------------------------------
-  type Flight = { start: number; from: number; peek: number; yaw: number };
+  type Flight = { start: number; from: number; peek: number; yaw: number; told: boolean };
   const flights = new Map<number, Flight>();
   let hovered = -1;
   let clock = 0;
@@ -229,6 +229,7 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
       from: level[id]!,
       peek: peek[id]!,
       yaw: (r() - 0.5) * 0.03,
+      told: false,
     });
     return true;
   };
@@ -283,11 +284,15 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
       p.y = y;
       e.set(0, lerp(j.yaw, flight.yaw, c), 0.05 * Math.sin(Math.PI * u) * j.drift);
       q.setFromAxisAngle(tiltAxis, tilt).multiply(stack).multiply(qa.setFromEuler(e));
+      // Named as it starts to settle on top, not after, so the callout keeps up with the eye.
+      if (u >= 0.78 && !flight.told && posOf[i] === TOP) {
+        flight.told = true;
+        onTop(design[i]!);
+      }
       if (u >= 1) {
         flights.delete(i);
         j.yaw = flight.yaw;
         level[i] = posOf[i]!;
-        if (posOf[i] === TOP) onTop(design[i]!);
       }
     } else {
       const land = clamp01((clock - landsAt(i)) / fallFor(i));

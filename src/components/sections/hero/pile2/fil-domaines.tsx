@@ -8,15 +8,23 @@ import { MOTION_OK } from "@/lib/motion/tokens";
 
 import { type Field } from "./documents";
 import styles from "./fil-domaines.module.css";
-import { Glyph } from "./glyphs";
+import { FieldIcon } from "./icons";
 
 /*
-  "Le fil des domaines": the five fields on one running thread. The thread is the baseline the
-  names sit on; between them it rises into a drawing of the field and comes back down, and the
-  field's own lines (from the brief) stand beside it in small capitals. It is drawn in from the left
-  on load, then runs on: faster with the scroll (backwards when scrolling up), almost still under
-  the pointer. The field whose document is on top of the pile is marked.
+  "Le fil des domaines": a slim running line of the five fields, each a small card with its line
+  icon (one moving part in ink) and its name. Fixed label on the left, the line runs on to the right: drawn in from
+  the left on load, faster with the scroll (backwards when scrolling up), almost still under the
+  pointer. The field whose document is on top of the pile is marked.
 */
+
+/** A field's icon at the size and colours of the thread; also used beside the callout's title. */
+export function FieldMark({ index, className }: { index: number; className?: string }) {
+  return (
+    <span className={cn(styles.icon, className)}>
+      <FieldIcon index={index} />
+    </span>
+  );
+}
 
 type Props = { fields: Field[]; label: string; active: number; className?: string };
 
@@ -26,9 +34,10 @@ export function FilDomaines({ fields, label, active, className }: Props) {
   useGSAP(
     () => {
       const el = root.current;
+      const view = el?.querySelector<HTMLElement>("[data-window]");
       const track = el?.querySelector<HTMLElement>("[data-track]");
       const run = el?.querySelector<HTMLElement>("[data-run]");
-      if (!el || !track || !run) return;
+      if (!el || !view || !track || !run) return;
 
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
@@ -40,14 +49,14 @@ export function FilDomaines({ fields, label, active, className }: Props) {
           loop = gsap.fromTo(
             track,
             { x: 0 },
-            { x: -width, duration: width / 44, ease: "none", repeat: -1 },
+            { x: -width, duration: width / 32, ease: "none", repeat: -1 },
           );
           // Far into the repeats, so a reversed run (scrolling up) has room to go backwards.
           loop.totalTime(loop.duration() * (60 + progress));
         };
         build();
         gsap.fromTo(
-          el,
+          view,
           { clipPath: "inset(0 100% 0 0)" },
           { clipPath: "inset(0 0% 0 0)", duration: 1.9, ease: "power2.inOut", delay: 0.45 },
         );
@@ -96,32 +105,28 @@ export function FilDomaines({ fields, label, active, className }: Props) {
         className={styles.item}
         data-current={i === active ? "" : undefined}
       >
-        <span className={styles.name}>
-          <span className={styles.n}>{field.n}</span>
-          {field.title}
-        </span>
-        <span className={styles.glyph}>
-          <Glyph index={i} />
-        </span>
-        <span className={styles.lines}>
-          {field.items.map((line) => (
-            <span key={line}>{line}</span>
-          ))}
-        </span>
-        <span className={styles.gap} />
+        <FieldMark index={i} />
+        <span className={styles.title}>{field.title}</span>
       </li>
     ));
 
   return (
     <div ref={root} className={cn(styles.fil, className)} data-fil>
       <p className={styles.label}>{label}</p>
-      <div className={styles.track} data-track>
-        <ul className={styles.run} data-run>
-          {items(0)}
-        </ul>
-        <ul className={styles.run} aria-hidden="true">
-          {items(1)}
-        </ul>
+      <div className={styles.window} data-window>
+        <div className={styles.track} data-track>
+          {/* Three runs: the window can be wider than one, and the loop needs one more beyond it. */}
+          {[0, 1, 2].map((copy) => (
+            <ul
+              key={copy}
+              className={styles.run}
+              data-run={copy === 0 ? "" : undefined}
+              aria-hidden={copy > 0 || undefined}
+            >
+              {items(copy)}
+            </ul>
+          ))}
+        </div>
       </div>
     </div>
   );
