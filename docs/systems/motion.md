@@ -30,6 +30,17 @@ matrix as a fixed pixel `y`, and a later `yPercent` tween to 0 leaves that offse
 never shows). `armWords(section, words)` in `src/lib/motion/words.ts` does it in the right order:
 release `data-state`, then `gsap.set({ yPercent: 112, y: 0 })`. Use it in every intro.
 
+## Smooth scrolling
+
+Lenis (`src/components/motion/smooth-scroll.tsx`, in the locale layout) smooths wheel and trackpad
+scrolling with Proxy Papers' settings (`duration` 1.8 s, expo-out easing; see its
+`LenisProvider`); touch keeps the device's own momentum. It runs on GSAP's ticker and
+updates ScrollTrigger on every scroll, so pinned and scrubbed sections move in step with it. It is
+stopped while the curtain covers the page and jumps to the top on each new page. With reduced motion
+it never starts and the browser scrolls natively. `html.lenis` turns off CSS `scroll-behavior` so the
+browser does not smooth Lenis's own steps. Elements that must scroll on their own take
+`data-lenis-prevent`.
+
 ## The curtain: splash and page transitions
 
 One fixed layer over everything (`src/components/motion/curtain/`), run by `MotionShell` in the

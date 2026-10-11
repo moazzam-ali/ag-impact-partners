@@ -28,6 +28,8 @@ All notable changes to this project. Newest first.
 
 ### Added
 
+- Favicons from the mark (`npm run favicons`, `scripts/favicons.mjs`): an SVG tab icon that follows the browser's light or dark chrome, `favicon.ico` (16/32/48 on a black tile), the Apple touch icon, and 192/512/maskable icons in a web manifest (`src/app/manifest.ts`).
+- Smooth scrolling with Lenis, driven by GSAP's ticker and synced with ScrollTrigger; held while the curtain covers the page, off with reduced motion.
 - `ButtonLink`, the site's one button (scale-unit padding, text-roll hover).
 - `LightCables` (`src/components/motion/light-cables.tsx`), adapted from Originkit: on-screen-only loop, reduced-motion still frame, token colours, plus a standing `curve`, `feedIn` / `feedOut` and `originGlow` controls so the hero has its S-shape without hover.
 

@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type ReactNode } from "react";
 
 import { MotionShell } from "@/components/motion/curtain/motion-shell";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
           <Providers>
             {children}
             <MotionShell />
+            <SmoothScroll />
           </Providers>
         </NextIntlClientProvider>
       </body>

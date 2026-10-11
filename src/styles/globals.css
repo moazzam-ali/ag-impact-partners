@@ -36,6 +36,10 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
   }
+  /* Lenis (SmoothScroll) does the smoothing; the browser's own would fight every step it takes. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
   html,
   body {
     overflow-x: clip;
