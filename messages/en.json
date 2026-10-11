@@ -92,10 +92,7 @@
   "heroStudies": {
     "pile2": {
       "label": "contracts negotiated",
-      "sheet": "Sheet",
       "onTop": "On top of the pile",
-      "random": "A sheet at random",
-      "hint": "Click any sheet in the pile to bring it to the top.",
       "services": "Five fields",
       "fields": [
         {

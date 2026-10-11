@@ -4,6 +4,10 @@ All notable changes to this project. Newest first.
 
 ## Unreleased
 
+### Changed
+
+- Pile 2, as on main: the same small gap above and below the ream, more room above the eyebrow and before the line of fields, more room between the ream and the callout, a wider container (1720px), and the hero is as tall as its content instead of one screen. The callout keeps one height for every field and sets a long name (purchase contract optimisation) a size down on two lines. Removed the hover tag, the callout's hint and its "a sheet at random" link, the line of fields' "Five fields" label and its outline on the field on top.
+
 ### Added (ideation)
 
 - Six more curtain styles, all building the traced lockup with the wordmark (the mark traced shape by shape, the wordmark rising, a hairline loader): **esquisse** (a paper proof, then a mark-shaped window), **iris** (an inverted disc that closes onto the mark, and opens from the clicked link on page changes), **biais** (a panel leaving on the A's angle), **feuille** (one sheet with an accent rim) and **tourne** (a page turn). Page transitions are one movement and carry no logo: a sweep to the next page; links are prefetched when pointed at.

@@ -92,10 +92,7 @@
   "heroStudies": {
     "pile2": {
       "label": "contrats négociés",
-      "sheet": "Feuille",
       "onTop": "Sur la pile",
-      "random": "Une feuille au hasard",
-      "hint": "Cliquez une feuille de la pile pour la poser dessus.",
       "services": "Cinq domaines",
       "fields": [
         {
