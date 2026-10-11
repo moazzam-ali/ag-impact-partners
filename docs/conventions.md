@@ -111,9 +111,13 @@ Rules:
 
 ## Motion
 
-See [systems/motion.md](systems/motion.md). In short: import from `@/lib/motion/gsap`, use the
-tokens, write every intro inside `gsap.matchMedia()` with a reduced-motion branch, hide the start
-state in CSS behind `data-state="pending"`, one motion idea per section.
+See [systems/motion.md](systems/motion.md), "Animation conventions": the house feel is Proxy
+Papers' (`~/dev/clients/proxy-papers`). In short: one hook per section in
+`src/lib/animations/use-<section>.ts`; reveals `EASE_OUT` (power3.out), moves `EASE_STANDARD`
+(power2.inOut), exits power2.in; words through `<Words>` + `armWords`; above the fold wait for the
+curtain (`afterCurtain`, `hasClientNavigated`), below the fold ScrollTrigger once at `top 78%`;
+reduced motion settles at once; hide start states behind `data-state="pending"`. Scrolling is
+Lenis, page changes the bending sheet, both global.
 
 ## Git
 

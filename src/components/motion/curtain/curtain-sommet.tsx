@@ -4,28 +4,19 @@ import { useTranslations } from "next-intl";
 import { type Ref, useId, useImperativeHandle, useLayoutEffect, useRef } from "react";
 
 import { MARK_PARTS, WORD_IMPACT, WORD_PARTNERS } from "@/components/brand/logo-parts";
-import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 
+import { BendLayers, bendSwap } from "./bend";
 import styles from "./curtain.module.css";
-import {
-  markStage,
-  percent,
-  readout,
-  rest,
-  stillSplash,
-  stillSwap,
-  swapThrough,
-  wait,
-} from "./run";
+import { markStage, percent, readout, rest, stillSplash, wait } from "./run";
 import { type CurtainHandle, played } from "./styles";
 
 /*
   Curtain "sommet": peach floods out from the centre, the mark assembles from its three shapes and
   the wordmark rises letter by letter while a big count runs. Then the mark becomes a window: its
   ink gives way to the page behind, seen through the mark, and the window grows (zooming into the
-  A's left leg) until the page is all there is. Page changes sweep a peach sheet up over the page
-  and on off the top, in one movement, with nothing on it.
+  A's left leg) until the page is all there is. Page changes are the bending sheet (bend.tsx), in
+  peach.
 
   The SVG works in screen pixels (its viewBox is the viewport), so the lockup is placed in JS.
 */
@@ -72,8 +63,6 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
         letters: q("[data-ink] [data-letter]"),
         notes: q("[data-note]"),
         digits: q("[data-digits]"),
-        scoop: q("[data-scoop]"),
-        arc: `${Math.round(el.clientHeight * 0.16)}px`,
         count: q<HTMLElement>("[data-count]")[0],
       };
     };
@@ -92,8 +81,8 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
           z,
           {
             v: 1,
-            duration: 1.25,
-            ease: "power3.in",
+            duration: 1.05,
+            ease: "power2.inOut",
             onUpdate: () => p.zoom(z.v),
           },
           0.18,
@@ -113,13 +102,15 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
             if (p.count) p.count.textContent = percent(v);
           });
         }
-        const from = [
-          { x: -900, y: 500, rotation: -14 },
-          { x: 700, y: 380, rotation: 18 },
-          { x: 380, y: -700, rotation: 24 },
-        ];
+        // Proxy Papers' icon burst: each shape pops in from nothing, turning slightly, elastic.
+        const turn = [-15, 15, -10];
         p.shapes.forEach((shape, i) =>
-          gsap.set(shape, { ...from[i], autoAlpha: 0, transformOrigin: "50% 50%" }),
+          gsap.set(shape, {
+            scale: 0,
+            rotation: turn[i] ?? 0,
+            autoAlpha: 0,
+            transformOrigin: "50% 50%",
+          }),
         );
         gsap.set(p.letters, { y: 260, autoAlpha: 0 });
         gsap.set(p.digits, { yPercent: 105, autoAlpha: 1 });
@@ -129,34 +120,33 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
           .fromTo(
             p.svg,
             { clipPath: "circle(0% at 50% 46%)" },
-            { clipPath: "circle(78% at 50% 46%)", duration: 1, ease: "power3.inOut" },
+            { clipPath: "circle(78% at 50% 46%)", duration: 1, ease: "power2.inOut" },
           )
           .set(p.base, { autoAlpha: 0 })
           .to(
             p.shapes,
             {
-              x: 0,
-              y: 0,
+              scale: 1,
               rotation: 0,
               autoAlpha: 1,
-              duration: 1.1,
-              ease: "power4.out",
-              stagger: 0.12,
+              duration: 0.8,
+              ease: "elastic.out(1, 0.5)",
+              stagger: 0.2,
             },
-            0.35,
+            0.4,
           )
           .to(
             p.letters,
             {
               y: 0,
               autoAlpha: 1,
-              duration: 0.8,
+              duration: 0.5,
               ease: "power3.out",
-              stagger: 0.035,
+              stagger: 0.025,
             },
-            0.75,
+            1,
           )
-          .to(p.digits, { yPercent: 0, duration: 0.8, ease: "power4.out" }, 0.6)
+          .to(p.digits, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 0.7)
           .to(p.notes, { autoAlpha: 1, duration: 0.6 }, 0.9);
         const count = p.count;
         await Promise.all([
@@ -172,38 +162,21 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
             .to(p.letters, {
               y: -200,
               autoAlpha: 0,
-              duration: 0.45,
+              duration: 0.3,
               ease: "power2.in",
-              stagger: 0.02,
+              stagger: 0.012,
             })
-            .to(p.digits, { yPercent: 105, duration: 0.5, ease: "power3.in" }, 0)
+            .to(p.digits, { yPercent: 105, duration: 0.35, ease: "power2.in" }, 0)
             .to(p.notes, { autoAlpha: 0, duration: 0.3 }, 0)
-            .add(open(p, onReveal), 0.45),
+            .add(open(p, onReveal), 0.35),
         );
         rest(p.el);
       },
       async swap(go, onReveal) {
         const p = parts();
         gsap.set([p.base, p.svg, p.notes], { autoAlpha: 0 });
-        gsap.set(p.digits, { yPercent: 105 });
-        if (reduced) {
-          gsap.set(p.scoop, { autoAlpha: 1, yPercent: 0, "--arc": "0px", "--tail": "0px" });
-          return stillSwap(p.el, go, onReveal);
-        }
-        // A peach sheet sweeps up over the page and on off the top: one pass, nothing on it.
-        gsap.set(p.scoop, { autoAlpha: 1, yPercent: 101, "--arc": p.arc, "--tail": "0px" });
-        p.el.dataset.state = "busy";
-        await swapThrough(
-          gsap
-            .timeline()
-            .to(p.scoop, { yPercent: 0, "--arc": "0px", duration: 0.5, ease: "power3.in" })
-            .addLabel("covered")
-            .to(p.scoop, { yPercent: -101, "--tail": p.arc, duration: 0.65, ease: "power3.out" }),
-          go,
-          onReveal,
-        );
+        await bendSwap(p.el, go, onReveal, {}, reduced);
         gsap.set(p.svg, { autoAlpha: 1 });
-        rest(p.el);
       },
     };
   }, [reduced]);
@@ -252,7 +225,6 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
           </g>
         </g>
       </svg>
-      <div className={cn(styles.sheet, styles.sheetPeach)} data-scoop />
       <p className={styles.sommetNote} data-note>
         {t("eyebrow")}
       </p>
@@ -261,6 +233,7 @@ export function CurtainSommet({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
           <span data-count>000</span>
         </span>
       </p>
+      <BendLayers layers={[styles.bendPeach ?? ""]} mark={styles.bendMarkOnPeach} />
     </div>
   );
 }

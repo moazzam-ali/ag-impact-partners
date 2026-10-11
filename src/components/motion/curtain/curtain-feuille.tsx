@@ -6,6 +6,7 @@ import { type Ref, useImperativeHandle, useLayoutEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 
+import { BendLayers, bendSwap } from "./bend";
 import styles from "./curtain.module.css";
 import {
   CurtainLockup,
@@ -15,7 +16,7 @@ import {
   prepareLockup,
   settleLockup,
 } from "./lockup";
-import { rest, stillSplash, stillSwap, swapThrough, wait } from "./run";
+import { rest, stillSplash, wait } from "./run";
 import { type CurtainHandle, played } from "./styles";
 
 /*
@@ -23,7 +24,7 @@ import { type CurtainHandle, played } from "./styles";
   as a thin rim along its curved leading edge, closing as the sheet lands. It rises over the page, flattening as it lands; the
   lockup is traced on it, drifting a little against the sheet's movement (it seems to have weight),
   and the wordmark rises over a hairline with a caption. Then the sheet lifts away, the rim
-  trailing. Page changes pass the sheet up through the screen in one sweep, nothing on it.
+  trailing. Page changes are the bending sheet (bend.tsx) in paper, an accent rim leading it.
 */
 const RIM = 14;
 
@@ -80,7 +81,7 @@ export function CurtainFeuille({ ref, reduced }: { ref: Ref<CurtainHandle>; redu
         }
         lay(p);
         prepareLockup(p.lockup);
-        const build = rise(p, 1.1, "power4.inOut")
+        const build = rise(p, 0.95, "power2.inOut")
           .fromTo(p.plate, { y: 70 }, { y: 0, duration: 1.4, ease: "power3.out" }, 0.2)
           .set(p.base, { autoAlpha: 0 }, 1.2)
           .fromTo(
@@ -94,8 +95,8 @@ export function CurtainFeuille({ ref, reduced }: { ref: Ref<CurtainHandle>; redu
         await read.words;
         await wait(0.4);
         await played(
-          leave(p, 1.15, "power4.inOut")
-            .to(p.plate, { y: -90, duration: 1.15, ease: "power4.inOut" }, 0)
+          leave(p, 0.95, "power2.inOut")
+            .to(p.plate, { y: -90, duration: 0.95, ease: "power2.inOut" }, 0)
             .add(onReveal, 0.2),
         );
         gsap.set(p.plate, { clearProps: "transform" });
@@ -103,28 +104,8 @@ export function CurtainFeuille({ ref, reduced }: { ref: Ref<CurtainHandle>; redu
       },
       async swap(go, onReveal) {
         const p = parts();
-        gsap.set([p.base, p.plate], { autoAlpha: 0 });
-        if (reduced) {
-          gsap.set([p.rim, p.sheet], {
-            autoAlpha: 1,
-            yPercent: 0,
-            "--arc": "0px",
-            "--tail": "0px",
-          });
-          return stillSwap(p.el, go, onReveal);
-        }
-        lay(p);
-        p.el.dataset.state = "busy";
-        await swapThrough(
-          gsap
-            .timeline()
-            .add(rise(p, 0.5, "power3.in"))
-            .addLabel("covered")
-            .add(leave(p, 0.65, "power3.out"), "covered"),
-          go,
-          onReveal,
-        );
-        rest(p.el);
+        gsap.set([p.base, p.plate, p.rim, p.sheet], { autoAlpha: 0 });
+        await bendSwap(p.el, go, onReveal, { gap: 1.6 }, reduced);
       },
     };
   }, [reduced]);
@@ -141,6 +122,7 @@ export function CurtainFeuille({ ref, reduced }: { ref: Ref<CurtainHandle>; redu
           </div>
         </div>
       </div>
+      <BendLayers layers={[styles.bendPeach ?? "", styles.bendPaper ?? ""]} />
     </div>
   );
 }

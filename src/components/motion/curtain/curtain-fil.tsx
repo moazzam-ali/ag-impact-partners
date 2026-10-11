@@ -16,7 +16,7 @@ import { type CurtainHandle, played } from "./styles";
   if from behind it, the wordmark hangs below it, and the line fills with the accent as the page
   loads (the count at its end). Then the two go back into the line and the screen parts along it,
   top half up, bottom half down: two sides of the table. Page transitions close the halves on the
-  line and part them again in one movement.
+  line, the mark rising out of it, and part them again, the mark tucking back.
 */
 /** Past the gap between the lockup and the line (--space-8 in CSS), so nothing peeks over it. */
 const TUCK = 40;
@@ -53,12 +53,12 @@ export function CurtainFil({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced:
     const part = (p: ReturnType<typeof parts>, onReveal: () => void) =>
       gsap
         .timeline()
-        .to(p.mark, { yPercent: 100, y: TUCK, duration: 0.5, ease: "power3.in" })
-        .to(p.word, { yPercent: -100, y: -TUCK, duration: 0.5, ease: "power3.in" }, 0)
+        .to(p.mark, { yPercent: 100, y: TUCK, duration: 0.4, ease: "power2.in" })
+        .to(p.word, { yPercent: -100, y: -TUCK, duration: 0.4, ease: "power2.in" }, 0)
         .to(p.notes, { autoAlpha: 0, duration: 0.3 }, 0)
         .add(onReveal, 0.45)
-        .to(p.top, { yPercent: -100, duration: 1.05, ease: "power4.inOut" }, 0.4)
-        .to(p.bottom, { yPercent: 100, duration: 1.05, ease: "power4.inOut" }, 0.4)
+        .to(p.top, { yPercent: -100, duration: 0.9, ease: "power2.inOut" }, 0.35)
+        .to(p.bottom, { yPercent: 100, duration: 0.9, ease: "power2.inOut" }, 0.35)
         .to(p.line, { autoAlpha: 0, duration: 0.35, ease: "power1.in" }, 0.45);
 
     return {
@@ -76,9 +76,9 @@ export function CurtainFil({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced:
         gsap.set(p.fill, { scaleX: 0 });
         const build = gsap
           .timeline()
-          .fromTo(p.line, { scaleX: 0 }, { scaleX: 1, duration: 1, ease: "power3.inOut" })
-          .to(p.mark, { yPercent: 0, y: 0, duration: 1, ease: "power4.out" }, 0.45)
-          .to(p.word, { yPercent: 0, y: 0, duration: 1, ease: "power4.out" }, 0.6)
+          .fromTo(p.line, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power2.inOut" })
+          .to(p.mark, { yPercent: 0, y: 0, duration: 0.6, ease: "power3.out" }, 0.45)
+          .to(p.word, { yPercent: 0, y: 0, duration: 0.6, ease: "power3.out" }, 0.6)
           .fromTo(p.notes, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 }, 0.8);
         const count = p.count;
         await Promise.all([
@@ -106,16 +106,18 @@ export function CurtainFil({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced:
         gsap.set(p.line, { scaleX: 0, autoAlpha: 1 });
         gsap.set(p.fill, { scaleX: 1 });
         p.el.dataset.state = "busy";
-        // The halves meet on the line and part again, without stopping.
+        // The halves meet on the line and part again (the page-change curve: power2.inOut).
         await swapThrough(
           gsap
             .timeline()
-            .to([p.top, p.bottom], { yPercent: 0, duration: 0.42, ease: "power3.in" })
-            .to(p.line, { scaleX: 1, duration: 0.42, ease: "power2.in" }, 0)
+            .to([p.top, p.bottom], { yPercent: 0, duration: 0.72, ease: "power2.inOut" })
+            .to(p.line, { scaleX: 1, duration: 0.72, ease: "power2.inOut" }, 0)
+            .to(p.mark, { yPercent: 0, y: 0, duration: 0.5, ease: "power3.out" }, 0.22)
             .addLabel("covered")
-            .to(p.top, { yPercent: -100, duration: 0.62, ease: "power3.out" }, "covered")
-            .to(p.bottom, { yPercent: 100, duration: 0.62, ease: "power3.out" }, "covered")
-            .to(p.line, { autoAlpha: 0, duration: 0.3 }, "covered"),
+            .to(p.mark, { yPercent: 100, y: TUCK, duration: 0.4, ease: "power2.in" }, "covered")
+            .to(p.top, { yPercent: -100, duration: 0.82, ease: "power2.inOut" }, "covered")
+            .to(p.bottom, { yPercent: 100, duration: 0.82, ease: "power2.inOut" }, "covered")
+            .to(p.line, { autoAlpha: 0, duration: 0.4, ease: "power2.in" }, "covered"),
           go,
           onReveal,
         );

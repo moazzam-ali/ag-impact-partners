@@ -116,14 +116,14 @@ export function settleLockup(p: Lockup) {
 export const wordsIn = (p: Lockup) =>
   gsap
     .timeline()
-    .to(p.lines[0]!, { y: 0, duration: 1.1, ease: "power4.out", stagger: 0.03 })
-    .to(p.lines[1]!, { y: 0, duration: 1.1, ease: "power4.out", stagger: 0.03 }, 0.1);
+    .to(p.lines[0]!, { y: 0, duration: 0.6, ease: "power3.out", stagger: 0.025 })
+    .to(p.lines[1]!, { y: 0, duration: 0.6, ease: "power3.out", stagger: 0.025 }, 0.15);
 
 export const wordsOut = (p: Lockup) =>
   gsap
     .timeline()
-    .to(p.lines[1]!, { y: LINES[1].drop, duration: 0.55, ease: "power3.in", stagger: 0.012 })
-    .to(p.lines[0]!, { y: LINES[0].drop, duration: 0.55, ease: "power3.in", stagger: 0.012 }, 0.05);
+    .to(p.lines[1]!, { y: LINES[1].drop, duration: 0.35, ease: "power2.in", stagger: 0.01 })
+    .to(p.lines[0]!, { y: LINES[0].drop, duration: 0.35, ease: "power2.in", stagger: 0.01 }, 0.05);
 
 /**
  * The loader's readout for the lockup: traces the mark (one shape after another, each filling as it
@@ -150,7 +150,13 @@ export function lockupReadout(p: Lockup) {
       gsap.set(shape, { drawSVG: `0% ${local * 100}%` });
       if (local >= 1 && !filled[i]) {
         filled[i] = true;
-        gsap.to(shape, { fillOpacity: 1, strokeOpacity: 0, duration: 0.7, ease: "power2.out" });
+        // The shape fills and settles with a small elastic pop (Proxy Papers' icon burst).
+        gsap.to(shape, { fillOpacity: 1, strokeOpacity: 0, duration: 0.6, ease: "power2.out" });
+        gsap.fromTo(
+          shape,
+          { scale: 0.92, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.8, ease: "elastic.out(1, 0.5)" },
+        );
       }
     });
     gsap.set(p.fill, { scaleX: v });

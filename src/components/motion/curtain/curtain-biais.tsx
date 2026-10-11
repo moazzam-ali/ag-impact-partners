@@ -3,8 +3,10 @@
 import { useTranslations } from "next-intl";
 import { type Ref, useImperativeHandle, useLayoutEffect, useRef } from "react";
 
+import { LogoLockup } from "@/components/brand/logo-lockup";
 import { gsap } from "@/lib/motion/gsap";
 
+import { markBeat } from "./bend";
 import styles from "./curtain.module.css";
 import {
   CurtainLockup,
@@ -22,7 +24,7 @@ import { type CurtainHandle, played } from "./styles";
   On the page's colour the lockup is traced and the wordmark rises over a hairline with a caption.
   Then the curtain leaves along that angle, a hairline of accent on its trailing edge, and the
   lockup stays exactly where it was while the edge crosses it. Page changes pass the curtain
-  through in one sweep, both edges lined in accent, nothing on it.
+  through in one sweep, both edges lined in accent, the mark held still at the centre (markBeat).
 
   The panel is a square tilted 30 degrees, as wide as the screen's diagonal, moved along its own
   normal; its contents are moved back the same distance and turned back, so they hold still.
@@ -60,6 +62,8 @@ export function CurtainBiais({ ref, reduced }: { ref: Ref<CurtainHandle>; reduce
         at,
         slide,
         lockup: lockupParts(el),
+        iconPlate: q("[data-icon-plate]"),
+        icon: q("[data-icon]"),
         base: q("[data-base]"),
         plate: q("[data-plate]"),
       };
@@ -69,6 +73,7 @@ export function CurtainBiais({ ref, reduced }: { ref: Ref<CurtainHandle>; reduce
       async splash(loader, onReveal) {
         const p = parts();
         p.el.dataset.state = "busy";
+        gsap.set(p.iconPlate, { autoAlpha: 0 });
         p.at.x = 0;
         p.slide();
         const read = lockupReadout(p.lockup);
@@ -94,14 +99,16 @@ export function CurtainBiais({ ref, reduced }: { ref: Ref<CurtainHandle>; reduce
           gsap
             .timeline()
             .add(onReveal, 0.05)
-            .to(p.at, { x: p.R * 2, duration: 1.3, ease: "power3.inOut", onUpdate: p.slide }),
+            .to(p.at, { x: p.R * 2, duration: 1, ease: "power2.inOut", onUpdate: p.slide }),
         );
         rest(p.el);
       },
       async swap(go, onReveal) {
         const p = parts();
         gsap.set([p.base, p.plate], { autoAlpha: 0 });
+        gsap.set(p.iconPlate, { autoAlpha: 1 });
         if (reduced) {
+          gsap.set(p.icon, { autoAlpha: 1, yPercent: 0 });
           p.at.x = 0;
           p.slide();
           return stillSwap(p.el, go, onReveal);
@@ -109,15 +116,12 @@ export function CurtainBiais({ ref, reduced }: { ref: Ref<CurtainHandle>; reduce
         p.at.x = -p.R * 2;
         p.slide();
         p.el.dataset.state = "busy";
-        await swapThrough(
-          gsap
-            .timeline()
-            .to(p.at, { x: 0, duration: 0.55, ease: "power3.in", onUpdate: p.slide })
-            .addLabel("covered")
-            .to(p.at, { x: p.R * 2, duration: 0.75, ease: "power3.out", onUpdate: p.slide }),
-          go,
-          onReveal,
-        );
+        const tl = gsap
+          .timeline()
+          .to(p.at, { x: 0, duration: 0.72, ease: "power2.inOut", onUpdate: p.slide })
+          .addLabel("covered")
+          .to(p.at, { x: p.R * 2, duration: 0.82, ease: "power2.inOut", onUpdate: p.slide });
+        await swapThrough(markBeat(tl, p.icon[0], 0.72), go, onReveal);
         rest(p.el);
       },
     };
@@ -134,6 +138,9 @@ export function CurtainBiais({ ref, reduced }: { ref: Ref<CurtainHandle>; reduce
                 <CurtainLockup />
                 <Hairline caption={t("eyebrow")} />
               </div>
+            </div>
+            <div className={styles.plate} data-icon-plate>
+              <LogoLockup part="mark" className={styles.icon} data-icon />
             </div>
           </div>
         </div>

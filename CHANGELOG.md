@@ -20,6 +20,7 @@ All notable changes to this project. Newest first.
 
 ### Changed
 
+- Motion follows Proxy Papers' conventions, now the project's (docs/systems/motion.md, "Animation conventions"): shared `EASE_OUT` / `EASE_STANDARD` / `scheduleRefresh`, one hook per section in `src/lib/animations/`, client-navigation state for intro delays. Pile 2, its line of fields and the Expertise page are rebuilt on it (rows reveal on scroll); the curtains are retimed to the same curves, sommet's mark pops in like Proxy Papers' icon, and page changes are its bending sheet with the mark rising in between.
 - The active hero is now "signataire" (was "redline"); the switcher takes key 0 for the tenth variant.
 - Every hero variant now raises both headline lines first and starts its signature while they rise (`SIGNATURE_INTRO` in the shell); griffe no longer holds line 2 back until the scroll-signing ends.
 - The header switches to the light palette over a light hero.

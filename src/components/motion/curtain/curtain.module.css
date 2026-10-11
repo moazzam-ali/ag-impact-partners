@@ -349,16 +349,7 @@
 .paperFill {
   fill: var(--paper);
 }
-/* The wipe's moving edge on page changes. */
-.edgeLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--accent-strong);
-  opacity: 0;
-}
+
 .edge path {
   fill: none;
   stroke: var(--line-fill);
@@ -444,4 +435,57 @@
 /* The paper's soft shadow on the ink while it moves. */
 .lifted {
   box-shadow: -28px 0 56px rgb(0 0 0 / 0.22);
+}
+
+/* ---- The bending sheet for page changes (bend.tsx) ---------------------------------------------- */
+.bend {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.bendInk {
+  fill: var(--sleeve);
+}
+.bendPeach {
+  fill: var(--accent);
+}
+.bendPaper {
+  fill: var(--paper);
+}
+.bendGround {
+  fill: var(--bg);
+}
+.bendEdge {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.bendMarkWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.bendMark {
+  display: block;
+  width: auto;
+  height: clamp(56px, 9vh, 104px);
+  color: var(--print);
+  opacity: 0;
+}
+.bendMarkOnPeach {
+  color: var(--on-accent);
+}
+/* The mark on a page change for the styles that are not a sheet (iris, biais). */
+.icon {
+  display: block;
+  width: auto;
+  height: clamp(56px, 9vh, 104px);
 }

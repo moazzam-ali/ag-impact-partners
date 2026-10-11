@@ -5,10 +5,10 @@ import { useRef, useState } from "react";
 
 import { Words } from "@/components/motion/words";
 import { ButtonLink } from "@/components/ui/button-link";
-import { afterCurtain, curtain } from "@/lib/motion/curtain";
+import { usePile2Hero } from "@/lib/animations/use-pile2-hero";
+import { curtain } from "@/lib/motion/curtain";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
-import { DURATION, EASE, MOTION_OK, REDUCED_MOTION, STAGGER } from "@/lib/motion/tokens";
-import { armWords } from "@/lib/motion/words";
+import { EASE, REDUCED_MOTION } from "@/lib/motion/tokens";
 
 import { type DocCopy } from "./documents";
 import { FieldMark, FilDomaines } from "./fil-domaines";
@@ -44,6 +44,7 @@ export function HeroPile2() {
   const field = fields[top] ?? fields[0];
   const root = useRef<HTMLElement>(null);
   const random = useRef<() => void>(() => {});
+  usePile2Hero(root);
 
   useGSAP(
     () => {
@@ -62,8 +63,6 @@ export function HeroPile2() {
       const [two] = q<HTMLElement>("[data-two]");
       if (!canvas || !stage || !count || !pill || !pillText || !leader || !knot || !callout) return;
       if (!one || !two) return;
-      const words = q<HTMLElement>("[data-title] .word");
-      const chrome = q<HTMLElement>("[data-chrome]");
       const reduced = window.matchMedia(REDUCED_MOTION).matches;
       const css = getComputedStyle(el);
       const token = (name: string) => css.getPropertyValue(name).trim();
@@ -190,29 +189,6 @@ export function HeroPile2() {
         scene?.pullRandom();
       };
 
-      const mm = gsap.matchMedia();
-      mm.add(REDUCED_MOTION, () => {
-        el.dataset.state = "ready";
-      });
-      mm.add(MOTION_OK, () => {
-        armWords(el, words);
-        gsap.set(chrome, { autoAlpha: 0, y: 10 });
-        const intro = gsap
-          .timeline({ delay: 0.1, paused: true })
-          .to(words, {
-            yPercent: 0,
-            duration: DURATION.words,
-            stagger: STAGGER.words,
-            ease: EASE.words,
-          })
-          .to(
-            chrome,
-            { autoAlpha: 1, y: 0, duration: DURATION.base, ease: EASE.soft, stagger: 0.06 },
-            0.35,
-          );
-        return afterCurtain(() => intro.play());
-      });
-
       void Promise.all(
         [400, 500, 600, 700].map((w) => document.fonts.load(`${w} 40px ${font}`)),
       ).then(() => {
@@ -267,7 +243,6 @@ export function HeroPile2() {
         resize.disconnect();
         io.disconnect();
         scene?.dispose();
-        mm.revert();
       };
     },
     { scope: root },
@@ -282,8 +257,8 @@ export function HeroPile2() {
       </svg>
 
       <div className={styles.frame}>
-        <p className={styles.eyebrow} data-chrome>
-          {t("eyebrow")}
+        <p className={styles.eyebrow} data-lead>
+          <Words text={t("eyebrow")} />
         </p>
         <h1 className={styles.headline} data-title>
           <span className={styles.one} data-one>
@@ -296,15 +271,17 @@ export function HeroPile2() {
 
         <div className={styles.stage} data-stage aria-hidden="true" />
 
-        <div className={styles.aside} data-chrome>
-          <p className={styles.sub}>{t("sub")}</p>
-          <div className={styles.actions}>
+        <div className={styles.aside}>
+          <p className={styles.sub} data-lead>
+            <Words text={t("sub")} />
+          </p>
+          <div className={styles.actions} data-rise>
             <ButtonLink href="/contact">{t("primary")}</ButtonLink>
             <ButtonLink href="/expertise" variant="ghost">
               {t("secondary")}
             </ButtonLink>
           </div>
-          <p className={styles.figure}>
+          <p className={styles.figure} data-rise>
             <span className={styles.count} data-count>
               {SHEETS}
             </span>
@@ -312,7 +289,7 @@ export function HeroPile2() {
           </p>
         </div>
 
-        <div className={styles.callout} data-callout data-chrome aria-live="polite">
+        <div className={styles.callout} data-callout data-rise aria-live="polite">
           <p className={styles.onTop}>{tp("onTop")}</p>
           <div key={top} className={styles.doc}>
             <p className={styles.docTitle}>

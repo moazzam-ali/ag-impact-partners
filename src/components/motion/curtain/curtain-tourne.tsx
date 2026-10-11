@@ -5,6 +5,7 @@ import { type Ref, useImperativeHandle, useLayoutEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 
+import { BendLayers, bendSwap } from "./bend";
 import styles from "./curtain.module.css";
 import {
   CurtainLockup,
@@ -14,7 +15,7 @@ import {
   prepareLockup,
   settleLockup,
 } from "./lockup";
-import { rest, stillSplash, stillSwap, swapThrough, wait } from "./run";
+import { rest, stillSplash, wait } from "./run";
 import { type CurtainHandle, played } from "./styles";
 
 /*
@@ -22,7 +23,7 @@ import { type CurtainHandle, played } from "./styles";
   slide in from the right, their leading edges curved and flattening as they land, the paper's soft
   shadow falling on the ink; the lockup is traced on the paper and drifts against the movement. Then
   the paper and the ink carry on out to the left, trailing edges curving, like a page being turned.
-  Page changes turn a page across the screen in one movement, nothing on it.
+  Page changes are the bending sheet (bend.tsx) sideways, ink then paper.
 */
 export function CurtainTourne({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced: boolean }) {
   const root = useRef<HTMLDivElement>(null);
@@ -67,7 +68,7 @@ export function CurtainTourne({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
         }
         lay(p);
         prepareLockup(p.lockup);
-        const build = turnIn(p, 1.15, "power4.inOut", 0.12)
+        const build = turnIn(p, 0.95, "power2.inOut", 0.1)
           .fromTo(p.plate, { x: 90 }, { x: 0, duration: 1.4, ease: "power3.out" }, 0.25)
           .set(p.base, { autoAlpha: 0 }, 1.3)
           .fromTo(
@@ -81,8 +82,8 @@ export function CurtainTourne({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
         await read.words;
         await wait(0.4);
         await played(
-          turnOut(p, 1.15, "power4.inOut", 0.12)
-            .to(p.plate, { x: -110, duration: 1.15, ease: "power4.inOut" }, 0)
+          turnOut(p, 0.95, "power2.inOut", 0.1)
+            .to(p.plate, { x: -110, duration: 0.95, ease: "power2.inOut" }, 0)
             .add(onReveal, 0.3),
         );
         gsap.set(p.plate, { clearProps: "transform" });
@@ -90,23 +91,8 @@ export function CurtainTourne({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
       },
       async swap(go, onReveal) {
         const p = parts();
-        gsap.set([p.base, p.plate], { autoAlpha: 0 });
-        if (reduced) {
-          gsap.set(p.sheets, { autoAlpha: 1, xPercent: 0, "--arc": "0px", "--tail": "0px" });
-          return stillSwap(p.el, go, onReveal);
-        }
-        lay(p);
-        p.el.dataset.state = "busy";
-        await swapThrough(
-          gsap
-            .timeline()
-            .add(turnIn(p, 0.5, "power3.in", 0.07))
-            .addLabel("covered")
-            .add(turnOut(p, 0.65, "power3.out", 0.07), "covered"),
-          go,
-          onReveal,
-        );
-        rest(p.el);
+        gsap.set([p.base, p.plate, p.sheets], { autoAlpha: 0 });
+        await bendSwap(p.el, go, onReveal, { axis: "x", lag: 0.08 }, reduced);
       },
     };
   }, [reduced]);
@@ -123,6 +109,7 @@ export function CurtainTourne({ ref, reduced }: { ref: Ref<CurtainHandle>; reduc
           </div>
         </div>
       </div>
+      <BendLayers layers={[styles.bendInk ?? "", styles.bendPaper ?? ""]} />
     </div>
   );
 }

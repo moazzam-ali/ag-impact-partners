@@ -8,8 +8,9 @@ import { signature } from "@/components/sections/hero/signataire/strokes";
 import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 
+import { BendLayers, bendSwap } from "./bend";
 import styles from "./curtain.module.css";
-import { percent, readout, rest, stillSplash, stillSwap, swapThrough, wait } from "./run";
+import { percent, readout, rest, stillSplash, wait } from "./run";
 import { type CurtainHandle, played } from "./styles";
 
 /*
@@ -17,7 +18,7 @@ import { type CurtainHandle, played } from "./styles";
   curved leading edge that flattens as it lands. On the paper the lockup builds (the mark's shapes,
   then the letters) and a signature is written under it as the loader. Then the sheets lift away
   in reverse order, their trailing edges curving, and the page is underneath. Page transitions
-  sweep the sheets up over the page and on up off it, one pass.
+  are the bending sheet (bend.tsx) in the three colours, a beat apart.
 */
 
 // The signature (Signataire's hand), as one path in its own box.
@@ -71,7 +72,7 @@ export function CurtainFeuillets({ ref, reduced }: { ref: Ref<CurtainHandle>; re
     const slideIn = (p: Parts, duration: number, stagger: number) =>
       gsap
         .timeline()
-        .to(p.sheets, { yPercent: 0, "--arc": "0px", duration, ease: "power4.inOut", stagger })
+        .to(p.sheets, { yPercent: 0, "--arc": "0px", duration, ease: "power2.inOut", stagger })
         .set(p.base, { autoAlpha: 0 }, duration);
     const liftOff = (p: Parts, onReveal: () => void) =>
       gsap
@@ -80,7 +81,7 @@ export function CurtainFeuillets({ ref, reduced }: { ref: Ref<CurtainHandle>; re
           yPercent: -101,
           "--tail": p.arc,
           duration: 1.05,
-          ease: "power4.inOut",
+          ease: "power2.inOut",
           stagger: 0.13,
         })
         .add(onReveal, 0.3);
@@ -135,42 +136,8 @@ export function CurtainFeuillets({ ref, reduced }: { ref: Ref<CurtainHandle>; re
       },
       async swap(go, onReveal) {
         const p = parts();
-        gsap.set(p.base, { autoAlpha: 0 });
-        gsap.set([p.shapes, p.letters, p.notes], { autoAlpha: 0 });
-        gsap.set(p.sign, { drawSVG: "0% 0%" });
-        if (reduced) {
-          gsap.set(p.sheets, { autoAlpha: 1, yPercent: 0, "--arc": "0px", "--tail": "0px" });
-          return stillSwap(p.el, go, onReveal);
-        }
-        gsap.set(p.sheets, { yPercent: 101, autoAlpha: 1, "--arc": p.arc, "--tail": "0px" });
-        p.el.dataset.state = "busy";
-        // The sheets sweep up over the page and on up off it: one pass.
-        await swapThrough(
-          gsap
-            .timeline()
-            .to(p.sheets, {
-              yPercent: 0,
-              "--arc": "0px",
-              duration: 0.48,
-              ease: "power3.in",
-              stagger: 0.06,
-            })
-            .addLabel("covered")
-            .to(
-              [...p.sheets].reverse(),
-              {
-                yPercent: -101,
-                "--tail": p.arc,
-                duration: 0.65,
-                ease: "power3.out",
-                stagger: 0.06,
-              },
-              "covered",
-            ),
-          go,
-          onReveal,
-        );
-        rest(p.el);
+        gsap.set([p.base, p.sheets, p.shapes, p.letters, p.notes], { autoAlpha: 0 });
+        await bendSwap(p.el, go, onReveal, { lag: 0.08 }, reduced);
       },
     };
   }, [reduced]);
@@ -194,6 +161,7 @@ export function CurtainFeuillets({ ref, reduced }: { ref: Ref<CurtainHandle>; re
           <span data-count>000</span>
         </p>
       </div>
+      <BendLayers layers={[styles.bendInk ?? "", styles.bendPeach ?? "", styles.bendPaper ?? ""]} />
     </div>
   );
 }

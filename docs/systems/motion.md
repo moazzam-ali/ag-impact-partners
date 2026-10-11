@@ -4,6 +4,50 @@ The brief's motif is "le fil": one thin line that starts in the hero, runs down 
 as a signature stroke. This doc is how that is built. The rules themselves are in
 [../brief/site-structure.md](../brief/site-structure.md) ("Motion system").
 
+## Animation conventions (the house feel, from Proxy Papers)
+
+Every new page and section follows these. They match Proxy Papers (`~/dev/clients/proxy-papers`:
+`src/lib/gsap.js`, `src/lib/animations/`, `PageTransitionProvider.jsx`), which is the reference for
+how motion should feel here. Pile 2, its line of fields, the Expertise page and the curtain follow
+them already; the older hero studies do not and are not to be copied.
+
+**Feel.** Calm and precise. Reveals ease out, moves ease in and out, exits ease in, nothing
+overshoots except a logo shape popping in.
+
+| Use                                  | Ease                           | Duration and stagger          |
+| ------------------------------------ | ------------------------------ | ----------------------------- |
+| Hero headline words (masked rise)    | `EASE_OUT` (power3.out)        | 0.55 s, 0.035 s apart         |
+| Hero lead / sub-line / eyebrow words | `EASE_OUT`                     | 0.35 s, 0.008 s apart         |
+| Section title words                  | `EASE_OUT`                     | 0.75 s, 0.07 s apart          |
+| Section body words                   | `EASE_OUT`                     | 0.7 s, 0.016 s apart          |
+| Buttons, figures, small blocks       | `EASE_OUT`, from `y: 16`       | 0.5 s (rows 0.7 s from 24 px) |
+| Rules, lines, clip reveals           | `EASE_STANDARD` (power2.inOut) | 0.9-1.5 s                     |
+| Big moves (sheets, panels, zooms)    | `EASE_STANDARD`                | 0.7-1 s                       |
+| Exits (things leaving before a move) | power2.in                      | 0.3-0.4 s                     |
+| Bows, hovers, gentle drifts          | sine.inOut (yoyo)              | as needed                     |
+| A logo shape popping in              | elastic.out(1, 0.5)            | 0.8 s                         |
+
+**How a section is built.**
+
+- One hook per section in `src/lib/animations/use-<section>.ts`, taking the section's ref:
+  `useGSAP(fn, { scope })`, `gsap.utils.selector(section)` for targets, and data attributes for
+  them (`[data-title]`, `[data-lead]`, `[data-rise]`, `[data-row]`), never CSS Module classes. The
+  component only renders and calls the hook. Examples: `use-pile2-hero.ts`, `use-expertise.ts`,
+  `use-fields-line.ts`.
+- Reduced motion first: if `prefers-reduced-motion` is set, set `data-state="ready"` and return.
+- Words: render copy that animates with `<Words>`, hand them to GSAP with `armWords`, rise them to
+  `yPercent: 0`. Timelines take `defaults: { ease: EASE_OUT, force3D: true }`.
+- Above the fold: build the timeline paused and play it with `afterCurtain()`, so it starts as the
+  splash or page change uncovers the page; delay it `hasClientNavigated() ? 0.46 : 0.1`
+  (`lib/motion/nav-state.ts`) so after a page change it waits for the top to be uncovered.
+- Below the fold: `scrollTrigger: { trigger, start: "top 78%", once: true }`, created once the
+  curtain is open (rows already in view would otherwise reveal behind it), then
+  `scheduleRefresh()` (`lib/motion/gsap.ts`) once the layout has settled.
+- Constants: `EASE_OUT`, `EASE_STANDARD`, `DUR_REVEAL`, `DUR_STAGGER` and `scheduleRefresh` from
+  `@/lib/motion/gsap`; no stray ease strings outside this table.
+- Scrolling is Lenis with Proxy Papers' settings (below); page changes are the bending sheet
+  (below). Neither is redone per page.
+
 ## Setup
 
 - `src/lib/motion/gsap.ts` is the only place GSAP is imported and plugins registered (ScrollTrigger, `useGSAP`). Components import `{ gsap, useGSAP, ScrollTrigger }` from there.
@@ -65,10 +109,13 @@ head dot and a count, never faster than one trace in 1.1 s).
 | feuille   | One paper sheet rises with a thin rim of accent on its curved edge; the traced lockup drifts against its movement. The sheet lifts away, the rim trailing.         | The sheet sweeps up through the screen, its rim leading.                             |
 | tourne    | A page turn: ink then paper slide in from the right, edges curved, the paper's shadow on the ink; the traced lockup. They carry on out to the left.                | A page turns across the screen.                                                      |
 
-- **Page transitions are one movement, with no logo.** Just a sweep to the next page: the timeline
-  plays to a `covered` label, the route changes there, and it plays on (`swapThrough` in `run.ts`).
-  It only holds at the label if the next page is not ready; pages are prefetched when their link is
-  pointed at and again at the click, so in production it rarely does.
+- **Page changes feel like Proxy Papers'.** The sheet styles (sommet, feuillets, esquisse, feuille,
+  tourne) use the bending sheet (`bend.tsx`): the leading edge bows out as it travels and flattens
+  as it lands (power2.inOut 0.72 s to cover, 0.82 s to reveal, the bow a sine yoyo), layers a beat
+  or a few percent apart. Fil, iris and biais keep their own shape on the same curve. The mark
+  rises in over the last half second of the cover and drifts up and away as the reveal starts
+  (`markBeat`). The route changes at the `covered` label; links are prefetched when pointed at, so
+  it rarely waits there.
 - **Logo.** `brand/logo-parts.ts` is the logo SVG split into parts (the mark's three shapes, each
   letter with its counters), generated from `public/brand/logo-charcoal.svg`; `LogoLockup` draws
   the lockup, the mark or the wordmark with every part addressable. `markStage` (`run.ts`) places

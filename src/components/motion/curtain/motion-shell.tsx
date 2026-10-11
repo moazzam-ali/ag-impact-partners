@@ -6,6 +6,7 @@ import { type ComponentType, type Ref, useEffect, useRef, useSyncExternalStore }
 import { siteConfig } from "@/config/site";
 import { useMounted } from "@/hooks/use-mounted";
 import { curtain, trackLoad } from "@/lib/motion/curtain";
+import { markClientNavigated } from "@/lib/motion/nav-state";
 import { REDUCED_MOTION } from "@/lib/motion/tokens";
 
 import styles from "./curtain.module.css";
@@ -104,6 +105,7 @@ export function MotionShell() {
       const h = handle.current;
       if (!h) return router.push(href);
       busy.current = true;
+      markClientNavigated();
       curtain.close();
       router.prefetch(href);
       await h.swap(

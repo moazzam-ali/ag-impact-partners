@@ -2,8 +2,10 @@
 
 import { type Ref, useImperativeHandle, useLayoutEffect, useRef } from "react";
 
+import { LogoLockup } from "@/components/brand/logo-lockup";
 import { gsap } from "@/lib/motion/gsap";
 
+import { markBeat } from "./bend";
 import styles from "./curtain.module.css";
 import {
   CurtainLockup,
@@ -22,7 +24,7 @@ import { type CurtainHandle, played } from "./styles";
   riding its edge, and on it the lockup is traced and the wordmark rises over a counting hairline.
   Then the wordmark sinks and the iris closes onto the mark, which settles a little as it goes. A
   page change opens the iris from the link that was clicked and closes it on the next page, at the
-  centre, with nothing on it.
+  centre, the mark rising in as it covers and drifting off as it opens (markBeat).
 */
 
 /** The mark's centre in logo units, measured from the logo's own origin (viewBox 59 78). */
@@ -67,6 +69,8 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
         reach,
         ring,
         lockup: lockupParts(el),
+        iconPlate: q("[data-icon-plate]"),
+        icon: q("[data-icon]"),
         base: q("[data-base]"),
         plate: q("[data-plate]"),
       };
@@ -76,6 +80,7 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
       async splash(loader, onReveal) {
         const p = parts();
         p.el.dataset.state = "busy";
+        gsap.set(p.iconPlate, { autoAlpha: 0 });
         const read = lockupReadout(p.lockup);
         if (reduced) {
           Object.assign(p.iris, { r: p.reach(p.w / 2, p.h / 2) });
@@ -89,8 +94,8 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
           .timeline()
           .to(p.iris, {
             r: p.reach(p.w / 2, p.h / 2),
-            duration: 1.15,
-            ease: "power3.inOut",
+            duration: 1,
+            ease: "power2.inOut",
             onUpdate: p.apply,
           })
           .fromTo(p.ring, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0)
@@ -125,14 +130,14 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
             )
             .add(onReveal, 0.6)
             .to(p.ring, { autoAlpha: 1, duration: 0.3 }, 0.6)
-            .to(p.iris, { r: 0, duration: 1.15, ease: "power3.inOut", onUpdate: p.apply }, 0.6)
+            .to(p.iris, { r: 0, duration: 1, ease: "power2.inOut", onUpdate: p.apply }, 0.6)
             .to(
               p.lockup.svg,
               {
                 scale: 0.84,
                 transformOrigin: `${MARK_MID.x * k}px ${MARK_MID.y * k}px`,
-                duration: 1.15,
-                ease: "power3.inOut",
+                duration: 1,
+                ease: "power2.inOut",
               },
               0.6,
             ),
@@ -143,7 +148,9 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
       async swap(go, onReveal, from) {
         const p = parts();
         gsap.set([p.base, p.plate], { autoAlpha: 0 });
+        gsap.set(p.iconPlate, { autoAlpha: 1 });
         if (reduced) {
+          gsap.set(p.icon, { autoAlpha: 1, yPercent: 0 });
           Object.assign(p.iris, { r: p.reach(p.w / 2, p.h / 2) });
           p.apply();
           return stillSwap(p.el, go, onReveal);
@@ -153,26 +160,23 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
         p.apply();
         p.el.dataset.state = "busy";
         const centre = { x: p.w / 2, y: p.h / 2 };
-        await swapThrough(
-          gsap
-            .timeline()
-            .to(p.iris, {
-              r: p.reach(o.x, o.y),
-              duration: 0.55,
-              ease: "power3.in",
-              onUpdate: p.apply,
-            })
-            .fromTo(p.ring, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0)
-            .addLabel("covered")
-            // Covered: the iris re-centres on the screen (no visible change) and closes there.
-            .call(() => {
-              Object.assign(p.iris, { ...centre, r: p.reach(centre.x, centre.y) });
-              p.apply();
-            })
-            .to(p.iris, { r: 0, duration: 0.8, ease: "power3.out", onUpdate: p.apply }, "covered"),
-          go,
-          onReveal,
-        );
+        const tl = gsap
+          .timeline()
+          .to(p.iris, {
+            r: p.reach(o.x, o.y),
+            duration: 0.72,
+            ease: "power2.inOut",
+            onUpdate: p.apply,
+          })
+          .fromTo(p.ring, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0)
+          .addLabel("covered")
+          // Covered: the iris re-centres on the screen (no visible change) and closes there.
+          .call(() => {
+            Object.assign(p.iris, { ...centre, r: p.reach(centre.x, centre.y) });
+            p.apply();
+          })
+          .to(p.iris, { r: 0, duration: 0.82, ease: "power2.inOut", onUpdate: p.apply }, "covered");
+        await swapThrough(markBeat(tl, p.icon[0], 0.72), go, onReveal);
         rest(p.el);
       },
     };
@@ -187,6 +191,9 @@ export function CurtainIris({ ref, reduced }: { ref: Ref<CurtainHandle>; reduced
             <CurtainLockup />
             <Hairline />
           </div>
+        </div>
+        <div className={styles.plate} data-icon-plate>
+          <LogoLockup part="mark" className={styles.icon} data-icon />
         </div>
       </div>
       <span className={styles.irisRing} data-ring />

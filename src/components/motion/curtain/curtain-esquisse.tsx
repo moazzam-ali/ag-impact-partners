@@ -6,6 +6,7 @@ import { MARK_PARTS } from "@/components/brand/logo-parts";
 import { cn } from "@/lib/cn";
 import { gsap } from "@/lib/motion/gsap";
 
+import { BendLayers, bendSwap } from "./bend";
 import styles from "./curtain.module.css";
 import {
   CurtainLockup,
@@ -16,7 +17,7 @@ import {
   settleLockup,
   wordsOut,
 } from "./lockup";
-import { markStageOver, rest, stillSplash, stillSwap, swapThrough, wait } from "./run";
+import { markStageOver, rest, stillSplash, wait } from "./run";
 import { type CurtainHandle, played } from "./styles";
 
 /*
@@ -25,8 +26,7 @@ import { type CurtainHandle, played } from "./styles";
   the mark shape by shape (each filling as it closes) and the wordmark rises line by line, over a
   hairline that counts. Then the crop marks fold, the wordmark sinks, and the mark becomes a window
   onto the page that opens until it is all page (as in sommet), its edge drawn in a hairline of
-  accent. Page changes wipe the paper up over the page and on off the top, an accent hairline on
-  its moving edge.
+  accent. Page changes are the bending sheet (bend.tsx) in paper, an accent hairline on its edge.
 */
 const BIG = 50000;
 const CORNERS = ["tl", "tr", "bl", "br"] as const;
@@ -54,7 +54,6 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
         svg,
         base: q("[data-base]"),
         sheet: q("[data-sheet]"),
-        edgeLine: q("[data-edge-line]"),
         plate: q("[data-plate]"),
         crops: q("[data-crop]"),
         window: q("[data-hole], [data-edge]"),
@@ -72,7 +71,7 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
         .set([p.svg, p.window], { autoAlpha: 1 })
         .set([p.base, p.sheet, p.plate], { autoAlpha: 0 })
         .add(onReveal)
-        .to(z, { v: 1, duration: 1.25, ease: "power3.in", onUpdate: () => p.zoom(z.v) }, 0.14);
+        .to(z, { v: 1, duration: 1.05, ease: "power2.inOut", onUpdate: () => p.zoom(z.v) }, 0.14);
     };
 
     return {
@@ -93,7 +92,7 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
           .fromTo(
             p.sheet,
             { clipPath: "inset(100% 0 0 0)" },
-            { clipPath: "inset(0% 0 0 0)", duration: 0.9, ease: "power3.inOut" },
+            { clipPath: "inset(0% 0 0 0)", duration: 0.9, ease: "power2.inOut" },
           )
           .set(p.base, { autoAlpha: 0 })
           .to(p.crops, { scale: 1, duration: 0.9, ease: "power3.out", stagger: 0.06 }, 0.6)
@@ -119,36 +118,8 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
       },
       async swap(go, onReveal) {
         const p = parts();
-        gsap.set([p.base, p.plate, p.svg], { autoAlpha: 0 });
-        gsap.set(p.sheet, { autoAlpha: 1 });
-        if (reduced) {
-          gsap.set(p.sheet, { clipPath: "inset(0% 0 0% 0)" });
-          return stillSwap(p.el, go, onReveal);
-        }
-        // The paper wipes up over the page and on off the top, a hairline of accent on its edge.
-        const h = p.el.clientHeight;
-        gsap.set(p.sheet, { clipPath: "inset(100% 0 0% 0)" });
-        gsap.set(p.edgeLine, { autoAlpha: 1, y: h });
-        p.el.dataset.state = "busy";
-        await swapThrough(
-          gsap
-            .timeline()
-            .to(p.sheet, { clipPath: "inset(0% 0 0% 0)", duration: 0.48, ease: "power3.in" })
-            .to(p.edgeLine, { y: 0, duration: 0.48, ease: "power3.in" }, 0)
-            .addLabel("covered")
-            .set(p.edgeLine, { y: h }, "covered")
-            .to(
-              p.sheet,
-              { clipPath: "inset(0% 0 100% 0)", duration: 0.65, ease: "power3.out" },
-              "covered",
-            )
-            .to(p.edgeLine, { y: 0, duration: 0.65, ease: "power3.out" }, "covered"),
-          go,
-          onReveal,
-        );
-        gsap.set(p.edgeLine, { autoAlpha: 0 });
-        gsap.set(p.sheet, { clipPath: "inset(100% 0 0% 0)" });
-        rest(p.el);
+        gsap.set([p.base, p.sheet, p.plate, p.svg], { autoAlpha: 0 });
+        await bendSwap(p.el, go, onReveal, {}, reduced);
       },
     };
   }, [reduced]);
@@ -157,7 +128,6 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
     <div ref={root} className={styles.root} data-curtain data-state="splash">
       <div className={styles.base} data-base />
       <div className={styles.paperSheet} data-sheet />
-      <span className={styles.edgeLine} data-edge-line />
       <div className={cn(styles.plate, styles.onPaper)} data-plate>
         <div className={styles.frame}>
           {CORNERS.map((corner) => (
@@ -207,6 +177,7 @@ export function CurtainEsquisse({ ref, reduced }: { ref: Ref<CurtainHandle>; red
           </g>
         </g>
       </svg>
+      <BendLayers layers={[styles.bendPaper ?? ""]} edge={styles.bendEdge} />
     </div>
   );
 }
