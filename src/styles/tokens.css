@@ -21,8 +21,11 @@
   --accent: #f4b07b;
   --accent-strong: #dd7d57;
   --on-accent: #000000;
-  /* Text on --accent-strong (button hover). */
-  --on-accent-strong: #000000;
+  /* The primary button (call to action) and its hover. */
+  --cta: #f4b07b;
+  --on-cta: #000000;
+  --cta-hover: #dd7d57;
+  --on-cta-hover: #000000;
 }
 
 :root {
@@ -133,15 +136,19 @@
   --accent: #f4b07b;
   --accent-strong: #dd7d57;
   --on-accent: #000000;
-  --on-accent-strong: #000000;
+  --cta: #f4b07b;
+  --on-cta: #000000;
+  --cta-hover: #dd7d57;
+  --on-cta-hover: #000000;
 }
 
 /*
   Navy: AG Impact's theme (navy #0A3050, deep navy #0A2138, blue #0099FF, ice #EEF4FA), mostly white
   and navy with blue used sparingly: for what you look at (a figure, a button, a line), never for
   what you read. Small text never sits in blue, and labels on blue are deep navy (5.4 : 1). Light is
-  white with navy type and ice chips; dark is navy with deep navy chips and light slate secondary
-  text (6.3 : 1). Buttons are blue and turn to the mode's ink on hover.
+  white with navy type and ice chips; dark is navy with lighter navy chips and light slate secondary
+  text (6.3 : 1). The call to action is deep navy with white text in both, the darkest thing on the
+  page, and lights up blue on hover.
 */
 [data-palette="navy"][data-theme="light"],
 [data-palette="navy"] [data-theme="light"] {
@@ -154,20 +161,26 @@
   --accent: #0099ff;
   --accent-strong: #0a3050;
   --on-accent: #0a2138;
-  --on-accent-strong: #ffffff;
+  --cta: #0a2138;
+  --on-cta: #ffffff;
+  --cta-hover: #0099ff;
+  --on-cta-hover: #0a2138;
 }
 [data-palette="navy"][data-theme="dark"],
 [data-palette="navy"] [data-theme="dark"] {
   --bg: #0a3050;
   --ink: #ffffff;
   --ink-soft: #9db3c9;
-  --chip: #0a2138;
-  --chip-hover: #0d2944;
-  --rule: #1f4567;
+  --chip: #163d61;
+  --chip-hover: #1e4870;
+  --rule: #24496b;
   --accent: #0099ff;
   --accent-strong: #ffffff;
   --on-accent: #0a2138;
-  --on-accent-strong: #0a3050;
+  --cta: #0a2138;
+  --on-cta: #ffffff;
+  --cta-hover: #0099ff;
+  --on-cta-hover: #0a2138;
 }
 /* Navy's printed paper: cool stock, navy-black print, signatures in navy, the stamp and pen in blue. */
 [data-palette="navy"] {

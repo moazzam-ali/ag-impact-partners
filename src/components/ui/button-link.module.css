@@ -8,8 +8,8 @@
   padding: calc(10 * var(--scale)) calc(20 * var(--scale));
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--cta);
+  color: var(--on-cta);
   font-family: var(--font-body);
   font-size: calc(16 * var(--scale));
   font-weight: var(--weight-medium);
@@ -24,8 +24,8 @@
 }
 .btn:hover,
 .btn:focus-visible {
-  background: var(--accent-strong);
-  color: var(--on-accent-strong);
+  background: var(--cta-hover);
+  color: var(--on-cta-hover);
   transform: translateY(-1px);
 }
 
