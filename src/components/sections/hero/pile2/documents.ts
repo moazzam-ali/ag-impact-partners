@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+import { type Palette } from "@/lib/palette";
 import { OTHER_HAND, paraphe, signature, strikeStroke } from "@/lib/signature";
 
 /*
@@ -34,9 +35,15 @@ export type DocInks = {
   accent: string;
 };
 
-/** Each design's paper, so the documents read as different stock even edge-on in the ream. */
-export const PAPERS = ["#f4f0e6", "#e6ebee", "#efebe3", "#f3e9d6", "#fbfaf6"] as const;
-export const DESIGNS = PAPERS.length;
+/**
+ * Each design's paper, so the documents read as different stock even edge-on in the ream: warm
+ * stock for the orange palette, cool white, ice and pale slate for navy.
+ */
+export const PAPERS: Record<Palette, readonly string[]> = {
+  orange: ["#f4f0e6", "#e6ebee", "#efebe3", "#f3e9d6", "#fbfaf6"],
+  navy: ["#f4f7fa", "#e2ebf4", "#eceff3", "#d9e4ef", "#fbfcfd"],
+};
+export const DESIGNS = 5;
 
 const SCALE = 0.7;
 const M = 110;
@@ -71,9 +78,10 @@ export function printDocuments(
   copy: DocCopy,
   font: string,
   inks: DocInks,
+  papers: readonly string[],
   anisotropy: number,
 ): THREE.CanvasTexture[] {
-  return PAPERS.map((paper, design) => {
+  return papers.map((paper, design) => {
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(PX.w * SCALE);
     canvas.height = Math.round(PX.h * SCALE);

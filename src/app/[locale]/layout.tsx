@@ -8,8 +8,10 @@ import { type ReactNode } from "react";
 import { MotionShell } from "@/components/motion/curtain/motion-shell";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { Providers } from "@/components/providers";
+import { PaletteSwitcher } from "@/components/ui/palette-switcher";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
+import { PALETTE_SCRIPT } from "@/lib/palette";
 
 import "@/styles/globals.css";
 
@@ -64,12 +66,17 @@ export default async function LocaleLayout({
       // Lets Next turn smooth scrolling off while it scrolls to the top on a route change.
       data-scroll-behavior="smooth"
     >
+      <head>
+        {/* Sets data-palette before the first paint (src/lib/palette.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: PALETTE_SCRIPT }} />
+      </head>
       <body className="min-h-svh bg-bg font-sans text-ink">
         <NextIntlClientProvider>
           <Providers>
             {children}
             <MotionShell />
             <SmoothScroll />
+            {siteConfig.features.paletteSwitcher ? <PaletteSwitcher /> : null}
           </Providers>
         </NextIntlClientProvider>
       </body>

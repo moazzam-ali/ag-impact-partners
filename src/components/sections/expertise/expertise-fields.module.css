@@ -12,6 +12,11 @@
 :global([data-theme="dark"]) .page {
   --thread: var(--accent);
 }
+/* Navy palette: icons in ink, their moving part in blue (as on the home page's thread). */
+:global([data-palette="navy"]) .page {
+  --thread: var(--ink);
+  --moving: var(--accent);
+}
 
 .head {
   display: grid;

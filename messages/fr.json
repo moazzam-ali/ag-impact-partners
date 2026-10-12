@@ -99,6 +99,13 @@
     "title": "Page introuvable.",
     "back": "Retour à l'accueil"
   },
+  "paletteSwitcher": {
+    "label": "Palette",
+    "orange": "Orange",
+    "navy": "Marine",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
   "curtainSwitcher": {
     "label": "Rideau",
     "fil": "Fil",

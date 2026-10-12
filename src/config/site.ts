@@ -28,6 +28,8 @@ export const siteConfig = {
     splash: true,
     /** Floating pill to compare splash / page-transition styles while one is being chosen. */
     curtainSwitcher: true,
+    /** Floating pill to compare the orange palette with the client's navy theme, light and dark. */
+    paletteSwitcher: true,
   },
 } as const;
 

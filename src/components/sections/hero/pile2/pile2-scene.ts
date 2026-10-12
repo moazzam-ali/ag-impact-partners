@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
+import { type Palette } from "@/lib/palette";
+
 import { DESIGNS, type DocCopy, type DocInks, PAGE, PAPERS, printDocuments } from "./documents";
 
 /*
@@ -15,6 +17,9 @@ import { DESIGNS, type DocCopy, type DocInks, PAGE, PAPERS, printDocuments } fro
   Sheets are one instanced mesh, indexed by identity; `posOf` is each sheet's place in the ream and
   `level` eases towards it, so gaps close smoothly. Only the faces that can be seen carry a printed
   page: a small pool of planes follows the top sheets, the one in flight and the one peeking out.
+
+  The look (palette, mode, the inks read from the tokens) can change live: the light follows the
+  mode and the palette, and a new palette reprints the five documents on its own stock.
 */
 
 export const SHEETS = 300;
@@ -45,12 +50,75 @@ export const landedBy = (time: number) => {
 
 export type Pick = { kind: "sheet"; id: number; place: number } | { kind: "top" } | null;
 
+/** What the ream is printed and lit for. The inks only change with the palette. */
+export type Look = { palette: Palette; dark: boolean; inks: DocInks };
+
+type Lighting = {
+  key: string;
+  keyIntensity: number;
+  sky: string;
+  ground: string;
+  fillIntensity: number;
+  environment: number;
+  shadow: string;
+  shadowOpacity: number;
+};
+/**
+ * The light on the ream for each palette and mode. The ground is the page itself (the canvas is
+ * transparent), so the shadow is a tint over it: none on black, a deep navy on navy.
+ */
+const LIGHTING: Record<Palette, Record<"light" | "dark", Lighting>> = {
+  orange: {
+    light: {
+      key: "#fff3e2",
+      keyIntensity: 2.4,
+      sky: "#fff3e2",
+      ground: "#3a3530",
+      fillIntensity: 0.6,
+      environment: 0.55,
+      shadow: "#2a2216",
+      shadowOpacity: 0.2,
+    },
+    dark: {
+      key: "#fff3e2",
+      keyIntensity: 2.7,
+      sky: "#fff3e2",
+      ground: "#3a3530",
+      fillIntensity: 0.22,
+      environment: 0.3,
+      shadow: "#2a2216",
+      shadowOpacity: 0,
+    },
+  },
+  navy: {
+    light: {
+      key: "#f6f9ff",
+      keyIntensity: 2.4,
+      sky: "#eef4fa",
+      ground: "#26384c",
+      fillIntensity: 0.6,
+      environment: 0.55,
+      shadow: "#0a2138",
+      shadowOpacity: 0.2,
+    },
+    dark: {
+      key: "#f6f9ff",
+      keyIntensity: 2.6,
+      sky: "#dbe7f3",
+      ground: "#0a2138",
+      fillIntensity: 0.3,
+      environment: 0.32,
+      shadow: "#020b16",
+      shadowOpacity: 0.42,
+    },
+  },
+};
+
 type Options = {
   canvas: HTMLCanvasElement;
   copy: DocCopy;
   font: string;
-  inks: DocInks;
-  dark: boolean;
+  look: Look;
   reduced: boolean;
   /** Called when a document has landed on top, with its design (its field). */
   onTop: (design: number) => void;
@@ -67,7 +135,7 @@ function rng(seed: number) {
   };
 }
 
-export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTop }: Options) {
+export function createPile2Scene({ canvas, copy, font, look, reduced, onTop }: Options) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.setClearColor(0x000000, 0);
@@ -85,11 +153,9 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
   const view = { az: 0.34, el: 0.8, dist: 1.5, fx: 0.6, fy: 0.54 };
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
 
-  // ---- Ground: only a shadow catcher, so the page shows through (no shadow on the dark theme) --
-  const catcher = new THREE.Mesh(
-    new THREE.PlaneGeometry(4, 4),
-    new THREE.ShadowMaterial({ color: "#2a2216", opacity: 0.2 }),
-  );
+  // ---- Ground: only a shadow catcher, so the page shows through ------------------------------
+  const shadow = new THREE.ShadowMaterial({ color: "#2a2216", opacity: 0.2 });
+  const catcher = new THREE.Mesh(new THREE.PlaneGeometry(4, 4), shadow);
   catcher.rotation.x = -Math.PI / 2;
   catcher.receiveShadow = true;
   scene.add(catcher);
@@ -114,13 +180,18 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
   const fill = new THREE.HemisphereLight("#fff3e2", "#3a3530", 0.6);
   scene.add(fill);
 
-  const setTheme = (isDark: boolean) => {
-    (catcher.material as THREE.ShadowMaterial).opacity = isDark ? 0 : 0.2;
-    key.intensity = isDark ? 2.7 : 2.4;
-    fill.intensity = isDark ? 0.22 : 0.6;
-    scene.environmentIntensity = isDark ? 0.3 : 0.55;
+  const relight = ({ palette, dark }: Look) => {
+    const l = LIGHTING[palette][dark ? "dark" : "light"];
+    key.color.set(l.key);
+    key.intensity = l.keyIntensity;
+    fill.color.set(l.sky);
+    fill.groundColor.set(l.ground);
+    fill.intensity = l.fillIntensity;
+    scene.environmentIntensity = l.environment;
+    shadow.color.set(l.shadow);
+    shadow.opacity = l.shadowOpacity;
   };
-  setTheme(dark);
+  relight(look);
 
   // ---- The ream -------------------------------------------------------------------------------
   const sheets = new THREE.InstancedMesh(
@@ -164,16 +235,19 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
     [0.992, 1.008],
     [1.002, 0.986],
   ];
+  let palette = look.palette;
   const color = new THREE.Color();
   const paint = (i: number) => {
-    color.set(PAPERS[design[i]!]!).offsetHSL(0, 0, shade[i]!);
+    color.set(PAPERS[palette][design[i]!]!).offsetHSL(0, 0, shade[i]!);
     sheets.setColorAt(i, color);
     if (sheets.instanceColor) sheets.instanceColor.needsUpdate = true;
   };
   for (let i = 0; i < SHEETS; i++) paint(i);
 
   // ---- Printed faces ---------------------------------------------------------------------------
-  const textures = printDocuments(copy, font, inks, renderer.capabilities.getMaxAnisotropy());
+  const print = ({ palette, inks }: Look) =>
+    printDocuments(copy, font, inks, PAPERS[palette], renderer.capabilities.getMaxAnisotropy());
+  let textures = print(look);
   const faceGeometry = new THREE.PlaneGeometry(PAGE.w, PAGE.h);
   const faces = Array.from({ length: 6 }, () => {
     const mesh = new THREE.Mesh(
@@ -413,6 +487,18 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
     };
   };
 
+  /** A new mode relights the ream; a new palette also reprints the documents on its own stock. */
+  const setLook = (next: Look) => {
+    relight(next);
+    if (next.palette === palette) return;
+    palette = next.palette;
+    const old = textures;
+    textures = print(next);
+    worn.forEach((mesh, id) => (mesh.material.map = textures[design[id]!] ?? null));
+    old.forEach((t) => t.dispose());
+    for (let i = 0; i < SHEETS; i++) paint(i);
+  };
+
   return {
     frame,
     pick,
@@ -420,7 +506,7 @@ export function createPile2Scene({ canvas, copy, font, inks, dark, reduced, onTo
     pull,
     pullRandom,
     anchor,
-    setTheme,
+    setLook,
     setPointer(x: number, y: number) {
       pointer.tx = x;
       pointer.ty = y;

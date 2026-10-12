@@ -9,18 +9,20 @@ import { usePile2Hero } from "@/lib/animations/use-pile2-hero";
 import { curtain } from "@/lib/motion/curtain";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { REDUCED_MOTION } from "@/lib/motion/tokens";
+import { currentPalette } from "@/lib/palette";
 
 import { type DocCopy } from "./documents";
 import { FieldMark, FilDomaines } from "./fil-domaines";
 import styles from "./hero-pile2.module.css";
-import { BUILT, createPile2Scene, landedBy, SHEETS } from "./pile2-scene";
+import { BUILT, createPile2Scene, landedBy, type Look, SHEETS } from "./pile2-scene";
 
 /*
   Hero study "pile2": Pile, redone. The headline in Instrument Sans at poster size, with the ream of
   300 contracts standing on it. The ream builds quickly and softly. Point at a sheet and it slides
   out; click it and it is drawn out, turned to you and laid on top, a different document each time
   (one per field); a leader line names the field on top. Under it all, "le fil des domaines": the
-  five fields on one running thread that draws each of them. Follows the site theme, dark or light.
+  five fields on one running thread that draws each of them. Follows the site theme, dark or light,
+  and the palette (orange or navy), both live.
 
   The "contrats négociés" label for 300 is still to be confirmed by the client.
 */
@@ -66,7 +68,19 @@ export function HeroPile2() {
       const css = getComputedStyle(el);
       const token = (name: string) => css.getPropertyValue(name).trim();
       const font = token("--font-instrument-sans") || "sans-serif";
-      const dark = () => document.documentElement.dataset.theme === "dark";
+      // Read when needed: the computed style is live, so the tokens follow the palette and mode.
+      const look = (): Look => ({
+        palette: currentPalette(),
+        dark: document.documentElement.dataset.theme === "dark",
+        inks: {
+          print: token("--print"),
+          soft: token("--print-soft"),
+          rule: token("--print-rule"),
+          ink: token("--sign-ink"),
+          pen: token("--pen"),
+          accent: token("--accent"),
+        },
+      });
 
       let scene: ReturnType<typeof createPile2Scene> | null = null;
       let clock = reduced ? 10 : 0;
@@ -179,31 +193,16 @@ export function HeroPile2() {
         [400, 500, 600, 700].map((w) => document.fonts.load(`${w} 40px ${font}`)),
       ).then(() => {
         if (!alive) return;
-        scene = createPile2Scene({
-          canvas,
-          copy,
-          font,
-          dark: dark(),
-          reduced,
-          onTop: setTop,
-          inks: {
-            print: token("--print"),
-            soft: token("--print-soft"),
-            rule: token("--print-rule"),
-            ink: token("--sign-ink"),
-            pen: token("--pen"),
-            accent: token("--accent"),
-          },
-        });
+        scene = createPile2Scene({ canvas, copy, font, look: look(), reduced, onTop: setTop });
         fit();
         el.dataset.scene = "ready";
         gsap.ticker.add(tick);
       });
 
-      const theme = new MutationObserver(() => scene?.setTheme(dark()));
+      const theme = new MutationObserver(() => scene?.setLook(look()));
       theme.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ["data-theme"],
+        attributeFilter: ["data-theme", "data-palette"],
       });
       const resize = new ResizeObserver(fit);
       resize.observe(canvas);

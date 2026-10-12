@@ -1,12 +1,19 @@
 /*
   Le fil des domaines: a slim band, the running line of the five fields edge to edge, each a small
-  self-contained card: its icon (accent strokes, one moving part in ink) and its name.
+  self-contained card: its icon (accent strokes, one moving part in ink) and its name. The navy
+  palette turns that round: strokes in ink, the moving part in blue. Icons used elsewhere (the
+  hero's callout) take --thread and --moving from their own section.
 */
 .fil {
   --thread: var(--accent-strong);
+  --moving: var(--ink);
 }
 :global([data-theme="dark"]) .fil {
   --thread: var(--accent);
+}
+:global([data-palette="navy"]) .fil {
+  --thread: var(--ink);
+  --moving: var(--accent);
 }
 
 .window {
@@ -87,7 +94,7 @@
   fill: var(--bg);
 }
 .wave {
-  stroke: var(--ink);
+  stroke: var(--moving, var(--ink));
   opacity: 0.15;
   animation: wave 2.2s var(--ease-standard) infinite;
 }
@@ -100,7 +107,7 @@
   }
 }
 .play {
-  fill: var(--ink);
+  fill: var(--moving, var(--ink));
   stroke: none;
   transform-box: fill-box;
   transform-origin: 40% 50%;
@@ -113,7 +120,7 @@
   }
 }
 .parcel {
-  fill: var(--ink);
+  fill: var(--moving, var(--ink));
   stroke: none;
   animation: parcel 1.8s var(--ease-standard) infinite;
 }
@@ -132,7 +139,7 @@
   }
 }
 .spin {
-  stroke: var(--ink);
+  stroke: var(--moving, var(--ink));
   animation: spin 4s linear infinite;
 }
 @keyframes spin {
@@ -144,7 +151,7 @@
   opacity: 0.55;
 }
 .sign {
-  stroke: var(--ink);
+  stroke: var(--moving, var(--ink));
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: sign 3.4s var(--ease-standard) infinite;

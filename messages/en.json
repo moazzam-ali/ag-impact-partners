@@ -95,6 +95,13 @@
     "title": "Page not found.",
     "back": "Back to home"
   },
+  "paletteSwitcher": {
+    "label": "Palette",
+    "orange": "Orange",
+    "navy": "Navy",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "curtainSwitcher": {
     "label": "Curtain",
     "fil": "Thread",

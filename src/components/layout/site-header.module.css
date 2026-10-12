@@ -32,6 +32,10 @@
 .logo:hover {
   background: var(--chip-hover);
 }
+/* Navy palette: the mark is blue on navy (the theme's logo rule), navy on white. */
+:global([data-palette="navy"][data-theme="dark"]) .logo {
+  color: var(--accent);
+}
 .mark {
   width: 23px;
   height: 17px;

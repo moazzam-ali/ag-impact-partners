@@ -7,11 +7,17 @@
   its content (it does not have to fit one screen). The headline is a subgrid over rows 2–4, so its
   two lines sit above and below the middle row without leaving the one h1. Line two is set (in JS) a little wider than line one, through
   `--two`. The stage is an empty box the scene frames the ream into; it reaches into line one.
+
+  Colours: --thread draws the field icons, --moving is their one moving part, --leader and --knot
+  are the line from the top document to the callout. The navy palette re-sets them at the end.
 */
 .hero {
   --one: clamp(56px, 8.6vw, 164px);
   --two: calc(var(--one) * 0.66);
   --thread: var(--accent-strong);
+  --moving: var(--ink);
+  --leader: var(--ink);
+  --knot: var(--thread);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -49,13 +55,13 @@
   overflow: visible;
   pointer-events: none;
   fill: none;
-  stroke: var(--ink);
+  stroke: var(--leader);
   stroke-width: 1;
   opacity: 0;
   transition: opacity var(--dur-slow) var(--ease-out);
 }
 .leader circle {
-  fill: var(--thread);
+  fill: var(--knot);
   stroke: var(--bg);
   stroke-width: 2;
 }
@@ -249,6 +255,33 @@
   grid-row: 5;
   grid-column: 1 / -1;
   margin-top: clamp(var(--space-30), 8vw, 180px);
+}
+
+/*
+  ---- Navy palette: the AG Impact theme -------------------------------------------------------------
+  Its display type (semibold on both lines, -0.04em), and blue only on what you look at: the
+  figure, the line from the top document to the callout, and each icon's one moving part (the
+  icons themselves are drawn in the page's ink).
+*/
+:global([data-palette="navy"]) .hero {
+  --thread: var(--ink);
+  --moving: var(--accent);
+  --leader: var(--accent);
+  --knot: var(--accent);
+}
+:global([data-palette="navy"]) .headline {
+  letter-spacing: -0.04em;
+}
+:global([data-palette="navy"]) .two {
+  font-weight: var(--weight-semibold);
+}
+:global([data-palette="navy"]) .count {
+  color: var(--accent);
+}
+:global([data-palette="navy"]) .eyebrow,
+:global([data-palette="navy"]) .onTop {
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
 }
 
 /* ---- Tablet and phone: one column, the ream between the two lines ------------------------------ */
