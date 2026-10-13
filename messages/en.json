@@ -105,24 +105,14 @@
     "title": "Page not found.",
     "back": "Back to home"
   },
-  "paletteSwitcher": {
-    "label": "Palette",
+  "themeMenu": {
+    "label": "Palette and theme",
+    "palette": "Palette",
+    "mode": "Mode",
     "orange": "Orange",
     "navy": "Navy",
     "light": "Light",
     "dark": "Dark"
-  },
-  "curtainSwitcher": {
-    "label": "Curtain",
-    "fil": "Thread",
-    "sommet": "Peak",
-    "feuillets": "Sheets",
-    "esquisse": "Sketch",
-    "iris": "Iris",
-    "biais": "Bias",
-    "feuille": "Leaf",
-    "tourne": "Page turn",
-    "replay": "Replay"
   },
   "expertise": {
     "metaTitle": "Expertise · AG Impact Partners",

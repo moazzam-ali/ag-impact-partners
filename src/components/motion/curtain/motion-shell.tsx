@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { type ComponentType, type Ref, useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 import { siteConfig } from "@/config/site";
 import { useMounted } from "@/hooks/use-mounted";
@@ -9,17 +9,9 @@ import { curtain, trackLoad } from "@/lib/motion/curtain";
 import { markClientNavigated } from "@/lib/motion/nav-state";
 import { REDUCED_MOTION } from "@/lib/motion/tokens";
 
+import { Curtain } from "./curtain";
 import styles from "./curtain.module.css";
-import { CurtainBiais } from "./curtain-biais";
-import { CurtainEsquisse } from "./curtain-esquisse";
-import { CurtainFeuille } from "./curtain-feuille";
-import { CurtainFeuillets } from "./curtain-feuillets";
-import { CurtainFil } from "./curtain-fil";
-import { CurtainIris } from "./curtain-iris";
-import { CurtainSommet } from "./curtain-sommet";
-import { CurtainSwitcher } from "./curtain-switcher";
-import { CurtainTourne } from "./curtain-tourne";
-import { type CurtainHandle, type CurtainStyle, useCurtainStyle } from "./styles";
+import { type CurtainHandle } from "./run";
 
 /*
   Runs the curtain: the splash once per page load, then a transition on every internal link. A
@@ -32,23 +24,9 @@ import { type CurtainHandle, type CurtainStyle, useCurtainStyle } from "./styles
   Modified clicks, new tabs, downloads, other origins and same-page links are left alone. Back and
   forward navigate without a cover.
 
-  The server HTML (and hydration) has a plain cover in the page's colour; the chosen style, which
-  only the browser knows, takes over from it once mounted, and the splash starts from there.
+  The server HTML (and hydration) has a plain cover in the page's colour; the curtain, which
+  measures the screen, takes over from it once mounted, and the splash starts from there.
 */
-const CURTAINS: Record<
-  CurtainStyle,
-  ComponentType<{ ref: Ref<CurtainHandle>; reduced: boolean }>
-> = {
-  fil: CurtainFil,
-  sommet: CurtainSommet,
-  feuillets: CurtainFeuillets,
-  esquisse: CurtainEsquisse,
-  iris: CurtainIris,
-  biais: CurtainBiais,
-  feuille: CurtainFeuille,
-  tourne: CurtainTourne,
-};
-
 const subscribeMotion = (fn: () => void) => {
   const mq = window.matchMedia(REDUCED_MOTION);
   mq.addEventListener("change", fn);
@@ -69,7 +47,6 @@ const frames = (n: number) =>
 
 export function MotionShell() {
   const mounted = useMounted();
-  const style = useCurtainStyle();
   const reduced = useReducedMotion();
   const handle = useRef<CurtainHandle>(null);
   const router = useRouter();
@@ -77,9 +54,8 @@ export function MotionShell() {
   const arrived = useRef<(() => void) | null>(null);
   const busy = useRef(true);
   const started = useRef(false);
-  const Curtain = CURTAINS[style];
 
-  // The splash, once, as soon as the chosen style is in place.
+  // The splash, once, as soon as the curtain is in place.
   useEffect(() => {
     const h = handle.current;
     if (!mounted || !h || started.current) return;
@@ -101,7 +77,7 @@ export function MotionShell() {
   }, [pathname]);
 
   useEffect(() => {
-    const navigate = async (href: string, from: { x: number; y: number }) => {
+    const navigate = async (href: string) => {
       const h = handle.current;
       if (!h) return router.push(href);
       busy.current = true;
@@ -120,7 +96,6 @@ export function MotionShell() {
           await frames(1);
         },
         () => curtain.open(),
-        from,
       );
       busy.current = false;
     };
@@ -136,7 +111,7 @@ export function MotionShell() {
         return;
       e.preventDefault();
       if (busy.current) return;
-      void navigate(url.pathname + url.search + url.hash, { x: e.clientX, y: e.clientY });
+      void navigate(url.pathname + url.search + url.hash);
     };
 
     // Fetch a page as soon as its link is pointed at, so the swap rarely waits at its covered moment.
@@ -170,7 +145,6 @@ export function MotionShell() {
           <div className={styles.base} />
         </div>
       )}
-      {mounted && siteConfig.features.curtainSwitcher ? <CurtainSwitcher value={style} /> : null}
     </>
   );
 }

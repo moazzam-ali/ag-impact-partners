@@ -34,184 +34,42 @@
   inset: 0;
   background: var(--bg);
 }
-/* ---- Fil ---------------------------------------------------------------------------------------- */
-.half {
+
+/* ---- The panel: a square tilted to the A's leg (30deg from vertical), accent on both edges ------ */
+.tilt {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 50%;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(30deg);
+}
+.panel {
+  position: absolute;
   overflow: hidden;
   background: var(--bg);
 }
-.top {
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
   top: 0;
-  height: calc(50% + 1px);
-}
-.bottom {
   bottom: 0;
-}
-.rise,
-.hang {
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-}
-.rise {
-  bottom: var(--space-8);
-}
-.hang {
-  top: var(--space-8);
-}
-.filMark,
-.filWord {
-  display: block;
-  width: auto;
-  opacity: 0;
-}
-.filMark {
-  height: clamp(64px, 8.5vw, 124px);
-}
-.filWord {
-  height: clamp(40px, 4.6vw, 68px);
-}
-.filNote {
-  position: absolute;
-  left: var(--page-gutter);
-  bottom: var(--space-3);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  opacity: 0;
-}
-.filCount {
-  left: auto;
-  right: var(--page-gutter);
-  font-variant-numeric: tabular-nums;
-}
-.line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background: var(--rule);
-  transform: scaleX(0);
-}
-.fill {
-  position: absolute;
-  inset: 0;
+  z-index: 1;
+  width: 1px;
   background: var(--line-fill);
-  transform-origin: left center;
-  transform: scaleX(0);
+}
+.panel::before {
+  left: 0;
+}
+.panel::after {
+  right: 0;
+}
+.hold {
+  position: absolute;
 }
 
-/* ---- Sommet ------------------------------------------------------------------------------------- */
-.sommetSheet {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-.peach {
-  fill: var(--accent);
-}
-.ink {
-  fill: var(--on-accent);
-}
-.sommetNote {
-  position: absolute;
-  top: var(--space-8);
-  left: var(--page-gutter);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--on-accent);
-  opacity: 0;
-}
-.bigCount {
-  position: absolute;
-  left: var(--page-gutter);
-  bottom: var(--space-6);
-  overflow: hidden;
-  /* Room for the last digit's ink past its tightened advance. */
-  padding-right: 0.08em;
-  font-size: clamp(72px, 12vw, 200px);
-  font-weight: var(--weight-semibold);
-  line-height: 0.86;
-  letter-spacing: -0.05em;
-  font-variant-numeric: tabular-nums;
-  color: var(--on-accent);
-}
-.digits {
-  display: block;
-  opacity: 0;
-}
-
-/* ---- Feuillets ---------------------------------------------------------------------------------- */
-.sheet {
-  --arc: 0px;
-  --tail: 0px;
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  visibility: hidden;
-  border-radius: 50% 50% 50% 50% / var(--arc) var(--arc) var(--tail) var(--tail);
-}
-.sheetInk {
-  background: var(--sleeve);
-}
-.sheetPeach {
-  background: var(--accent);
-}
-.sheetPaper {
-  background: var(--paper);
-  color: var(--print);
-}
-.lockup {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: var(--space-6);
-}
-.feuilleLogo {
-  width: min(70vw, 520px);
-  height: auto;
-}
-.feuilleSign {
-  width: min(44vw, 240px);
-  height: auto;
-  overflow: visible;
-  fill: none;
-  stroke: var(--sign-ink);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.feuilleNote {
-  position: absolute;
-  left: var(--page-gutter);
-  bottom: var(--space-8);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--print-soft);
-}
-.feuilleCount {
-  left: auto;
-  right: var(--page-gutter);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---- The traced lockup and its hairline (esquisse, iris, biais) ---------------------------------- */
+/* ---- The traced lockup and its hairline loader -------------------------------------------------- */
 .plate {
   --lockup-w: min(50vw, 480px);
   position: absolute;
@@ -282,74 +140,28 @@
   background: var(--line-fill);
   opacity: 0;
 }
-.hairMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
+.hairCount {
+  display: block;
   margin-top: var(--space-3);
+  text-align: right;
   font-size: 11px;
   font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-.hairCount {
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--tracking-wide);
-}
-/* Crop marks at the corners of the lockup's frame (esquisse). */
-.crop {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 0 solid var(--ink-soft);
-}
-.crop[data-corner="tl"] {
-  top: 0;
-  left: 0;
-  border-top-width: 1px;
-  border-left-width: 1px;
-  transform-origin: top left;
-}
-.crop[data-corner="tr"] {
-  top: 0;
-  right: 0;
-  border-top-width: 1px;
-  border-right-width: 1px;
-  transform-origin: top right;
-}
-.crop[data-corner="bl"] {
-  bottom: 0;
-  left: 0;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  transform-origin: bottom left;
-}
-.crop[data-corner="br"] {
-  right: 0;
-  bottom: 0;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-  transform-origin: bottom right;
+  color: var(--ink-soft);
 }
 
-/* ---- Esquisse: a paper proof, whatever the page's theme; then a paper window over the page ------- */
-.paperSheet {
+/* ---- The window: the page's colour with a mark-shaped hole, edged in an accent hairline ---------- */
+.stage {
   position: absolute;
   inset: 0;
-  background: var(--paper);
-  clip-path: inset(100% 0 0 0);
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
 }
-.onPaper {
-  --rule: var(--print-rule);
-  --ink-soft: var(--print-soft);
-  --line-fill: var(--accent-strong);
-  color: var(--print);
+.ground {
+  fill: var(--bg);
 }
-.paperFill {
-  fill: var(--paper);
-}
-
 .edge path {
   fill: none;
   stroke: var(--line-fill);
@@ -357,133 +169,7 @@
   vector-effect: non-scaling-stroke;
 }
 
-/* ---- Iris: an ink disc (the page's colours inverted) and a fine accent ring at its edge ---------- */
-.irisDisc {
-  --rule: color-mix(in srgb, var(--bg) 22%, var(--ink));
-  --ink-soft: color-mix(in srgb, var(--bg) 55%, var(--ink));
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  color: var(--bg);
-  clip-path: circle(0px at 50% 50%);
-}
-.irisRing {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 1px solid var(--line-fill);
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-}
-
-/* ---- Biais: a panel tilted to the A's leg (30deg from vertical), accent on both edges ------------ */
-.biaisTilt {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform: rotate(30deg);
-}
-.biaisPanel {
-  position: absolute;
-  overflow: hidden;
-  background: var(--bg);
-}
-.biaisPanel::before,
-.biaisPanel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  width: 1px;
-  background: var(--line-fill);
-}
-.biaisPanel::before {
-  left: 0;
-}
-.biaisPanel::after {
-  right: 0;
-}
-.biaisHold {
-  position: absolute;
-}
-
-/* ---- Feuille: one paper sheet with a rim of accent (another sheet, a beat ahead) ----------------- */
-.paperOn {
-  background: var(--paper);
-}
-.rim {
-  background: var(--line-fill);
-}
-
-/* ---- Tourne: sheets that cross horizontally, left and right edges curved ------------------------ */
-.hsheet {
-  --arc: 0px;
-  --tail: 0px;
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  visibility: hidden;
-  border-radius: var(--arc) var(--tail) var(--tail) var(--arc) / 50% 50% 50% 50%;
-}
-.inkOn {
-  background: var(--sleeve);
-}
-/* The paper's soft shadow on the ink while it moves. */
-.lifted {
-  box-shadow: -28px 0 56px rgb(0 0 0 / 0.22);
-}
-
-/* ---- The bending sheet for page changes (bend.tsx) ---------------------------------------------- */
-.bend {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-.bendInk {
-  fill: var(--sleeve);
-}
-.bendPeach {
-  fill: var(--accent);
-}
-.bendPaper {
-  fill: var(--paper);
-}
-.bendGround {
-  fill: var(--bg);
-}
-.bendEdge {
-  fill: none;
-  stroke: var(--accent-strong);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-.bendMarkWrap {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-.bendMark {
-  display: block;
-  width: auto;
-  height: clamp(56px, 9vh, 104px);
-  color: var(--print);
-  opacity: 0;
-}
-.bendMarkOnPeach {
-  color: var(--on-accent);
-}
-/* The mark on a page change for the styles that are not a sheet (iris, biais). */
+/* The mark on a page change, held still at the centre as the panel crosses. */
 .icon {
   display: block;
   width: auto;

@@ -26,10 +26,11 @@ export const siteConfig = {
     themeToggle: true,
     /** The splash on every page load (logo build-up and loader); page transitions run regardless. */
     splash: true,
-    /** Floating pill to compare splash / page-transition styles while one is being chosen. */
-    curtainSwitcher: true,
-    /** Floating pill to compare the orange palette with the client's navy theme, light and dark. */
-    paletteSwitcher: true,
+    /**
+     * While the client chooses between the orange palette and their navy theme: the theme button
+     * opens a menu with the palette and light / dark. Off, it only switches light and dark.
+     */
+    paletteChoice: true,
   },
 } as const;
 

@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { PeakMark } from "@/components/brand/peak-mark";
 import { ButtonLink } from "@/components/ui/button-link";
 import { LocaleSwitch } from "@/components/ui/locale-switch";
+import { ThemeMenu } from "@/components/ui/theme-menu";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/navigation";
@@ -59,7 +60,13 @@ export function SiteHeader() {
 
       <div className={styles.tools}>
         {siteConfig.features.localeSwitch ? <LocaleSwitch /> : null}
-        {siteConfig.features.themeToggle ? <ThemeToggle className="max-md:hidden" /> : null}
+        {siteConfig.features.themeToggle ? (
+          siteConfig.features.paletteChoice ? (
+            <ThemeMenu className="max-md:hidden" />
+          ) : (
+            <ThemeToggle className="max-md:hidden" />
+          )
+        ) : null}
       </div>
 
       <ButtonLink href="/contact">{t("cta")}</ButtonLink>

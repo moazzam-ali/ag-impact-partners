@@ -1,26 +1,51 @@
-/* Review only: a small pill bottom right, clear of the header, the curtain switcher and the dev badge. */
-.switcher {
-  position: fixed;
-  right: var(--space-5);
-  bottom: var(--space-5);
-  z-index: 50;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2px;
-  max-width: calc(100vw - var(--space-5) * 2);
-  padding: 4px;
+/* The theme button's menu: a small card under the button, its right edge on the button's. */
+.menu {
+  position: relative;
+}
+.panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
   border-radius: var(--radius-lg);
   background: var(--chip);
   box-shadow: var(--shadow-md);
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    visibility 0s linear var(--dur-base);
+}
+.panel[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 .label {
-  padding: 0 var(--space-2) 0 var(--space-3);
+  padding-left: var(--space-2);
   color: var(--ink-soft);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
+}
+.options {
+  display: flex;
+  gap: 2px;
 }
 .option {
   display: inline-flex;
@@ -42,12 +67,6 @@
   background: var(--ink);
   color: var(--bg);
 }
-.divider {
-  width: 1px;
-  height: 16px;
-  margin: 0 var(--space-1);
-  background: var(--rule);
-}
 
 /* Each palette's ground and accent, whatever the page is showing now: a preview, not a token. */
 .swatch {
@@ -63,8 +82,10 @@
   background: linear-gradient(135deg, #0a3050 50%, #0099ff 50%);
 }
 
-@media (max-width: 767px) {
-  .label {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-open="true"] {
+    transform: none;
+    transition: none;
   }
 }

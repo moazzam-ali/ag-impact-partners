@@ -3,12 +3,25 @@
 import { gsap } from "@/lib/motion/gsap";
 import { type Loader } from "@/lib/motion/curtain";
 
-import { played } from "./styles";
-
 /*
-  Shared steps for the curtain styles: waiting, the loader's readout, and the reduced-motion path
-  (no movement: the lockup stands still while the page loads, then the curtain fades).
+  Shared steps for the curtain: waiting, the loader's readout, the swap's covered moment, the mark
+  beat, the mark-shaped window, and the reduced-motion path (no movement: the lockup stands still
+  while the page loads, then the curtain fades).
 */
+
+/** What the curtain does; MotionShell runs it. `onReveal` fires as the page starts to show. */
+export type CurtainHandle = {
+  splash(loader: Loader, onReveal: () => void): Promise<void>;
+  /** A page change: cover, change page at the covered moment (`go`), reveal; no rest between. */
+  swap(go: () => Promise<void>, onReveal: () => void): Promise<void>;
+};
+
+/** Resolves when a timeline completes. */
+export const played = (tl: gsap.core.Animation) =>
+  new Promise<void>((resolve) => {
+    tl.eventCallback("onComplete", () => resolve());
+  });
+
 export const wait = (seconds: number) => new Promise<void>((r) => setTimeout(r, seconds * 1000));
 
 /** Calls `show(value)` on every frame until the loader is done, then once more at 1. */
@@ -19,8 +32,6 @@ export async function readout(loader: Loader, show: (value: number) => void) {
   gsap.ticker.remove(tick);
   show(1);
 }
-
-export const percent = (value: number) => String(Math.round(value * 100)).padStart(3, "0");
 
 /** The reduced-motion splash: the lockup stands still, the count still runs (`show`), then a fade. */
 export async function stillSplash(
@@ -60,42 +71,33 @@ export async function stillSwap(el: HTMLElement, go: () => Promise<void>, onReve
   rest(el);
 }
 
-type Box = { x: number; y: number; w: number; h: number };
+/**
+ * Proxy Papers' mark beat on a page change: the mark rises in over the last half second of the
+ * cover and drifts up and fades as the reveal starts. Call after the timeline's "covered" label.
+ */
+export function markBeat(
+  tl: gsap.core.Timeline,
+  mark: Element | null | undefined,
+  coverEnd: number,
+) {
+  if (!mark) return tl;
+  gsap.set(mark, { autoAlpha: 0, yPercent: 18 });
+  return tl
+    .to(mark, { autoAlpha: 1, yPercent: 0, duration: 0.5, ease: "power3.out" }, coverEnd - 0.5)
+    .to(mark, { autoAlpha: 0, yPercent: -22, duration: 0.5, ease: "power2.in" }, "covered");
+}
+
 /** The middle of the mark, and the whole logo's box, in logo units. */
 const MARK_CENTRE = { x: 667, y: 525 };
 const LOGO = { x: 59, y: 78, w: 3082 };
 
 /**
- * Puts a drawing from the logo (`box`, in logo units) on a full-screen SVG whose viewBox is the
- * viewport: `width` px wide, centred, its middle at `cy` of the height. `zoom(v)` is a transform
- * for a mark-shaped window or clip: 0 is the mark itself; towards 1 it grows into `into` (a point
- * inside the A's left leg, logo units) while that point moves to the centre, until the shape
- * covers the screen; towards -1 it shrinks to nothing about the mark's centre.
- */
-export function markStage(
-  svg: SVGSVGElement,
-  box: Box,
-  width: number,
-  cy: number,
-  into = { x: 262, y: 640 },
-  far = 110,
-) {
-  const w = svg.clientWidth || window.innerWidth;
-  const h = svg.clientHeight || window.innerHeight;
-  const k = width / box.w;
-  return stageAt(
-    svg,
-    k,
-    w / 2 - width / 2 - box.x * k,
-    h * cy - (box.h * k) / 2 - box.y * k,
-    into,
-    far,
-  );
-}
-
-/**
- * The same, for a logo already on screen: `logo` is the rendered lockup SVG (viewBox LOGO), and the
- * stage is laid exactly over it, so its window can take the place of the mark.
+ * Lays a viewport-sized SVG (its viewBox the viewport) exactly over a logo already on screen
+ * (`logo` is the rendered lockup SVG, viewBox LOGO), so a mark-shaped window can take the mark's
+ * place. `place` puts logo units on it; `zoom(v)` is a transform for the window: 0 is the mark
+ * itself; towards 1 it grows into `into` (a point inside the A's left leg, logo units) while that
+ * point moves to the centre, until the shape covers the screen; towards -1 it shrinks to nothing
+ * about the mark's centre.
  */
 export function markStageOver(
   svg: SVGSVGElement,
@@ -105,17 +107,8 @@ export function markStageOver(
 ) {
   const r = logo.getBoundingClientRect();
   const k = r.width / LOGO.w;
-  return stageAt(svg, k, r.left - LOGO.x * k, r.top - LOGO.y * k, into, far);
-}
-
-function stageAt(
-  svg: SVGSVGElement,
-  k: number,
-  tx: number,
-  ty: number,
-  into: { x: number; y: number },
-  far: number,
-) {
+  const tx = r.left - LOGO.x * k;
+  const ty = r.top - LOGO.y * k;
   const w = svg.clientWidth || window.innerWidth;
   const h = svg.clientHeight || window.innerHeight;
   svg.setAttribute("viewBox", `0 0 ${w} ${h}`);

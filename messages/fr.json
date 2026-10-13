@@ -114,24 +114,14 @@
     "title": "Page introuvable.",
     "back": "Retour à l'accueil"
   },
-  "paletteSwitcher": {
-    "label": "Palette",
+  "themeMenu": {
+    "label": "Palette et thème",
+    "palette": "Palette",
+    "mode": "Mode",
     "orange": "Orange",
     "navy": "Marine",
     "light": "Clair",
     "dark": "Sombre"
-  },
-  "curtainSwitcher": {
-    "label": "Rideau",
-    "fil": "Fil",
-    "sommet": "Sommet",
-    "feuillets": "Feuillets",
-    "esquisse": "Esquisse",
-    "iris": "Iris",
-    "biais": "Biais",
-    "feuille": "Feuille",
-    "tourne": "Tourne",
-    "replay": "Rejouer"
   },
   "expertise": {
     "metaTitle": "Expertise · AG Impact Partners",

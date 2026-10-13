@@ -15,10 +15,10 @@ import { gsap } from "@/lib/motion/gsap";
 import styles from "./curtain.module.css";
 
 /*
-  The splash lockup shared by esquisse, iris and biais, and how it is built: the mark is traced
-  shape by shape as the page loads (an accent hairline), each shape filling as its outline closes
-  and the hairline fading into the fill; the wordmark rises line by line out of a mask once the A
-  is done. Under it a hairline loader: a fill, a dot at its head, a count (and a caption).
+  The splash lockup and how it is built: the mark is traced shape by shape as the page loads (an
+  accent hairline), each shape filling as its outline closes and the hairline fading into the fill;
+  the wordmark rises line by line out of a mask once the A is done. Under it a hairline loader: a
+  fill, a dot at its head and a count.
 
   Strokes are in logo units (DrawSVG needs strokes that scale), sized for the lockup's width.
 */
@@ -61,19 +61,16 @@ export function CurtainLockup({ className }: { className?: string }) {
   );
 }
 
-/** The hairline loader under the lockup, as wide as it: fill, head dot, count, optional caption. */
-export function Hairline({ caption }: { caption?: string }) {
+/** The hairline loader under the lockup, as wide as it: fill, head dot and the count at its end. */
+export function Hairline() {
   return (
     <span className={styles.hair} data-hair>
       <span className={styles.hairTrack} data-hair-track>
         <span className={styles.hairFill} data-hair-fill />
       </span>
       <span className={styles.hairDot} data-hair-dot />
-      <span className={styles.hairMeta}>
-        <span>{caption}</span>
-        <span className={styles.hairCount} data-count>
-          000
-        </span>
+      <span className={styles.hairCount} data-count>
+        000
       </span>
     </span>
   );

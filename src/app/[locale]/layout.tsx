@@ -8,7 +8,6 @@ import { type ReactNode } from "react";
 import { MotionShell } from "@/components/motion/curtain/motion-shell";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { Providers } from "@/components/providers";
-import { PaletteSwitcher } from "@/components/ui/palette-switcher";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import { PALETTE_SCRIPT } from "@/lib/palette";
@@ -76,7 +75,6 @@ export default async function LocaleLayout({
             {children}
             <MotionShell />
             <SmoothScroll />
-            {siteConfig.features.paletteSwitcher ? <PaletteSwitcher /> : null}
           </Providers>
         </NextIntlClientProvider>
       </body>

@@ -6,6 +6,8 @@ All notable changes to this project. Newest first.
 
 ### Changed
 
+- The curtain is final: the splash traces the lockup on the page's colour over a hairline that counts (biais, without its caption), then the page shows through the mark, which zooms open (sommet's reveal, edged in an accent hairline); page changes are biais's panel crossing on the A's angle. The eight styles and the "Rideau" switcher are kept on the `archive/curtains` branch.
+- The "Palette" pill is gone: while the client chooses, the theme button in the header opens a small menu with the palette (Orange, Marine) and the mode (Clair, Sombre); `features.paletteChoice` turns it back into the plain light / dark toggle.
 - The hero's text can no longer be selected by dragging or double-clicking across it.
 - Navy dark: the page is deep navy (#0A2138) and the primary button is blue with deep navy text, white on hover.
 
