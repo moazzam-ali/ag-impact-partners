@@ -146,9 +146,10 @@
   Navy: AG Impact's theme (navy #0A3050, deep navy #0A2138, blue #0099FF, ice #EEF4FA), mostly white
   and navy with blue used sparingly: for what you look at (a figure, a button, a line), never for
   what you read. Small text never sits in blue, and labels on blue are deep navy (5.4 : 1). Light is
-  white with navy type and ice chips; dark is navy with lighter navy chips and light slate secondary
-  text (6.3 : 1). The call to action is deep navy with white text in both, the darkest thing on the
-  page, and lights up blue on hover.
+  white with navy type and ice chips; dark is deep navy with lighter navy chips and light slate
+  secondary text (7.5 : 1). The call to action is the strongest contrast on the page, apart from the
+  secondary button and the nav: deep navy with white text on light, white with deep navy text on
+  dark. It lights up blue on hover.
 */
 [data-palette="navy"][data-theme="light"],
 [data-palette="navy"] [data-theme="light"] {
@@ -168,7 +169,7 @@
 }
 [data-palette="navy"][data-theme="dark"],
 [data-palette="navy"] [data-theme="dark"] {
-  --bg: #0a3050;
+  --bg: #0a2138;
   --ink: #ffffff;
   --ink-soft: #9db3c9;
   --chip: #163d61;
@@ -177,8 +178,8 @@
   --accent: #0099ff;
   --accent-strong: #ffffff;
   --on-accent: #0a2138;
-  --cta: #0a2138;
-  --on-cta: #ffffff;
+  --cta: #ffffff;
+  --on-cta: #0a2138;
   --cta-hover: #0099ff;
   --on-cta-hover: #0a2138;
 }
