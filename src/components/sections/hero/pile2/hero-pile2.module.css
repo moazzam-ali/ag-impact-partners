@@ -23,6 +23,9 @@
   overflow: hidden;
   background: var(--bg);
   color: var(--ink);
+  /* The hero is handled, not read: dragging across it never selects its text. */
+  -webkit-user-select: none;
+  user-select: none;
 }
 :global([data-theme="dark"]) .hero {
   --thread: var(--accent);

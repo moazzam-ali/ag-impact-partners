@@ -6,6 +6,7 @@ All notable changes to this project. Newest first.
 
 ### Changed
 
+- The hero's text can no longer be selected by dragging or double-clicking across it.
 - Navy dark: the page is deep navy (#0A2138) and the primary button is blue with deep navy text, white on hover.
 
 ### Added
