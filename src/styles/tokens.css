@@ -147,9 +147,9 @@
   and navy with blue used sparingly: for what you look at (a figure, a button, a line), never for
   what you read. Small text never sits in blue, and labels on blue are deep navy (5.4 : 1). Light is
   white with navy type and ice chips; dark is deep navy with lighter navy chips and light slate
-  secondary text (7.5 : 1). The call to action is the strongest contrast on the page, apart from the
-  secondary button and the nav: deep navy with white text on light, white with deep navy text on
-  dark. It lights up blue on hover.
+  secondary text (7.5 : 1). The call to action stands apart from the secondary button and the nav:
+  on light it is deep navy with white text and lights up blue on hover; on dark it is blue with deep
+  navy text and turns white on hover.
 */
 [data-palette="navy"][data-theme="light"],
 [data-palette="navy"] [data-theme="light"] {
@@ -178,9 +178,9 @@
   --accent: #0099ff;
   --accent-strong: #ffffff;
   --on-accent: #0a2138;
-  --cta: #ffffff;
+  --cta: #0099ff;
   --on-cta: #0a2138;
-  --cta-hover: #0099ff;
+  --cta-hover: #ffffff;
   --on-cta-hover: #0a2138;
 }
 /* Navy's printed paper: cool stock, navy-black print, signatures in navy, the stamp and pen in blue. */

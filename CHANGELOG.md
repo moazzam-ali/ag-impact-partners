@@ -4,6 +4,10 @@ All notable changes to this project. Newest first.
 
 ## Unreleased
 
+### Changed
+
+- Navy dark: the page is deep navy (#0A2138) and the primary button is blue with deep navy text, white on hover.
+
 ### Added
 
 - Home A2 "Ce que nous négocions": the four negotiated items take turns on a sticky stage, standing on a contract-field hairline that counts the steps; the statement, and the client types drifting as a quiet text-only line. A still page for reduced motion, no script and short screens.
