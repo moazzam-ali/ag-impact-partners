@@ -4,6 +4,11 @@ All notable changes to this project. Newest first.
 
 ## Unreleased
 
+### Added
+
+- Home A2 "Ce que nous négocions": the four negotiated items take turns on a sticky stage, standing on a contract-field hairline that counts the steps; the statement, and the client types drifting as a quiet text-only line. A still page for reduced motion, no script and short screens.
+- Home A3 "Ce qui nous distingue": the headline stands on a full-bleed table line that tips as you scroll; it turns over the edge and comes back from the other side, and the pull line swings out from underneath.
+
 ### Removed
 
 - Every hero but Pile 2: the signature variants, light cables, the five rounds of hero studies, their lab pages, the hero variant switcher, the round-5 images, the hand model and the study fonts. All of it is kept on the `archive/hero-studies` branch. Pile 2 is the homepage hero; its copy is the `pile` namespace.

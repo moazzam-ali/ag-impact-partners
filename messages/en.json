@@ -77,6 +77,26 @@
       }
     }
   },
+  "whatWeNegotiate": {
+    "label": "What we negotiate",
+    "items": ["Distribution agreements.", "Rights.", "Content.", "Supplier contracts."],
+    "statement": "For companies that buy, produce or distribute content. And for those that simply want to pay less for what they already buy.",
+    "clientsLabel": "Client types",
+    "clients": [
+      "Telecom operators",
+      "TV channels",
+      "Radio",
+      "Media groups",
+      "Leagues and sports rights holders",
+      "Platforms"
+    ]
+  },
+  "whyUs": {
+    "label": "What sets us apart",
+    "title": "Twenty-five years on the other side of the table.",
+    "body": "Running content, acquisitions and partnerships at major groups. That is why a head of distribution takes our call.",
+    "pull": "The people we call pick up."
+  },
   "theme": {
     "toggle": "Switch theme",
     "light": "Light",
@@ -86,10 +106,6 @@
     "switch": "Switch language",
     "fr": "FR",
     "en": "EN"
-  },
-  "placeholder": {
-    "label": "A2 · What we negotiate",
-    "note": "Next section, to be built from docs/brief/site-structure.md."
   },
   "notFound": {
     "title": "Page not found.",

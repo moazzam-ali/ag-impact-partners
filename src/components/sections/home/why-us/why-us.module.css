@@ -1,0 +1,241 @@
+/*
+  A3 · Ce qui nous distingue. A tall scroll run holds a stage of one screen (CSS sticky: no pin, no
+  pin-spacer). The stage is split by one full-bleed line, the table, at --line from the top.
+
+  Above the line one thing stands on it: the headline, its baseline resting on the line. Below the
+  line everything hangs from it: the pull line under the headline; at the hinge (--hinge, a
+  fraction of the frame), where a knot marks the point the table tips about, the label and then
+  the body. [data-table] holds the line, the knot, the headline and the label, and is what tips;
+  the body and the pull line stay put.
+
+  The headline's box is clipped at the line (so its words rise out of the table and its turn stays
+  above it); the pull line's box is clipped at the line too (it swings out from under the table).
+  Colours: the line in ink, the knot in --knot (the thread's colour, as in the hero).
+*/
+.section {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.run {
+  --run: 170svh;
+  position: relative;
+  height: calc(100svh + var(--run));
+}
+
+.stage {
+  /* Where the line sits: a little below the middle, never so high that three lines of headline
+     run under the header. */
+  --title: var(--text-mega);
+  --line: max(60%, calc(var(--nav-height) + var(--space-12) + 2.8 * var(--title)));
+  --hinge: 0.66;
+  /* How far the text under the line hangs from it. */
+  --hang: var(--space-5);
+  /* The hinge in stage coordinates: the frame's left edge plus --hinge of its width. */
+  --hinge-x: calc(
+    max(0px, (100% - var(--frame-max)) / 2) + var(--page-gutter) + var(--hinge) *
+      (min(100%, var(--frame-max)) - 2 * var(--page-gutter))
+  );
+  --knot: var(--accent-strong);
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+:global([data-theme="dark"]) .stage {
+  --knot: var(--accent);
+}
+
+.table {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--hinge-x) var(--line);
+}
+
+.line {
+  position: absolute;
+  top: var(--line);
+  left: -10%;
+  width: 120%;
+  height: 1px;
+  background: var(--ink);
+  transform-origin: 0 50%;
+}
+
+.knot {
+  position: absolute;
+  top: calc(var(--line) + 0.5px);
+  left: var(--hinge-x);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--knot);
+  box-shadow: 0 0 0 3px var(--bg);
+  translate: -50% -50%;
+}
+
+/* The frame: the page's content width, centred, inside the gutters. Both layers use it. */
+.frame {
+  position: absolute;
+  inset: 0 var(--page-gutter);
+  max-width: calc(var(--frame-max) - 2 * var(--page-gutter));
+  margin-inline: auto;
+  pointer-events: none;
+}
+.frame > * {
+  pointer-events: auto;
+}
+
+.head {
+  position: absolute;
+  bottom: calc(100% - var(--line));
+  left: 0;
+  width: 100%;
+}
+
+.label {
+  position: absolute;
+  top: calc(100% + var(--hang));
+  left: calc(var(--hinge) * 100%);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.above {
+  clip-path: inset(-100vh -100vw 0 -100vw);
+}
+
+/*
+  The baseline sits on the line. --drop is how far the last baseline sits above the bottom of its
+  line box: (line-height - ascent + descent) / 2, with Instrument Sans' ascent 0.97 and descent
+  0.25. The title is pulled down by it, so the baseline lands on the line; the turn hinges there.
+*/
+.title {
+  --drop: 0.09em;
+  max-width: 8.4em;
+  margin-bottom: calc(-1 * var(--drop));
+  margin-left: -0.05em;
+  font-size: var(--title);
+  font-weight: var(--weight-semibold);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.face {
+  display: block;
+  transform-origin: 30% calc(100% - var(--drop));
+  backface-visibility: hidden;
+}
+
+.below {
+  position: absolute;
+  top: calc(var(--line) + 1px);
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: calc(var(--hinge) * 100%) minmax(0, 1fr);
+}
+
+.body {
+  grid-row: 1;
+  grid-column: 2;
+  max-width: 34ch;
+  padding-top: calc(var(--hang) + var(--text-xs) + var(--space-5));
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--ink-soft);
+}
+
+.under {
+  grid-row: 1;
+  grid-column: 1;
+  padding-right: var(--space-12);
+  clip-path: inset(0 -100vw -100vh -100vw);
+}
+/*
+  The pull line's capitals hang level with the label's: at line-height 1, Instrument Sans' cap top
+  sits 0.14 of the size below the top of the line box (half-leading plus ascent minus cap height),
+  so both are --hang plus that below the line.
+*/
+.pull {
+  padding-top: calc(var(--hang) + 0.14 * var(--text-xs) - 0.14em);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  transform-origin: 30% 0;
+  backface-visibility: hidden;
+}
+
+/* ---- Hidden start states, until the motion takes over (none with reduced motion or no script) -- */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .run[data-state="pending"] .line {
+    transform: scaleX(0);
+  }
+  .run[data-state="pending"] .label,
+  .run[data-state="pending"] .knot,
+  .run[data-state="pending"] .pull {
+    visibility: hidden;
+  }
+}
+@media (scripting: none) {
+  .run[data-state="pending"] :global(.word) {
+    transform: none;
+  }
+}
+
+/* ---- Navy: its display tracking and semibold label, blue only on the knot ---------------------- */
+:global([data-palette="navy"]) .stage {
+  --knot: var(--accent);
+}
+:global([data-palette="navy"]) .title {
+  letter-spacing: -0.04em;
+}
+:global([data-palette="navy"]) .label {
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+}
+
+/* ---- Tablet and phone: one column, the label over the headline, the pull line over the body ---- */
+@media (max-width: 1023px) {
+  .run {
+    --run: 120svh;
+  }
+  /* The hinge moves to the right end of the frame, clear of the headline. */
+  .stage {
+    --line: max(52%, calc(var(--nav-height) + var(--space-20) + 2.8 * var(--title)));
+    --hinge: 1;
+  }
+  .label {
+    position: static;
+    margin-bottom: var(--space-8);
+  }
+  .below {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .body {
+    grid-row: 2;
+    grid-column: 1;
+    padding-top: var(--space-8);
+  }
+  .under {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .run {
+    --run: 90svh;
+  }
+  /* The display size, capped so the longest line of the headline fits a phone. */
+  .stage {
+    --title: min(var(--text-mega), 12.5vw);
+    --line: max(48%, calc(var(--nav-height) + var(--space-20) + 3.7 * var(--title)));
+  }
+}

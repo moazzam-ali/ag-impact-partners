@@ -1,0 +1,373 @@
+/*
+  A2 · Ce que nous négocions.
+
+  Written still-page first: the four phrases stacked as a list, the statement, the client types as
+  one wrapped line. That is what reduced motion, no script and screens too short for the stage (a
+  phone on its side) get. Elsewhere (the media query further down, the same as the hook's
+  SEQUENCE) it becomes the sequence: the section is taller than the screen by --run, its stage
+  sticks for the run, the four phrases share one slot and the client line drifts.
+
+  The sequence is set like a field on a contract: one hairline across the frame, the label sitting
+  on its left end as the field's caption, the phrase standing on the line to the right of it (every
+  phrase bottom-aligned, so caption and phrase share a baseline and read as one sentence). Under
+  the line, the four steps; below, the statement steps down into the last two columns; at the foot
+  of the screen, the client line runs across the whole width.
+
+  Colours: --thread is the hairline's fill (the one moving line here, as the hero's thread).
+*/
+.section {
+  --thread: var(--accent-strong);
+  --say: var(--text-mega);
+  position: relative;
+}
+:global([data-theme="dark"]) .section {
+  --thread: var(--accent);
+}
+/* Navy: blue is for what you look at (the line), never for what you read. */
+:global([data-palette="navy"]) .section {
+  --thread: var(--accent);
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.frame {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-areas:
+    "label say say say"
+    ". . note note";
+  column-gap: var(--space-12);
+  width: 100%;
+  max-width: 1720px;
+  margin-inline: auto;
+  padding: var(--space-30) var(--page-gutter) var(--space-15);
+}
+
+/* ---- The label: the caption, the start of the sentence -------------------------------------- */
+.label {
+  grid-area: label;
+  align-self: start;
+  /* Its baseline on the first phrase's first baseline (still page). */
+  padding-top: calc(var(--say) * 0.81 - 1.02em);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-head);
+  color: var(--ink-soft);
+}
+
+/* ---- The phrases ------------------------------------------------------------------------- */
+.items {
+  grid-area: say;
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  margin-left: -0.05em;
+  font-size: var(--say);
+  font-weight: var(--weight-semibold);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+:global([data-palette="navy"]) .item {
+  letter-spacing: -0.04em;
+}
+
+/* ---- The line: plain under the caption, counting the steps under the phrase (sequence only) -- */
+.progress {
+  display: none;
+  grid-area: line;
+  grid-template-columns: subgrid;
+}
+.rule {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left center;
+}
+.track {
+  position: relative;
+  grid-row: 1;
+  grid-column: 2 / -1;
+}
+.fill {
+  position: absolute;
+  inset: -0.5px 0;
+  background: var(--thread);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.marks {
+  display: grid;
+  grid-row: 2;
+  grid-column: 2 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+.mark {
+  transition: color var(--dur-slow) var(--ease-out);
+}
+.mark[data-on] {
+  color: var(--ink);
+}
+
+/* ---- The statement ------------------------------------------------------------------------ */
+.statement {
+  grid-area: note;
+  max-width: 36ch;
+  margin-top: var(--space-15);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-book);
+  line-height: 1.36;
+  letter-spacing: var(--tracking-head);
+  text-wrap: pretty;
+}
+
+/* ---- The client types: a running footer, text only ------------------------------------------- */
+.ticker {
+  border-top: 1px solid var(--rule);
+  overflow: clip;
+}
+.drift {
+  display: flex;
+}
+.copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--page-gutter) var(--space-6);
+  list-style: none;
+}
+.copy[aria-hidden] {
+  display: none;
+}
+.client {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-normal);
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+/* A short rule between two names: the line's only punctuation. */
+.client::after {
+  content: "";
+  display: block;
+  width: var(--space-8);
+  height: 1px;
+  margin-inline: var(--space-5);
+  background: currentColor;
+  opacity: 0.45;
+}
+.client:last-child::after {
+  display: none;
+}
+
+/* Without script the words stay where CSS put them for the intro; show them. */
+@media (scripting: none) {
+  .stage :global(.word) {
+    transform: none;
+  }
+}
+/*
+  The still page stands on the CSS alone. When the sequence ran first (a phone turned on its side,
+  reduced motion switched on), GSAP's revert puts the phrases back below their masks; this
+  overrules whatever it leaves inline. The same conditions as the hook's STILL.
+*/
+@media (prefers-reduced-motion: reduce), (max-height: 479.98px) {
+  .stage :global(.word),
+  .stage [data-rise],
+  .stage [data-drift] {
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/*
+  ---- The sequence -------------------------------------------------------------------------------
+  The section is the stage's height plus the run; the stage sticks for the run (no pin, so nothing
+  is added to the page and A3's triggers are measured as they are). One slot holds the four phrases,
+  stacked in one grid cell and standing on its floor, so it keeps the tallest one's height and
+  nothing around it moves.
+*/
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) and (min-height: 480px) {
+  .section {
+    --run: 230svh;
+    /* A short laptop screen sets the phrase smaller, so the stage still fits it. */
+    --say: min(var(--text-mega), 12.5svh);
+    height: calc(100svh + var(--run));
+  }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: clip;
+  }
+  .frame {
+    flex: 1;
+    grid-template-rows: minmax(0, 1fr) auto auto auto minmax(0, 1.15fr);
+    grid-template-areas:
+      ". . . ."
+      "label say say say"
+      "line line line line"
+      ". . note note"
+      ". . . .";
+    padding: calc(var(--nav-height) + var(--space-6)) var(--page-gutter) var(--space-8);
+  }
+  /* The caption shares the phrase's last baseline. */
+  .label {
+    align-self: end;
+    padding-top: 0;
+    margin-bottom: calc(var(--say) * 0.101 - 0.35em);
+  }
+  .items {
+    gap: 0;
+  }
+  .item {
+    grid-area: 1 / 1;
+    align-self: end;
+  }
+  .progress {
+    display: grid;
+    margin-top: var(--space-6);
+  }
+  .statement {
+    margin-top: var(--space-12);
+  }
+  .stage[data-state="pending"] [data-rise] {
+    opacity: 0;
+  }
+
+  .drift {
+    width: max-content;
+    will-change: transform;
+  }
+  .copy {
+    flex-wrap: nowrap;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding-inline: 0;
+  }
+  .copy[aria-hidden] {
+    display: flex;
+  }
+  /* Running, the last name is followed by the next copy's first. */
+  .client:last-child::after {
+    display: block;
+  }
+}
+
+/* ---- Tablet: the phrase a little larger for its narrower column, the statement under it all -- */
+@media (max-width: 1023px) {
+  .section {
+    --say: clamp(40px, 9.4vw, 96px);
+  }
+  .frame {
+    column-gap: var(--space-8);
+    grid-template-areas:
+      "label say say say"
+      ". note note note";
+  }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) and (min-height: 480px) {
+  .section {
+    --run: 190svh;
+    --say: min(clamp(40px, 9.4vw, 96px), 11svh);
+  }
+  .frame {
+    grid-template-areas:
+      ". . . ."
+      "label say say say"
+      "line line line line"
+      ". note note note"
+      ". . . .";
+  }
+}
+
+/*
+  ---- Phone: one column, the label above the phrase, a shorter run --------------------------------
+  The client line follows the statement instead of sitting on the foot of the screen, which a phone
+  keeps for its own controls (and the site's action bar).
+*/
+@media (max-width: 767px) {
+  .section {
+    --say: clamp(36px, 13vw, 64px);
+  }
+  .frame {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "label"
+      "say"
+      "note";
+    padding-block: var(--space-23) var(--space-12);
+  }
+  .label {
+    padding-top: 0;
+    margin-bottom: var(--space-5);
+    font-size: var(--text-body);
+  }
+  .statement {
+    margin-top: var(--space-10);
+    font-size: var(--text-lg);
+  }
+  .client {
+    font-size: var(--text-sm);
+  }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) and (min-height: 480px) {
+  .section {
+    --run: 140svh;
+  }
+  .stage {
+    justify-content: center;
+    padding-top: var(--nav-height);
+  }
+  .frame {
+    flex: none;
+    grid-template-rows: none;
+    grid-template-areas:
+      "label"
+      "say"
+      "line"
+      "note";
+    padding-block: 0 var(--space-10);
+  }
+  .label {
+    align-self: start;
+    margin-bottom: var(--space-5);
+  }
+  .track,
+  .marks {
+    grid-column: 1 / -1;
+  }
+  .progress {
+    margin-top: var(--space-6);
+  }
+  .statement {
+    margin-top: var(--space-8);
+  }
+  .copy {
+    padding-block: var(--space-4);
+  }
+}

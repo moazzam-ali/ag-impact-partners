@@ -40,6 +40,9 @@ overshoots except a logo shape popping in.
 - Above the fold: build the timeline paused and play it with `afterCurtain()`, so it starts as the
   splash or page change uncovers the page; delay it `hasClientNavigated() ? 0.46 : 0.1`
   (`lib/motion/nav-state.ts`) so after a page change it waits for the top to be uncovered.
+- Held stages (a sequence played while the screen stays put): CSS `position: sticky` inside a
+  taller section driven by a ScrollTrigger, not `pin: true`. No pin-spacer, so one section's
+  refresh never shifts another's (A2, A3).
 - Below the fold: `scrollTrigger: { trigger, start: "top 78%", once: true }`, created once the
   curtain is open (rows already in view would otherwise reveal behind it), then
   `scheduleRefresh()` (`lib/motion/gsap.ts`) once the layout has settled.
@@ -180,6 +183,43 @@ conventions above (`src/lib/animations/use-pile2-hero.ts`, `use-fields-line.ts`)
   `<html data-theme>` re-lights the scene (shadow catcher only on light). Thread in
   `--accent-strong` on light, `--accent` on dark.
 - **Reduced motion.** Ream already built, pulls are instant, the thread stands still.
+
+## Home sections
+
+**Ce que nous négocions (A2)** (`src/components/sections/home/what-we-negotiate/`,
+`use-what-we-negotiate.ts`): the hero's sentence carries on, set like a field on a contract. One
+hairline runs across the frame; the label sits on its left end as the caption and the phrase stands
+on the line to its right, bottom-aligned, so caption and phrase read as one sentence. The statement
+steps down into the last two columns; the client types run along the foot of the stage.
+
+- **Sequence.** The section is one screen plus a run (230svh desktop, 190 tablet, 140 phone) with a
+  CSS sticky stage. Thresholds at 16, 42 and 68% of the run swap the phrase whole, never half way:
+  its words leave upwards (power2.in, 0.3 s), the next rise in (0.75 s, 0.07 s apart); scrolling
+  back reverses it. The four share one grid cell, so the slot keeps the tallest one's height. The
+  hairline under the phrase fills a quarter per step in `--thread`, with 01–04 beneath it.
+- **Intro.** Once at 78%, after the curtain: label and phrase rise, the hairline draws (1.2 s), the
+  statement's words follow, the numbers and client line fade up.
+- **Client line.** Text only, names split by short rules, full width under a hairline. It drifts
+  left to right at 14 px/s, no scroll boost, no pause on hover (the hero's fields line runs the
+  other way, faster), and stops off screen. On phones it follows the statement.
+- **Still page.** Reduced motion, no script or a screen under 480px tall (a phone on its side):
+  the four stacked, the client line wrapped. The hook's two `matchMedia` branches match the CSS;
+  the still page's CSS overrules what GSAP's revert leaves on the words when a phone is turned.
+
+**Ce qui nous distingue (A3)** (`src/components/sections/home/why-us/`, `use-why-us.ts`): one
+full-bleed line, the table, splits a held stage. The headline stands on it, its baseline on the
+line and clipped there, so it never shows below the table. Everything else hangs from it: the pull
+line under the headline, and from a hinge marked by a knot on the line, the label and the body.
+
+- **Entrance.** Once, as the line comes into view: it draws across, the headline's words rise out
+  of the table, then the body, the knot and the label.
+- **The gesture.** Scrubbed over a CSS sticky run (270svh desktop, 90svh phone): the table tips
+  2.2° about the knot, the headline turns over the edge away from you and comes back up from the
+  near side (out at 90°, in from −90°, never mirrored), the table settles and the pull line swings
+  out from underneath; the last third is a hold.
+- **Tablet and phone.** One column, the label above the headline, the knot at the line's right
+  end; the body waits under the line and steps down as the pull line comes. Phones tilt 1.2°.
+- **Reduced motion.** The last frame, still.
 
 ## Checklist for a new animated section
 

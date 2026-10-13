@@ -81,6 +81,31 @@
       }
     }
   },
+  "whatWeNegotiate": {
+    "label": "Ce que nous négocions",
+    "items": [
+      "Des contrats de distribution.",
+      "Des droits.",
+      "Des contenus.",
+      "Des accords fournisseurs."
+    ],
+    "statement": "Pour les entreprises qui achètent, produisent ou distribuent du contenu. Et pour celles qui veulent simplement payer moins cher ce qu’elles achètent déjà.",
+    "clientsLabel": "Types de clients",
+    "clients": [
+      "Opérateurs télécoms",
+      "Chaînes de télévision",
+      "Radios",
+      "Groupes média",
+      "Ligues et détenteurs de droits sportifs",
+      "Plateformes"
+    ]
+  },
+  "whyUs": {
+    "label": "Ce qui nous distingue",
+    "title": "Vingt-cinq ans de l’autre côté de la table.",
+    "body": "À la direction des contenus, des acquisitions et des partenariats de grands groupes. C’est pour cela qu’un directeur de distribution prend notre appel.",
+    "pull": "Nos interlocuteurs décrochent."
+  },
   "theme": {
     "toggle": "Changer de thème",
     "light": "Clair",
@@ -90,10 +115,6 @@
     "switch": "Changer de langue",
     "fr": "FR",
     "en": "EN"
-  },
-  "placeholder": {
-    "label": "A2 · Ce que nous négocions",
-    "note": "Section suivante, à construire d'après docs/brief/site-structure.md."
   },
   "notFound": {
     "title": "Page introuvable.",
