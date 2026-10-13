@@ -206,9 +206,9 @@
 /*
   ---- The sequence -------------------------------------------------------------------------------
   The section is the stage's height plus the run; the stage sticks for the run (no pin, so nothing
-  is added to the page and A3's triggers are measured as they are). One slot holds the four phrases,
-  stacked in one grid cell and standing on its floor, so it keeps the tallest one's height and
-  nothing around it moves.
+  is added to the page and the triggers below it are measured as they are). One slot holds the four
+  phrases, stacked in one grid cell and standing on its floor, so it keeps the tallest one's height
+  and nothing around it moves.
 */
 @media (prefers-reduced-motion: no-preference) and (scripting: enabled) and (min-height: 480px) {
   .section {

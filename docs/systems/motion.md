@@ -42,7 +42,7 @@ overshoots except a logo shape popping in.
   (`lib/motion/nav-state.ts`) so after a page change it waits for the top to be uncovered.
 - Held stages (a sequence played while the screen stays put): CSS `position: sticky` inside a
   taller section driven by a ScrollTrigger, not `pin: true`. No pin-spacer, so one section's
-  refresh never shifts another's (A2, A3).
+  refresh never shifts another's (A2).
 - Below the fold: `scrollTrigger: { trigger, start: "top 78%", once: true }`, created once the
   curtain is open (rows already in view would otherwise reveal behind it), then
   `scheduleRefresh()` (`lib/motion/gsap.ts`) once the layout has settled.
@@ -205,21 +205,6 @@ steps down into the last two columns; the client types run along the foot of the
 - **Still page.** Reduced motion, no script or a screen under 480px tall (a phone on its side):
   the four stacked, the client line wrapped. The hook's two `matchMedia` branches match the CSS;
   the still page's CSS overrules what GSAP's revert leaves on the words when a phone is turned.
-
-**Ce qui nous distingue (A3)** (`src/components/sections/home/why-us/`, `use-why-us.ts`): one
-full-bleed line, the table, splits a held stage. The headline stands on it, its baseline on the
-line and clipped there, so it never shows below the table. Everything else hangs from it: the pull
-line under the headline, and from a hinge marked by a knot on the line, the label and the body.
-
-- **Entrance.** Once, as the line comes into view: it draws across, the headline's words rise out
-  of the table, then the body, the knot and the label.
-- **The gesture.** Scrubbed over a CSS sticky run (270svh desktop, 90svh phone): the table tips
-  2.2° about the knot, the headline turns over the edge away from you and comes back up from the
-  near side (out at 90°, in from −90°, never mirrored), the table settles and the pull line swings
-  out from underneath; the last third is a hold.
-- **Tablet and phone.** One column, the label above the headline, the knot at the line's right
-  end; the body waits under the line and steps down as the pull line comes. Phones tilt 1.2°.
-- **Reduced motion.** The last frame, still.
 
 ## Checklist for a new animated section
 
